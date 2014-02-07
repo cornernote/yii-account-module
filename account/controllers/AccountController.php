@@ -21,6 +21,7 @@ class AccountController extends CController
      */
     public function accessRules()
     {
+        Yii::import('account.models.*');
         return array(
             array('allow',
                 'actions' => array('login', 'lostPassword', 'resetPassword'),
