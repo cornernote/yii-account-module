@@ -69,7 +69,7 @@ class AccountUser extends CActiveRecord
         }
 
         // create/update
-        if (in_array($this->scenario, array('create', 'update'))) {
+        if (in_array($this->scenario, array('insert', 'create', 'update'))) {
             $rules[] = array('email, username, first_name', 'required');
             $rules[] = array('email, username', 'length', 'max' => 255);
             $rules[] = array('first_name, last_name', 'length', 'max' => 32);
