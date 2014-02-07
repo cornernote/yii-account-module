@@ -2,7 +2,7 @@
 
 /**
  * AccountPassword is the data structure for keeping account password form data.
- * It is used by the 'password' action of 'AccountController'.
+ * It is used by the 'password' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  *

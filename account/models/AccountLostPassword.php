@@ -2,7 +2,7 @@
 
 /**
  * AccountLostPassword is the data structure for keeping account lost password form data.
- * It is used by the 'lostPassword' action of 'AccountController'.
+ * It is used by the 'lostPassword' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  *

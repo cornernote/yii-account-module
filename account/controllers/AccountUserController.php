@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AccountController
+ * AccountUserController
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -11,7 +11,7 @@
  *
  * @package yii-account-module
  */
-class AccountController extends CController
+class AccountUserController extends CController
 {
 
     /**

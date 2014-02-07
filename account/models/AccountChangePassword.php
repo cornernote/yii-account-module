@@ -2,7 +2,7 @@
 
 /**
  * AccountChangePassword is the data structure for keeping account password form data.
- * It is used by the 'changePassword' action of 'AccountController'.
+ * It is used by the 'changePassword' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  *

@@ -3,7 +3,7 @@
 /**
  * AccountLogoutAction
  *
- * @property AccountController $controller
+ * @property AccountUserController $controller
  * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this AccountController
+ * @var $this AccountUserController
  * @var $accountLogin AccountLogin
  * @var $recaptcha string
  *

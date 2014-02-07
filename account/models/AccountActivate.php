@@ -2,7 +2,7 @@
 
 /**
  * AccountActivate allows account activation by using a valid link.
- * It is used by the 'activate' action of 'AccountController'.
+ * It is used by the 'activate' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  * @property UserIdentity $userIdentity

@@ -2,7 +2,7 @@
 
 /**
  * AccountSignUp is the data structure for keeping account registration form data.
- * It is used by the 'signUp' action of 'AccountController'.
+ * It is used by the 'signUp' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  * @property UserIdentity $userIdentity

@@ -2,7 +2,7 @@
 
 /**
  * AccountLogin is the data structure for keeping account login form data.
- * It is used by the 'login' action of 'AccountController'.
+ * It is used by the 'login' action of 'AccountUserController'.
  *
  * @property UserIdentity $userIdentity
  *

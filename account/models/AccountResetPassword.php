@@ -2,7 +2,7 @@
 
 /**
  * AccountResetPassword is the data structure for keeping account password form data.
- * It is used by the 'resetPassword' action of 'AccountController'.
+ * It is used by the 'resetPassword' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  * @property UserIdentity $userIdentity
