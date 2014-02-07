@@ -18,6 +18,7 @@
     "require": {
         "cornernote/yii-email-module": ">=1.0.0",
         "cornernote/yii-token-manager": ">=1.0.0",
+        "cornernote/yii-return-url": ">=1.0.0",
         "crisu83/yiistrap": ">=1.0.0"
     },
     "require-dev": {

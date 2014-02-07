@@ -15,13 +15,13 @@ $this->pageTitle = Yii::t('account', 'Sign Up');
 
 /** @var AccountActiveForm $form */
 $form = $this->beginWidget('account.components.AccountActiveForm', array(
-    'id' => 'register-form',
+    'id' => 'accountSignUp-form',
 ));
 echo $form->errorSummary($accountSignUp);
 
-echo $form->textFieldControlGroup($accountSignUp, 'email');
 echo $form->textFieldControlGroup($accountSignUp, 'first_name');
 echo $form->textFieldControlGroup($accountSignUp, 'last_name');
+echo $form->textFieldControlGroup($accountSignUp, 'email');
 echo $form->textFieldControlGroup($accountSignUp, 'username');
 echo $form->passwordFieldControlGroup($accountSignUp, 'password');
 echo $form->passwordFieldControlGroup($accountSignUp, 'confirm_password');

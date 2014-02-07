@@ -4,6 +4,8 @@
  * AccountLostPassword is the data structure for keeping account lost password form data.
  * It is used by the 'lostPassword' action of 'AccountController'.
  *
+ * @property AccountUser $user
+ *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
@@ -17,40 +19,38 @@ class AccountLostPassword extends CFormModel
     /**
      * @var
      */
-    public $username_or_email;
-
-    /**
-     * @var
-     */
-    public $user_id;
-
-    /**
-     * @var
-     */
-    public $recaptcha;
+    public $email_or_username;
 
     /**
      * @var string
      */
-    public $userClass = 'User';
+    public $userClass = 'AccountUser';
+
+    /**
+     * @var string
+     */
+    public $emailField = 'email';
+
+    /**
+     * @var string
+     */
+    public $usernameField = 'username';
 
     /**
      * Declares the validation rules.
-     * The rules state that username and password are required,
-     * and password needs to be authenticated.
      * @return array
      */
     public function rules()
     {
         $rules = array(
-            // username_or_email
-            array('username_or_email', 'required'),
-            array('username_or_email', 'checkExists'),
+            // email_or_username
+            array('email_or_username', 'required'),
+            array('email_or_username', 'checkExists'),
         );
-        // recaptcha
-        if (isset(Yii::app()->reCaptcha)) {
-            $rules[] = array('recaptcha', 'account.validators.AccountReCaptchaValidator', 'on' => 'recaptcha');
-        }
+        //// recaptcha
+        //if (isset(Yii::app()->reCaptcha)) {
+        //    $rules[] = array('recaptcha', 'account.validators.AccountReCaptchaValidator', 'on' => 'recaptcha');
+        //}
         return $rules;
     }
 
@@ -61,8 +61,8 @@ class AccountLostPassword extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'username_or_email' => Yii::t('account', 'Username or Email'),
-            'recaptcha' => Yii::t('account', 'Enter both words separated by a space'),
+            'email_or_username' => Yii::t('account', 'Username or Email'),
+            //'recaptcha' => Yii::t('account', 'Enter both words separated by a space'),
         );
     }
 
@@ -72,22 +72,37 @@ class AccountLostPassword extends CFormModel
      */
     public function checkExists($attribute, $params)
     {
-        if (!$this->hasErrors()) {
-            if (strpos($this->username_or_email, '@'))
-                $user = CActiveRecord::model($this->userClass)->findByAttributes(array('email' => $this->username_or_email));
-            else
-                $user = CActiveRecord::model($this->userClass)->findByAttributes(array('username' => $this->username_or_email));
+        $user = CActiveRecord::model($this->userClass)->findByAttributes(array(
+            strpos($this->email_or_username, '@') || !$this->usernameField ? $this->emailField : $this->usernameField => $this->email_or_username,
+        ));
+        if (!$user)
+            $this->addError($attribute, strpos($this->email_or_username, '@') ? Yii::t('account', 'Email is incorrect.') : Yii::t('account', 'Username is incorrect.'));
+    }
 
-            if ($user === null) {
-                if (strpos($this->username_or_email, '@'))
-                    $this->addError('username_or_email', Yii::t('account', 'Email is incorrect.'));
-                else
-                    $this->addError('username_or_email', Yii::t('account', 'Username is incorrect.'));
-            }
-            else {
-                $this->user_id = $user->primaryKey;
-            }
+    public function validate($attributes = null, $clearErrors = true)
+    {
+        //// enable recaptcha after 3 attempts
+        //$attemptKey = "lostPassword.attempt.{$_SERVER['REMOTE_ADDR']}";
+        //$attempts = $app->cache->get($attemptKey);
+        //if (!$attempts)
+        //    $attempts = 0;
+        //$scenario = ($attempts >= 3 && isset($app->reCaptcha)) ? 'recaptcha' : '';
+
+        if (parent::validate($attributes, $clearErrors)) {
+            //$app->cache->delete($attemptKey);
+            return true;
         }
+
+        //// remove all other errors on recaptcha error
+        //if (isset($accountLostPassword->errors['recaptcha'])) {
+        //    $errors = $accountLostPassword->errors['recaptcha'];
+        //    $accountLostPassword->clearErrors();
+        //    foreach ($errors as $error)
+        //        $accountLostPassword->addError('recaptcha', $error);
+        //}
+        //$app->cache->set($attemptKey, ++$attempts);
+
+        return $valid;
     }
 
 }

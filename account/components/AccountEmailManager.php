@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AccountEmailManager
  *
@@ -14,14 +15,14 @@ class AccountEmailManager
 {
 
     /**
-     * @param $user User
+     * @param $user AccountUser
      * @return bool
      */
     public static function sendAccountLostPassword($user)
     {
         $emailManager = Yii::app()->emailManager;
 
-        // get lost password temp login link
+        // get lost password link
         $token = Yii::app()->tokenManager->createToken(strtotime('+1day'), 'AccountLostPassword', $user->primaryKey, 1);
         $url = Yii::app()->createAbsoluteUrl('/account/resetPassword', array('id' => $user->primaryKey, 'token' => $token));
 
@@ -41,7 +42,7 @@ class AccountEmailManager
 
         // spool the email
         $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
-        $emailSpool->priority = 10;
+        $emailSpool->priority = 1; // highest priority
         $emailSpool->template = $template;
         return $emailSpool->save(false);
 
@@ -50,19 +51,19 @@ class AccountEmailManager
     }
 
     /**
-     * @param $user User
+     * @param $user AccountUser
      * @return bool
      */
-    public static function sendAccountWelcome($user)
+    public static function sendAccountActivate($user)
     {
         $emailManager = Yii::app()->emailManager;
 
-        // get activation token
-        $token = EmailToken::model()->add('+30days', 1, 'AccountLostPassword', $user->primaryKey);
-        $url = Yii::app()->createAbsoluteUrl('/account/lostPassword', array('id' => $user->primaryKey, 'token' => $token));
+        // get lost password link
+        $token = Yii::app()->tokenManager->createToken(strtotime('+1day'), 'AccountActivate', $user->primaryKey, 1);
+        $url = Yii::app()->createAbsoluteUrl('/account/activate', array('id' => $user->primaryKey, 'token' => $token));
 
         // build the templates
-        $template = 'account_welcome';
+        $template = 'account_activate';
         $message = $emailManager->buildTemplateMessage($template, array(
             'user' => $user,
             'url' => $url,
@@ -77,7 +78,38 @@ class AccountEmailManager
 
         // spool the email
         $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
-        $emailSpool->priority = 5;
+        $emailSpool->priority = 1; // highest priority
+        $emailSpool->template = $template;
+        return $emailSpool->save(false);
+
+        // or send the email
+        //return Swift_Mailer::newInstance(Swift_MailTransport::newInstance())->send($swiftMessage);
+    }
+
+    /**
+     * @param $user AccountUser
+     * @return bool
+     */
+    public static function sendAccountWelcome($user)
+    {
+        $emailManager = Yii::app()->emailManager;
+
+        // build the templates
+        $template = 'account_welcome';
+        $message = $emailManager->buildTemplateMessage($template, array(
+            'user' => $user,
+        ));
+
+        // get the message
+        $swiftMessage = Swift_Message::newInstance($message['subject']);
+        $swiftMessage->setBody($message['message'], 'text/html');
+        //$swiftMessage->addPart($message['text'], 'text/plain');
+        $swiftMessage->setFrom($emailManager->fromEmail, $emailManager->fromName);
+        $swiftMessage->setTo($user->email, $user->name);
+
+        // spool the email
+        $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
+        $emailSpool->priority = 1; // highest priority
         $emailSpool->template = $template;
         return $emailSpool->save(false);
 

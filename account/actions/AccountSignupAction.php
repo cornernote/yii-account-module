@@ -3,7 +3,8 @@
 /**
  * AccountSignUpAction
  *
- * @property CController $controller
+ * @property AccountController $controller
+ * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -26,43 +27,54 @@ class AccountSignUpAction extends CAction
     public $formClass = 'AccountSignUp';
 
     /**
-     * @var
+     * @var int Default status for new users.
      */
-    public $userClass = 'User';
-
-    /**
-     * @var
-     */
-    public $userIdentityClass = 'CUserIdentity';
+    public $defaultStatus = 0;
 
     /**
      * @var array
      */
-    public $emailCallback = array('AccountEmailManager', 'sendAccountSignUp');
+    public $activateEmailCallback = array('AccountEmailManager', 'sendAccountActivate');
 
     /**
-     *
+     * @var array
+     */
+    public $welcomeEmailCallback = array('AccountEmailManager', 'sendAccountWelcome');
+
+    /**
+     * Allows the user to sign up for a new account.
      */
     public function run()
     {
-        $app = Yii::app();
-
-        // redirect if the user is already logged in
-        if ($app->user->id) {
-            $this->controller->redirect($app->homeUrl);
-        }
+        // redirect if logged in
+        if (!Yii::app()->user->isGuest)
+            $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
         /** @var AccountSignUp $accountSignUp */
         $accountSignUp = new $this->formClass();
-        $accountSignUp->userClass = $this->userClass;
-        $accountSignUp->userIdentityClass = $this->userIdentityClass;
+        $accountSignUp->userClass = $this->controller->userClass;
+        $accountSignUp->userIdentityClass = $this->controller->userIdentityClass;
+        $accountSignUp->firstNameField = $this->controller->firstNameField;
+        $accountSignUp->lastNameField = $this->controller->lastNameField;
+        $accountSignUp->emailField = $this->controller->emailField;
+        $accountSignUp->usernameField = $this->controller->usernameField;
+        $accountSignUp->passwordField = $this->controller->passwordField;
+        $accountSignUp->statusField = $this->controller->statusField;
+        $accountSignUp->defaultStatus = $this->defaultStatus;
 
-        // collect user input data
+        // collect user input
         if (isset($_POST[$this->formClass])) {
             $accountSignUp->attributes = $_POST[$this->formClass];
             if ($accountSignUp->save()) {
-                call_user_func_array($this->emailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountSignUp($accountSignUp->user);
-                $this->controller->redirect($app->returnUrl->getUrl($app->user->returnUrl));
+                if ($this->defaultStatus) {
+                    Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created and you have been logged in.'), 'success');
+                    call_user_func_array($this->welcomeEmailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+                }
+                else {
+                    Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created. Please check your email for activation instructions.'), 'success');
+                    call_user_func_array($this->activateEmailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountActivate($accountSignUp->user);
+                }
+                $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
         }
 
@@ -70,7 +82,24 @@ class AccountSignUpAction extends CAction
         $this->controller->render($this->view, array(
             'accountSignUp' => $accountSignUp,
         ));
+    }
 
+    /**
+     * @return string
+     */
+    public function getReturnUrl()
+    {
+        if (!$this->_returnUrl)
+            $this->_returnUrl = $this->defaultStatus ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
+        return $this->_returnUrl;
+    }
+
+    /**
+     * @param string $returnUrl
+     */
+    public function setReturnUrl($returnUrl)
+    {
+        $this->_returnUrl = $returnUrl;
     }
 
 }

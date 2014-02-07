@@ -4,6 +4,8 @@
  * AccountLogin is the data structure for keeping account login form data.
  * It is used by the 'login' action of 'AccountController'.
  *
+ * @property UserIdentity $userIdentity
+ *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
@@ -16,63 +18,50 @@ class AccountLogin extends CFormModel
 {
 
     /**
-     * @var
+     * @var string
      */
-    public $email;
-
-    /**
-     * @var
-     */
-    public $password;
-
-    /**
-     * @var
-     */
-    public $rememberMe;
-
-    /**
-     * @var int
-     */
-    public $rememberMeDuration = 2592000; // 30 days
-
-    /**
-     * @var
-     */
-    public $recaptcha;
+    public $username;
 
     /**
      * @var string
      */
-    public $userIdentityClass = 'CUserIdentity';
+    public $password;
 
     /**
-     * @var CUserIdentity
+     * @var bool
      */
-    private $_identity;
+    public $remember;
+
+    /**
+     * @var int
+     */
+    public $rememberDuration = 2592000; // 30 days
+
+    /**
+     * @var string
+     */
+    public $userIdentityClass = 'UserIdentity';
+
+    /**
+     * @var UserIdentity
+     */
+    private $_userIdentity;
 
     /**
      * Declares the validation rules.
-     * The rules state that email and password are required,
-     * and password needs to be authenticated.
      * @return array
      */
     public function rules()
     {
         $rules = array(
-            // email
-            array('email', 'required'),
-
-            // password
-            array('password', 'required'),
-            array('password', 'authenticate', 'skipOnError' => true),
-
-            // rememberMe
-            array('rememberMe', 'boolean'),
+            array('username, password', 'required'),
+            array('username', 'authenticate', 'skipOnError' => true),
+            array('remember', 'boolean'),
         );
-        // recaptcha
-        if (isset(Yii::app()->reCaptcha)) {
-            $rules[] = array('recaptcha', 'account.validators.AccountReCaptchaValidator', 'on' => 'recaptcha');
-        }
+        //// recaptcha
+        //if (isset(Yii::app()->reCaptcha)) {
+        //    $rules[] = array('recaptcha', 'account.validators.AccountReCaptchaValidator', 'on' => 'recaptcha');
+        //}
         return $rules;
     }
 
@@ -83,10 +72,10 @@ class AccountLogin extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'email' => Yii::t('account', 'Email'),
+            'username' => Yii::t('account', 'Username'),
             'password' => Yii::t('account', 'Password'),
-            'rememberMe' => Yii::t('account', 'Remember me next time'),
-            'recaptcha' => Yii::t('account', 'Enter both words separated by a space'),
+            'remember' => Yii::t('account', 'Remember me next time'),
+            //'recaptcha' => Yii::t('account', 'Enter both words separated by a space'),
         );
     }
 
@@ -98,25 +87,55 @@ class AccountLogin extends CFormModel
      */
     public function authenticate($attribute, $params)
     {
-        $this->_identity = new $this->userIdentityClass($this->email, $this->password);
-        if (!$this->_identity->authenticate()) {
-            $this->addError('password', 'Incorrect email or password.');
-        }
+        if (!$this->userIdentity->authenticate())
+            $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
     }
 
     /**
-     * Logs in the user using the given email and password in the model.
+     * Logs in the user.
      * @return boolean whether login is successful
      */
     public function login()
     {
-        if ($this->_identity === null) {
-            $this->_identity = new $this->userIdentityClass($this->email, $this->password);
+        // TODO - enable recaptcha
+        //// recaptcha after 3 attempts
+        //$attemptKey = "login.attempt.{$_SERVER['REMOTE_ADDR']}";
+        //$attempts = Yii::app()->cache->get($attemptKey);
+        //if (!$attempts)
+        //    $attempts = 0;
+        //$scenario = ($attempts > 3 && isset(Yii::app()->reCaptcha)) ? 'recaptcha' : '';
+
+        if (!$this->validate())
+            return false;
+        if (!$this->userIdentity->authenticate())
+            return false;
+
+        if (Yii::app()->user->login($this->userIdentity, $this->remember ? $this->rememberDuration : 0)) {
+            //Yii::app()->cache->delete($attemptKey);
+            return true;
         }
-        if ($this->_identity->authenticate()) {
-            return Yii::app()->user->login($this->_identity, $this->rememberMe ? $this->rememberMeDuration : 0);
-        }
+
+        // remove all other errors on recaptcha error
+        //if (isset($accountLogin->errors['recaptcha'])) {
+        //    $errors = $accountLogin->errors['recaptcha'];
+        //    $accountLogin->clearErrors();
+        //    foreach ($errors as $error)
+        //        $accountLogin->addError('recaptcha', $error);
+        //}
+        //Yii::app()->cache->set($attemptKey, ++$attempts);
+
         return false;
+    }
+
+
+    /**
+     * @return UserIdentity
+     */
+    public function getUserIdentity()
+    {
+        if (!$this->_userIdentity)
+            $this->_userIdentity = new $this->userIdentityClass($this->username, $this->password);
+        return $this->_userIdentity;
     }
 
 }

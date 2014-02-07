@@ -3,7 +3,8 @@
 /**
  * AccountChangePasswordAction
  *
- * @property CController $controller
+ * @property AccountController $controller
+ * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -29,35 +30,49 @@ class AccountChangePasswordAction extends CAction
     /**
      * @var string
      */
-    public $userClass = 'User';
+    private $_returnUrl = array('/account/index');
 
     /**
-     * @var string
-     */
-    public $redirectUrl = array('/account/index');
-
-    /**
-     * User is attempting to change their password
+     * Allows user to change their password
      */
     public function run()
     {
-        /** @var User $user */
-        $user = $this->loadModel(Yii::app()->user->id, $this->userClass);
-        /** @var AccountPassword $accountPassword */
-        $accountPassword = new $this->formClass('changePassword');
-        if (isset($_POST['AccountPassword'])) {
-            $accountPassword->attributes = $_POST['AccountPassword'];
-            if ($accountPassword->validate()) {
-                $user->password = $user->hashPassword($accountPassword->password);
-                if ($user->save(false)) {
-                    Yii::app()->user->addFlash(Yii::t('account', 'Your password has been saved.'), 'success');
-                    $this->redirect($this->redirectUrl);
-                }
+        /** @var AccountChangePassword $accountChangePassword */
+        $accountChangePassword = new $this->formClass();
+        $accountChangePassword->userClass = $this->controller->userClass;
+        $accountChangePassword->passwordField = $this->controller->passwordField;
+
+        // collect user input
+        if (isset($_POST[$this->formClass])) {
+            $accountChangePassword->attributes = $_POST[$this->formClass];
+            if ($accountChangePassword->save()) {
+                Yii::app()->user->addFlash(Yii::t('account', 'Your password has been saved.'), 'success');
+                $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
         }
+
+        // display the change password form
         $this->controller->render($this->view, array(
-            'accountPassword' => $accountPassword,
+            'accountChangePassword' => $accountChangePassword,
         ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getReturnUrl()
+    {
+        if (!$this->_returnUrl)
+            $this->_returnUrl = Yii::app()->user->returnUrl;
+        return $this->_returnUrl;
+    }
+
+    /**
+     * @param string $returnUrl
+     */
+    public function setReturnUrl($returnUrl)
+    {
+        $this->_returnUrl = $returnUrl;
     }
 
 }

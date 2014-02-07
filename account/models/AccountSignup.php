@@ -4,6 +4,9 @@
  * AccountSignUp is the data structure for keeping account registration form data.
  * It is used by the 'signUp' action of 'AccountController'.
  *
+ * @property AccountUser $user
+ * @property UserIdentity $userIdentity
+ *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
@@ -16,87 +19,104 @@ class AccountSignUp extends CFormModel
 {
 
     /**
-     * @var
+     * @var string
      */
     public $email;
 
     /**
-     * @var
+     * @var string
      */
     public $username;
 
     /**
-     * @var
+     * @var string
      */
     public $password;
 
     /**
-     * @var
+     * @var string
      */
     public $confirm_password;
 
     /**
-     * @var
+     * @var string
      */
     public $first_name;
 
     /**
-     * @var
+     * @var string
      */
     public $last_name;
 
     /**
-     * @var
+     * @var string
      */
-    public $userClass = 'User';
+    public $userClass = 'AccountUser';
 
     /**
-     * @var
+     * @var string
      */
-    public $userIdentityClass = 'CUserIdentity';
+    public $firstNameField = 'first_name';
 
     /**
-     * @var User
+     * @var string
      */
-    public $user;
+    public $lastNameField = 'last_name';
 
     /**
-     * @var CUserIdentity
+     * @var string
      */
-    private $_identity;
+    public $emailField = 'email';
+
+    /**
+     * @var string
+     */
+    public $usernameField = 'username';
+
+    /**
+     * @var string
+     */
+    public $passwordField = 'password';
+
+    /**
+     * @var string
+     */
+    public $statusField = 'status';
+
+    /**
+     * @var int
+     */
+    public $defaultStatus = 1;
+
+    /**
+     * @var string
+     */
+    public $userIdentityClass = 'UserIdentity';
+
+    /**
+     * @var AccountUser
+     */
+    private $_user;
+
+    /**
+     * @var UserIdentity
+     */
+    private $_userIdentity;
 
     /**
      * Declares the validation rules.
-     * The rules state that email and password are required,
-     * and password needs to be authenticated.
      * @return array
      */
     public function rules()
     {
-        $rules = array();
-
-        // required
-        $rules[] = array('username, email, password, confirm_password', 'required');
-
-        // first_name
-        $rules[] = array('first_name', 'length', 'max' => 255);
-
-        // last_name
-        $rules[] = array('last_name', 'length', 'max' => 255);
-
-        // email
-        $rules[] = array('email', 'length', 'max' => 255);
-        $rules[] = array('email', 'email');
-        $rules[] = array('email', 'unique', 'className' => $this->userClass);
-
-        // username
-        $rules[] = array('username', 'length', 'max' => 255);
-        $rules[] = array('username', 'unique', 'className' => $this->userClass);
-
-        // confirm_password
-        $rules[] = array('confirm_password', 'compare', 'compareAttribute' => 'password');
-
-        return $rules;
+        return array(
+            array('email, username, first_name, password, confirm_password', 'required'),
+            array('email, username', 'length', 'max' => 255),
+            array('first_name, last_name', 'length', 'max' => 32),
+            array('email', 'email'),
+            array('email, username', 'unique', 'className' => $this->userClass),
+            array('confirm_password', 'compare', 'compareAttribute' => 'password'),
+        );
     }
 
     /**
@@ -106,54 +126,61 @@ class AccountSignUp extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'username' => t('Username'),
-            'first_name' => t('First Name'),
-            'last_name' => t('Last Name'),
-            'email' => t('Email'),
-            'password' => t('Password'),
+            'email' => Yii::t('account', 'Email'),
+            'first_name' => Yii::t('account', 'First Name'),
+            'last_name' => Yii::t('account', 'Last Name'),
+            'username' => Yii::t('account', 'Username'),
+            'password' => Yii::t('account', 'Password'),
         );
     }
 
     /**
+     * Creates the user.
      * @return bool
      */
     public function save()
     {
-        if (!$this->validate()) {
+        if (!$this->validate())
             return false;
-        }
 
         // create user
-        $this->user = new $this->userClass();
-        $this->user->username = $this->username;
-        $this->user->first_name = $this->first_name;
-        $this->user->last_name = $this->last_name;
-        $this->user->email = $this->email;
-        $this->user->password = $this->user->hashPassword($this->password);
-        if (!$this->user->save()) {
+        $this->user->{$this->emailField} = $this->email;
+        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->password);
+        $this->user->{$this->statusField} = $this->defaultStatus;
+        if ($this->firstNameField)
+            $this->user->{$this->firstNameField} = $this->first_name;
+        if ($this->lastNameField)
+            $this->user->{$this->lastNameField} = $this->last_name;
+        if ($this->usernameField)
+            $this->user->{$this->usernameField} = $this->username;
+        if (!$this->user->save(false))
             return false;
-        }
 
         // login
-        $this->login();
-        return $this->user;
+        if ($this->defaultStatus && $this->userIdentity->authenticate())
+            return Yii::app()->user->login($this->userIdentity);
+        else
+            return true;
     }
 
+    /**
+     * @return AccountUser
+     */
+    public function getUser()
+    {
+        if (!$this->_user)
+            $this->_user = new $this->userClass();
+        return $this->_user;
+    }
 
     /**
-     * Logs in the user using the given username and password in the model.
-     * @return boolean whether login is successful
+     * @return UserIdentity
      */
-    public function login()
+    public function getUserIdentity()
     {
-        if ($this->_identity === null) {
-            $this->_identity = new $this->userIdentityClass($this->email, $this->password);
-        }
-        if ($this->_identity->authenticate()) {
-            Yii::app()->user->login($this->_identity);
-            return true;
-        }
-        return false;
+        if (!$this->_userIdentity)
+            $this->_userIdentity = new $this->userIdentityClass($this->username ? $this->username : $this->email, $this->password);
+        return $this->_userIdentity;
     }
 
 }

@@ -3,7 +3,7 @@
 /**
  * AccountViewAction
  *
- * @property CController $controller
+ * @property AccountController $controller
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -22,12 +22,16 @@ class AccountViewAction extends CAction
     public $view = 'account.views.account.view';
 
     /**
-     *
+     * Allows the user to view their account details.
      */
     public function run()
     {
-        /** @var User $user */
-        $user = $this->loadModel(Yii::app()->user->id, 'User');
+        /** @var AccountUser $user */
+        $user = CActiveRecord::model($this->controller->userClass)->findByPk(Yii::app()->user->id);
+        if (!$user)
+            throw new CHttpException(404, Yii::t('account', 'The requested page does not exist.'));
+
+        // display the view account page
         $this->controller->render($this->view, array(
             'user' => $user,
         ));

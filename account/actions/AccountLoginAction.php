@@ -3,7 +3,8 @@
 /**
  * AccountLoginAction
  *
- * @property CController $controller
+ * @property AccountController $controller
+ * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -27,65 +28,58 @@ class AccountLoginAction extends CAction
     public $formClass = 'AccountLogin';
 
     /**
-     * @var string
+     * @var int Default setting for Remember Me checkbox on login page
      */
-    public $userIdentityClass = 'CUserIdentity';
+    public $defaultRemember = 0;
 
     /**
-     * @var bool Default setting for remember me checkbox on login page
-     */
-    public $defaultRememberMe = false;
-
-    /**
-     *
+     * Allows the user to login to their account.
      */
     public function run()
     {
-        $app = Yii::app();
+        // redirect if logged in
+        if (!Yii::app()->user->isGuest)
+            $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
-        // redirect if the user is already logged in
-        if ($app->user->id && $app->session->get('UserIdentity.web')) {
-            $this->controller->redirect($app->homeUrl);
-        }
+        /** @var AccountLogin $accountLogin */
+        $accountLogin = new $this->formClass();
+        $accountLogin->userIdentityClass = $this->controller->userIdentityClass;
 
-        // enable recaptcha after 3 attempts
-        $attemptKey = "login.attempt.{$_SERVER['REMOTE_ADDR']}";
-        $attempts = $app->cache->get($attemptKey);
-        if (!$attempts)
-            $attempts = 0;
-        $scenario = ($attempts > 3 && isset($app->reCaptcha)) ? 'recaptcha' : '';
-
-        /** @var AccountLogin $user */
-        $user = new $this->formClass($scenario);
-        $user->userIdentityClass = $this->userIdentityClass;
-
-        // collect user input data
+        // collect user input
         if (isset($_POST[$this->formClass])) {
-            $user->attributes = $_POST[$this->formClass];
-
-            if ($user->validate() && $user->login()) {
-                $app->cache->delete($attemptKey);
-                $this->controller->redirect($app->returnUrl->getUrl($app->user->returnUrl));
+            $accountLogin->attributes = $_POST[$this->formClass];
+            if ($accountLogin->login()) {
+                Yii::app()->user->addFlash(Yii::t('account', 'You have successfully logged in.'), 'success');
+                $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
-            // remove all other errors on recaptcha error
-            if (isset($user->errors['recaptcha'])) {
-                $errors = $user->errors['recaptcha'];
-                $user->clearErrors();
-                foreach ($errors as $error)
-                    $user->addError('recaptcha', $error);
-            }
-            $app->cache->set($attemptKey, ++$attempts);
         }
+        // assign default values
         else {
-            $user->rememberMe = $this->defaultRememberMe;
+            $accountLogin->remember = $this->defaultRemember;
         }
 
         // display the login form
         $this->controller->render($this->view, array(
-            'user' => $user,
-            'recaptcha' => ($attempts >= 3 && isset($app->reCaptcha)) ? true : false,
+            'accountLogin' => $accountLogin,
         ));
+    }
 
+    /**
+     * @return string
+     */
+    public function getReturnUrl()
+    {
+        if (!$this->_returnUrl)
+            $this->_returnUrl = Yii::app()->user->returnUrl;
+        return $this->_returnUrl;
+    }
+
+    /**
+     * @param string $returnUrl
+     */
+    public function setReturnUrl($returnUrl)
+    {
+        $this->_returnUrl = $returnUrl;
     }
 
 }

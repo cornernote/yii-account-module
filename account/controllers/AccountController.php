@@ -20,6 +20,46 @@ class AccountController extends CController
     public $defaultAction = 'view';
 
     /**
+     * @var string
+     */
+    public $userClass = 'AccountUser';
+
+    /**
+     * @var string
+     */
+    public $firstNameField = 'first_name';
+
+    /**
+     * @var string
+     */
+    public $lastNameField = 'last_name';
+
+    /**
+     * @var string
+     */
+    public $emailField = 'email';
+
+    /**
+     * @var string
+     */
+    public $usernameField = 'username';
+
+    /**
+     * @var string
+     */
+    public $passwordField = 'password';
+
+    /**
+     * @var string
+     */
+    public $statusField = 'status';
+
+    /**
+     * @var string
+     */
+    public $userIdentityClass = 'UserIdentity';
+
+    /**
      * @return array action filters
      */
     public function filters()
@@ -36,14 +76,13 @@ class AccountController extends CController
      */
     public function accessRules()
     {
-        Yii::import('account.models.*');
         return array(
             array('allow',
-                'actions' => array('login', 'lostPassword', 'resetPassword', 'signUp'),
-                'users' => array('?'), // guest
+                'actions' => array('login', 'logout', 'lostPassword', 'resetPassword', 'signUp', 'activate'),
+                'users' => array('*'), // anyone
             ),
             array('allow',
-                'actions' => array('logout', 'view', 'update', 'changePassword'),
+                'actions' => array('view', 'update', 'changePassword'),
                 'users' => array('@'), // authenticated
             ),
             array('deny', 'users' => array('*')),
@@ -55,9 +94,20 @@ class AccountController extends CController
      */
     public function actions()
     {
+        Yii::import('account.models.*');
+        Yii::import('account.components.*');
         return array(
             'signUp' => array(
                 'class' => 'account.actions.AccountSignUpAction',
+            ),
+            'activate' => array(
+                'class' => 'account.actions.AccountActivateAction',
+            ),
+            'lostPassword' => array(
+                'class' => 'account.actions.AccountLostPasswordAction',
+            ),
+            'resetPassword' => array(
+                'class' => 'account.actions.AccountResetPasswordAction',
             ),
             'login' => array(
                 'class' => 'account.actions.AccountLoginAction',
@@ -70,12 +120,6 @@ class AccountController extends CController
             ),
             'update' => array(
                 'class' => 'account.actions.AccountUpdateAction',
-            ),
-            'lostPassword' => array(
-                'class' => 'account.actions.AccountLostPasswordAction',
-            ),
-            'resetPassword' => array(
-                'class' => 'account.actions.AccountResetPasswordAction',
             ),
             'changePassword' => array(
                 'class' => 'account.actions.AccountChangePasswordAction',

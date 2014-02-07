@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $this AccountController
- * @var $user User
+ * @var $accountResetPassword AccountResetPassword
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -15,12 +15,12 @@ $this->pageTitle = Yii::t('account', 'Reset Password');
 
 /** @var AccountActiveForm $form */
 $form = $this->beginWidget('account.components.AccountActiveForm', array(
-    'id' => 'passwordReset-form',
+    'id' => 'accountResetPassword-form',
 ));
-echo $form->errorSummary($user);
+echo $form->errorSummary($accountResetPassword);
 
-echo $form->passwordFieldControlGroup($user, 'new_password');
-echo $form->passwordFieldControlGroup($user, 'confirm_password');
+echo $form->passwordFieldControlGroup($accountResetPassword, 'new_password');
+echo $form->passwordFieldControlGroup($accountResetPassword, 'confirm_password');
 
 echo $form->getSubmitButtonRow(Yii::t('account', 'Reset Password'));
 $this->endWidget();

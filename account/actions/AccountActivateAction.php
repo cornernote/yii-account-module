@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AccountResetPasswordAction
+ * AccountActivateAction
  *
  * @property AccountController $controller
  * @property array|string $returnUrl
@@ -14,18 +14,18 @@
  *
  * @package yii-account-module
  */
-class AccountResetPasswordAction extends CAction
+class AccountActivateAction extends CAction
 {
 
     /**
      * @var string
      */
-    public $view = 'account.views.account.reset_password';
+    public $formClass = 'AccountActivate';
 
     /**
-     * @var string
+     * @var array
      */
-    public $formClass = 'AccountResetPassword';
+    public $welcomeEmailCallback = array('AccountEmailManager', 'sendAccountWelcome');
 
     /**
      * User clicked a link, check if it's valid and allow them to reset their password
@@ -39,31 +39,22 @@ class AccountResetPasswordAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
-        /** @var AccountResetPassword $accountResetPassword */
-        $accountResetPassword = new $this->formClass();
-        $accountResetPassword->userClass = $this->controller->userClass;
-        $accountResetPassword->userIdentityClass = $this->controller->userIdentityClass;
-        $accountResetPassword->passwordField = $this->controller->passwordField;
+        /** @var AccountActivate $accountActivate */
+        $accountActivate = new $this->formClass();
+        $accountActivate->userClass = $this->controller->userClass;
+        $accountActivate->userIdentityClass = $this->controller->userIdentityClass;
+        $accountActivate->statusField = $this->controller->statusField;
 
         // redirect if the key is invalid
-        if (!$accountResetPassword->checkToken($id, $token)) {
+        if (!$accountActivate->activate($id, $token)) {
             Yii::app()->user->addFlash(Yii::t('account', 'Invalid key.'), 'error');
             $this->controller->redirect(Yii::app()->user->loginUrl);
         }
 
-        // collect user input
-        if (isset($_POST[$this->formClass])) {
-            $accountResetPassword->attributes = $_POST[$this->formClass];
-            if ($accountResetPassword->save()) {
-                Yii::app()->user->addFlash(Yii::t('account', 'Your password has been saved and you have been logged in.'), 'success');
-                $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
-            }
-        }
-
-        // render the reset password form
-        $this->controller->render($this->view, array(
-            'accountResetPassword' => $accountResetPassword,
-        ));
+        // account is active, redirect
+        Yii::app()->user->addFlash(Yii::t('account', 'Your account has been activated and you have been logged in.'), 'success');
+        call_user_func_array($this->welcomeEmailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+        $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
     }
 
     /**

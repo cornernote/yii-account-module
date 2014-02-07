@@ -13,13 +13,16 @@
  */
 $this->pageTitle = Yii::t('account', 'My Account');
 
-$this->menu = SiteMenu::getItemsFromMenu(SiteMenu::MENU_USER);
+$attributes = array();
+if ($this->firstNameField)
+    $attributes[] = $this->firstNameField;
+if ($this->lastNameField)
+    $attributes[] = $this->lastNameField;
+$attributes[] = $this->emailField;
+if ($this->usernameField)
+    $attributes[] = $this->usernameField;
 
-$this->widget('CDetailView', array(
+$this->widget('zii.widgets.CDetailView', array(
     'data' => $user,
-    'attributes' => array(
-        'username',
-        'name',
-        'email',
-    ),
+    'attributes' => $attributes,
 ));

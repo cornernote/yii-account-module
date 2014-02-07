@@ -3,7 +3,8 @@
 /**
  * AccountUpdateAction
  *
- * @property CController $controller
+ * @property AccountController $controller
+ * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -29,32 +30,52 @@ class AccountUpdateAction extends CAction
     /**
      * @var string
      */
-    public $userClass = 'User';
+    public $returnUrl = array('/account/index');
 
     /**
-     * @var string
-     */
-    public $redirectUrl = array('/account/index');
-
-    /**
-     * User is updating their account details
+     * Allows the user to update their account details.
      */
     public function run()
     {
-        $user = $this->loadModel(Yii::app()->user->id, $this->userClass);
-        $user->scenario = 'account';
+        /** @var AccountUpdate $accountUpdate */
+        $accountUpdate = new $this->formClass();
+        $accountUpdate->userClass = $this->controller->userClass;
+        $accountUpdate->firstNameField = $this->controller->firstNameField;
+        $accountUpdate->lastNameField = $this->controller->lastNameField;
+        $accountUpdate->emailField = $this->controller->emailField;
+        $accountUpdate->usernameField = $this->controller->usernameField;
 
-        if (isset($_POST[$this->userClass])) {
-            $user->attributes = $_POST[$this->userClass];
-            if ($user->save()) {
-                Yii::app()->user->addFlash(Yii::t('account', 'Your account has been saved.'), 'success');
-                $this->redirect(Yii::app()->returnUrl->getUrl($this->redirectUrl));
+        // collect user input
+        if (isset($_POST[$this->formClass])) {
+            $accountUpdate->attributes = $_POST[$this->formClass];
+            if ($accountUpdate->save()) {
+                Yii::app()->user->addFlash(Yii::t('account', 'Your account has been updated.'), 'success');
+                $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
         }
 
+        // display the update account form
         $this->render($this->view, array(
-            'user' => $user,
+            'accountUpdate' => $accountUpdate,
         ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getReturnUrl()
+    {
+        if (!$this->_returnUrl)
+            $this->_returnUrl = Yii::app()->user->returnUrl;
+        return $this->_returnUrl;
+    }
+
+    /**
+     * @param string $returnUrl
+     */
+    public function setReturnUrl($returnUrl)
+    {
+        $this->_returnUrl = $returnUrl;
     }
 
 }
