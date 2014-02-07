@@ -1,0 +1,25 @@
+{
+    "name": "cornernote/yii-account",
+    "description": "Account management for Yii including login/logout, lost password, update account, change password.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": ["yii", "account", "user", "login", "update account", "change password", "lost password", "mrphp"],
+    "authors": [
+        {
+            "name": "Brett O'Donnell",
+            "email": "cornernote@gmail.com",
+            "homepage": "http://mrphp.com.au/"
+        },
+        {
+            "name": "Zain ul abidin",
+            "email": "zainengineer@gmail.com"
+        }
+    ],
+    "require": {
+        "cornernote/yii-email-module": ">=1.0.0",
+        "cornernote/yii-token-manager": ">=1.0.0"
+    },
+    "require-dev": {
+        "yiisoft/yii": "1.1.14"
+    }
+}
