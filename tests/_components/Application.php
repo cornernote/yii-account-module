@@ -8,6 +8,7 @@
  *
  * @property WebUser $user
  * @property CAssetManager $assetManager
+ * @property CClientScript $clientScript
  * @property EReturnUrl $returnUrl
  * @property ETokenManager $tokenManager
  * @property EEmailManager $emailManager

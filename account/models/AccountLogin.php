@@ -48,17 +48,12 @@ class AccountLogin extends CFormModel
      */
     public function rules()
     {
-        /** @var AccountModule $account */
-        $account = Yii::app()->getModule('account');
-        $rules = array(
+        return array(
             array('username, password', 'required'),
             array('username', 'authenticate', 'skipOnError' => true),
             array('remember', 'boolean'),
+            array('captcha', 'type', 'type' => 'string'),
         );
-        if ($account->reCaptcha && $this->scenario == 'captcha') {
-            $rules[] = array('captcha', 'account.validators.AccountReCaptchaValidator');
-        }
-        return $rules;
     }
 
     /**
@@ -87,6 +82,24 @@ class AccountLogin extends CFormModel
     }
 
     /**
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        if ($account->reCaptcha && $this->scenario == 'captcha') {
+            Yii::import('account.components.AccountReCaptchaValidator');
+            $validator = new AccountReCaptchaValidator;
+            $validator->attributes = array('captcha');
+            $validator->validate($this);
+            if ($this->hasErrors('captcha'))
+                return false;
+        }
+        return parent::beforeValidate();
+    }
+
+    /**
      * Logs in the user.
      * @return boolean whether login is successful
      */
@@ -97,27 +110,17 @@ class AccountLogin extends CFormModel
 
         // captcha after 3 attempts
         $attemptKey = 'AccountLogin.attempt.' . Yii::app()->request->userHostAddress;
-        $attempts = Yii::app()->cache->get($attemptKey) || 0;
-        $this->scenario = ($account->reCaptcha && $attempts > 3) ? 'captcha' : '';
+        $attempts = Yii::app()->cache->get($attemptKey) + 1;
+        $this->scenario = ($account->reCaptcha && $attempts >= 3) ? 'captcha' : '';
 
-        if (!$this->validate())
-            return false;
-        if (!$this->userIdentity->authenticate())
-            return false;
-
-        if (Yii::app()->user->login($this->userIdentity, $this->remember ? $account->rememberDuration : 0)) {
+        // validate and login
+        if ($this->validate() && Yii::app()->user->login($this->userIdentity, $this->remember ? $account->rememberDuration : 0)) {
             Yii::app()->cache->delete($attemptKey);
             return true;
         }
 
-        // remove all other errors on captcha error
-        if ($errors = $this->getErrors('captcha')) {
-            $this->clearErrors();
-            foreach ($errors as $error)
-                $this->addError('captcha', $error);
-        }
-        Yii::app()->cache->set($attemptKey, ++$attempts);
-
+        // save the attempt count
+        Yii::app()->cache->set($attemptKey, $attempts);
         return false;
     }
 

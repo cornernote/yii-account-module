@@ -32,16 +32,10 @@ class AccountLostPassword extends CFormModel
      */
     public function rules()
     {
-        /** @var AccountModule $account */
-        $account = Yii::app()->getModule('account');
-        $rules = array(
+        return array(
             array('email_or_username', 'required'),
             array('email_or_username', 'checkExists'),
         );
-        if ($account->reCaptcha) {
-            $rules[] = array('captcha', 'account.validators.AccountReCaptchaValidator');
-        }
-        return $rules;
     }
 
     /**
@@ -73,21 +67,21 @@ class AccountLostPassword extends CFormModel
     }
 
     /**
-     * @param null $attributes
-     * @param bool $clearErrors
      * @return bool
      */
-    public function validate($attributes = null, $clearErrors = true)
+    public function beforeValidate()
     {
-        if (parent::validate($attributes, $clearErrors))
-            return true;
-        // remove all other errors on captcha error
-        if ($errors = $this->getErrors('captcha')) {
-            $this->clearErrors();
-            foreach ($errors as $error)
-                $this->addError('captcha', $error);
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        if ($account->reCaptcha) {
+            Yii::import('account.components.AccountReCaptchaValidator');
+            $validator = new AccountReCaptchaValidator;
+            $validator->attributes = array('captcha');
+            $validator->validate($this);
+            if ($this->hasErrors('captcha'))
+                return false;
         }
-        return false;
+        return parent::beforeValidate();
     }
 
 }
