@@ -21,6 +21,5 @@ $this->widget('CDetailView', array(
         'username',
         'name',
         'email',
-        'phone',
     ),
 ));

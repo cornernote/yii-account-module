@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AccountSignupAction
+ * AccountSignUpAction
  *
  * @property CController $controller
  *
@@ -13,17 +13,17 @@
  *
  * @package yii-account-module
  */
-class AccountSignupAction extends CAction
+class AccountSignUpAction extends CAction
 {
     /**
      * @var string
      */
-    public $view = 'account.views.account.signup';
+    public $view = 'account.views.account.sign_up';
 
     /**
      * @var string
      */
-    public $formClass = 'AccountSignup';
+    public $formClass = 'AccountSignUp';
 
     /**
      * @var
@@ -38,7 +38,7 @@ class AccountSignupAction extends CAction
     /**
      * @var array
      */
-    public $emailCallback = array('EEmailManager', 'sendAccountSignup');
+    public $emailCallback = array('AccountEmailManager', 'sendAccountSignUp');
 
     /**
      *
@@ -52,23 +52,23 @@ class AccountSignupAction extends CAction
             $this->controller->redirect($app->homeUrl);
         }
 
-        /** @var AccountSignup $accountSignup */
-        $accountSignup = new $this->formClass();
-        $accountSignup->userClass = $this->userClass;
-        $accountSignup->userIdentityClass = $this->userIdentityClass;
+        /** @var AccountSignUp $accountSignUp */
+        $accountSignUp = new $this->formClass();
+        $accountSignUp->userClass = $this->userClass;
+        $accountSignUp->userIdentityClass = $this->userIdentityClass;
 
         // collect user input data
         if (isset($_POST[$this->formClass])) {
-            $accountSignup->attributes = $_POST[$this->formClass];
-            if ($accountSignup->save()) {
-                call_user_func_array($this->emailCallback, array($accountSignup->user)); // EEmailManager::sendAccountSignup($accountSignup->user);
+            $accountSignUp->attributes = $_POST[$this->formClass];
+            if ($accountSignUp->save()) {
+                call_user_func_array($this->emailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountSignUp($accountSignUp->user);
                 $this->controller->redirect($app->returnUrl->getUrl($app->user->returnUrl));
             }
         }
 
-        // display the signup form
+        // display the sign up form
         $this->controller->render($this->view, array(
-            'accountSignup' => $accountSignup,
+            'accountSignUp' => $accountSignUp,
         ));
 
     }

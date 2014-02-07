@@ -11,21 +11,16 @@
  *
  * @package yii-account-module
  */
-$this->pageTitle = Yii::t('account', 'Change Password');
-
-$this->menu = SiteMenu::getItemsFromMenu(SiteMenu::MENU_USER);
+$this->pageTitle = Yii::t('account', 'Reset Password');
 
 /** @var AccountActiveForm $form */
-$form = $this->beginWidget('account.widgets.AccountActiveForm', array(
-    'id' => 'password-form',
+$form = $this->beginWidget('account.components.AccountActiveForm', array(
+    'id' => 'passwordReset-form',
 ));
-echo $form->beginModalWrap();
 echo $form->errorSummary($user);
 
-echo $form->passwordFieldControlGroup($user, 'current_password');
 echo $form->passwordFieldControlGroup($user, 'new_password');
 echo $form->passwordFieldControlGroup($user, 'confirm_password');
 
-echo $form->endModalWrap();
-echo $form->getSubmitButtonRow(Yii::t('account', 'Save'));
+echo $form->getSubmitButtonRow(Yii::t('account', 'Reset Password'));
 $this->endWidget();

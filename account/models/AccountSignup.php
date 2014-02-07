@@ -1,8 +1,8 @@
 <?php
 
 /**
- * AccountSignup is the data structure for keeping account registration form data.
- * It is used by the 'signup' action of 'AccountController'.
+ * AccountSignUp is the data structure for keeping account registration form data.
+ * It is used by the 'signUp' action of 'AccountController'.
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -12,7 +12,7 @@
  *
  * @package yii-account-module
  */
-class AccountSignup extends CFormModel
+class AccountSignUp extends CFormModel
 {
 
     /**

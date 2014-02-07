@@ -16,20 +16,19 @@
 $this->pageTitle = Yii::t('account', 'Login');
 
 /** @var AccountActiveForm $form */
-$form = $this->beginWidget('account.widgets.AccountActiveForm', array(
+$form = $this->beginWidget('account.components.AccountActiveForm', array(
     'id' => 'login-form',
 ));
-echo $form->beginModalWrap();
 echo $form->errorSummary($user);
+
 echo $form->textFieldControlGroup($user, 'email');
 echo $form->passwordFieldControlGroup($user, 'password');
 echo $form->checkBoxControlGroup($user, 'rememberMe');
-
 if ($recaptcha) {
     echo CHtml::activeLabel($user, 'recaptcha');
-    $this->widget('account.widgets.AccountReCaptchaInput', array('model' => $user));
+    $this->widget('account.components.AccountReCaptchaInput', array('model' => $user));
     echo CHtml::error($user, 'recaptcha');
 }
-echo $form->endModalWrap();
+
 echo $form->getSubmitButtonRow(Yii::t('account', 'Login'));
 $this->endWidget();

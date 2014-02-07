@@ -41,8 +41,8 @@ class AccountPassword extends CFormModel
     {
         return array(
             // current_password
-            array('current_password', 'required', 'on' => 'password'),
-            array('current_password', 'validateCurrentPassword', 'on' => 'password'),
+            array('current_password', 'required', 'on' => 'changePassword'),
+            array('current_password', 'validateCurrentPassword', 'on' => 'changePassword'),
             array('current_password', 'length', 'max' => 64, 'min' => 5),
 
             // new_password

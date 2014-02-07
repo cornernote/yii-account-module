@@ -13,13 +13,10 @@
  */
 $this->pageTitle = Yii::t('account', 'Update Account');
 
-$this->menu = SiteMenu::getItemsFromMenu(SiteMenu::MENU_USER);
-
 /** @var AccountActiveForm $form */
-$form = $this->beginWidget('account.widgets.AccountActiveForm', array(
+$form = $this->beginWidget('account.components.AccountActiveForm', array(
     'id' => 'account-form',
 ));
-echo $form->beginModalWrap();
 echo $form->errorSummary($user);
 
 echo $form->textFieldControlGroup($user, 'username');
@@ -27,6 +24,5 @@ echo $form->textFieldControlGroup($user, 'name');
 echo $form->textFieldControlGroup($user, 'email');
 echo $form->textFieldControlGroup($user, 'phone');
 
-echo $form->endModalWrap();
-echo $form->getSubmitButtonRow(Yii::t('account', 'Save'));
+echo $form->getSubmitButtonRow(Yii::t('account', 'Update Account'));
 $this->endWidget();

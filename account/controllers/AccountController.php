@@ -15,6 +15,21 @@ class AccountController extends CController
 {
 
     /**
+     * @var string
+     */
+    public $defaultAction = 'view';
+
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
@@ -24,16 +39,12 @@ class AccountController extends CController
         Yii::import('account.models.*');
         return array(
             array('allow',
-                'actions' => array('login', 'lostPassword', 'resetPassword'),
-                'users' => array('*'),
+                'actions' => array('login', 'lostPassword', 'resetPassword', 'signUp'),
+                'users' => array('?'), // guest
             ),
             array('allow',
-                'actions' => array('signup'),
-                'users' => array('?'),
-            ),
-            array('allow',
-                'actions' => array('logout', 'index', 'update', 'password', 'settings'),
-                'users' => array('@'),
+                'actions' => array('logout', 'view', 'update', 'changePassword'),
+                'users' => array('@'), // authenticated
             ),
             array('deny', 'users' => array('*')),
         );
@@ -45,8 +56,8 @@ class AccountController extends CController
     public function actions()
     {
         return array(
-            'signup' => array(
-                'class' => 'account.actions.AccountSignupAction',
+            'signUp' => array(
+                'class' => 'account.actions.AccountSignUpAction',
             ),
             'login' => array(
                 'class' => 'account.actions.AccountLoginAction',
@@ -54,78 +65,22 @@ class AccountController extends CController
             'logout' => array(
                 'class' => 'account.actions.AccountLogoutAction',
             ),
+            'view' => array(
+                'class' => 'account.actions.AccountViewAction',
+            ),
+            'update' => array(
+                'class' => 'account.actions.AccountUpdateAction',
+            ),
             'lostPassword' => array(
                 'class' => 'account.actions.AccountLostPasswordAction',
             ),
             'resetPassword' => array(
                 'class' => 'account.actions.AccountResetPasswordAction',
             ),
+            'changePassword' => array(
+                'class' => 'account.actions.AccountChangePasswordAction',
+            ),
         );
-    }
-
-    /**
-     * @param string $view the view to be rendered
-     * @return bool
-     */
-    public function beforeRender($view)
-    {
-        $this->pageTitle = $this->pageHeading = Yii::t('account', 'My Account');
-        //if ($view != 'login')
-        //    $this->menu = SiteMenu::getItemsFromMenu(SiteMenu::MENU_USER);
-        return parent::beforeRender($view);
-    }
-
-    /**
-     * Displays current logged in user.
-     */
-    public function actionIndex()
-    {
-        $user = $this->loadModel(Yii::app()->user->id, 'User');
-        $this->render('view', array(
-            'user' => $user,
-        ));
-    }
-
-    /**
-     * Updates your own user details.
-     */
-    public function actionUpdate()
-    {
-        $user = $this->loadModel(Yii::app()->user->id, 'User');
-        $user->scenario = 'account';
-
-        if (isset($_POST['User'])) {
-            $user->attributes = $_POST['User'];
-            if ($user->save()) {
-                Yii::app()->user->addFlash('Your account has been saved.', 'success');
-                $this->redirect(Yii::app()->returnUrl->getUrl(array('/account/index')));
-            }
-        }
-
-        $this->render('update', array(
-            'user' => $user,
-        ));
-    }
-
-    /**
-     * Updates your own user password.
-     */
-    public function actionPassword()
-    {
-        $user = $this->loadModel(Yii::app()->user->id, 'User');
-        $accountPassword = new AccountPassword('password');
-        if (isset($_POST['AccountPassword'])) {
-            $accountPassword->attributes = $_POST['AccountPassword'];
-            if ($accountPassword->validate()) {
-                $user->password = $user->hashPassword($accountPassword->password);
-                if ($user->save(false)) {
-                    Yii::app()->user->addFlash('Your password has been saved.', 'success');
-                    $this->redirect(array('/account/index'));
-                }
-            }
-        }
-        $this->render('password', array('user' => $accountPassword));
-
     }
 
 }
