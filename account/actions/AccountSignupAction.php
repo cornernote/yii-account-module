@@ -42,6 +42,11 @@ class AccountSignUpAction extends CAction
     public $welcomeEmailCallback = array('AccountEmailManager', 'sendAccountWelcome');
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * Sign up for a new account.
      */
     public function run()
@@ -50,16 +55,18 @@ class AccountSignUpAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountSignUp $accountSignUp */
         $accountSignUp = new $this->formClass();
-        $accountSignUp->userClass = $this->controller->userClass;
-        $accountSignUp->userIdentityClass = $this->controller->userIdentityClass;
-        $accountSignUp->firstNameField = $this->controller->firstNameField;
-        $accountSignUp->lastNameField = $this->controller->lastNameField;
-        $accountSignUp->emailField = $this->controller->emailField;
-        $accountSignUp->usernameField = $this->controller->usernameField;
-        $accountSignUp->passwordField = $this->controller->passwordField;
-        $accountSignUp->statusField = $this->controller->statusField;
+        $accountSignUp->userClass = $account->userClass;
+        $accountSignUp->userIdentityClass = $account->userIdentityClass;
+        $accountSignUp->firstNameField = $account->firstNameField;
+        $accountSignUp->lastNameField = $account->lastNameField;
+        $accountSignUp->emailField = $account->emailField;
+        $accountSignUp->usernameField = $account->usernameField;
+        $accountSignUp->passwordField = $account->passwordField;
+        $accountSignUp->statusField = $account->statusField;
         $accountSignUp->defaultStatus = $this->defaultStatus;
 
         // collect user input

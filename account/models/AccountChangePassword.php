@@ -63,8 +63,10 @@ class AccountChangePassword extends CFormModel
 
     /**
      * Validates the users current password.
+     * This is the 'validateCurrentPassword' validator as declared in rules().
+     * @param $attribute
      */
-    public function validateCurrentPassword($attribute, $params)
+    public function validateCurrentPassword($attribute)
     {
         if (!$this->user || !CPasswordHelper::verifyPassword($this->current_password, $this->user->password))
             $this->addError($attribute, Yii::t('account', 'Incorrect password.'));
@@ -78,7 +80,7 @@ class AccountChangePassword extends CFormModel
         if (!$this->validate())
             return false;
 
-        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->password);
+        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->new_password);
         return $this->user->save(false);
     }
 

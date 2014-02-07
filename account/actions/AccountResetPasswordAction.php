@@ -28,6 +28,11 @@ class AccountResetPasswordAction extends CAction
     public $formClass = 'AccountResetPassword';
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * Checks for valid link and allows resetting the account password.
      *
      * @param $user_id
@@ -39,11 +44,13 @@ class AccountResetPasswordAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountResetPassword $accountResetPassword */
         $accountResetPassword = new $this->formClass();
-        $accountResetPassword->userClass = $this->controller->userClass;
-        $accountResetPassword->userIdentityClass = $this->controller->userIdentityClass;
-        $accountResetPassword->passwordField = $this->controller->passwordField;
+        $accountResetPassword->userClass = $account->userClass;
+        $accountResetPassword->userIdentityClass = $account->userIdentityClass;
+        $accountResetPassword->passwordField = $account->passwordField;
 
         // redirect if the key is invalid
         if (!$accountResetPassword->checkToken($user_id, $token)) {

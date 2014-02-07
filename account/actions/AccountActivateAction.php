@@ -28,6 +28,11 @@ class AccountActivateAction extends CAction
     public $welcomeEmailCallback = array('AccountEmailManager', 'sendAccountWelcome');
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * Activate a new account once the secure email link is clicked.
      *
      * @param $user_id
@@ -39,21 +44,22 @@ class AccountActivateAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountActivate $accountActivate */
         $accountActivate = new $this->formClass();
-        $accountActivate->userClass = $this->controller->userClass;
-        $accountActivate->userIdentityClass = $this->controller->userIdentityClass;
-        $accountActivate->statusField = $this->controller->statusField;
+        $accountActivate->userClass = $account->userClass;
+        $accountActivate->statusField = $account->statusField;
 
         // redirect if the key is invalid
-        if (!$accountActivate->activate($id, $token)) {
+        if (!$accountActivate->activate($user_id, $token)) {
             Yii::app()->user->addFlash(Yii::t('account', 'Invalid key.'), 'error');
             $this->controller->redirect(Yii::app()->user->loginUrl);
         }
 
         // account is active, redirect
         Yii::app()->user->addFlash(Yii::t('account', 'Your account has been activated and you have been logged in.'), 'success');
-        call_user_func_array($this->welcomeEmailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+        call_user_func_array($this->welcomeEmailCallback, array($accountActivate->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
         $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
     }
 

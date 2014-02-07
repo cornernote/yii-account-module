@@ -33,6 +33,11 @@ class AccountLostPasswordAction extends CAction
     public $emailCallback = array('AccountEmailManager', 'sendAccountLostPassword');
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * Request an email to be sent which will contain a secure link to allow a password reset.
      */
     public function run()
@@ -41,11 +46,13 @@ class AccountLostPasswordAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountLostPassword $accountLostPassword */
         $accountLostPassword = new $this->formClass();
-        $accountLostPassword->userClass = $this->controller->userClass;
-        $accountLostPassword->emailField = $this->controller->emailField;
-        $accountLostPassword->usernameField = $this->controller->usernameField;
+        $accountLostPassword->userClass = $account->userClass;
+        $accountLostPassword->emailField = $account->emailField;
+        $accountLostPassword->usernameField = $account->usernameField;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {

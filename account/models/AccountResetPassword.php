@@ -36,7 +36,17 @@ class AccountResetPassword extends CFormModel
     /**
      * @var string
      */
+    public $token;
+
+    /**
+     * @var string
+     */
     public $userClass = 'AccountUser';
+
+    /**
+     * @var string
+     */
+    public $emailField = 'email';
 
     /**
      * @var string
@@ -74,10 +84,12 @@ class AccountResetPassword extends CFormModel
     /**
      * @param int $user_id
      * @param string $token
+     * @return bool
      */
     public function checkToken($user_id, $token)
     {
         $this->user_id = $user_id;
+        $this->token = $token;
         if (!$this->user)
             return false;
         return Yii::app()->tokenManager->checkToken('AccountLostPassword', $user_id, $token);
@@ -91,14 +103,14 @@ class AccountResetPassword extends CFormModel
         if (!$this->validate())
             return false;
 
-        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->password);
+        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->new_password);
         if (!$this->user->save(false))
             return false;
 
-        if (!$this->userIdentity->authenticate() || !Yii::app()->user->login($identity))
+        if (!$this->userIdentity->authenticate() || !Yii::app()->user->login($this->userIdentity))
             return false;
 
-        Yii::app()->tokenManager->useToken('AccountLostPassword', $this->user_id, $token);
+        Yii::app()->tokenManager->useToken('AccountLostPassword', $this->user_id, $this->token);
         return true;
     }
 
@@ -129,7 +141,7 @@ class AccountResetPassword extends CFormModel
     public function getUserIdentity()
     {
         if (!$this->_userIdentity)
-            $this->_userIdentity = new $this->userIdentityClass($this->username ? $this->username : $this->email, $this->password);
+            $this->_userIdentity = new $this->userIdentityClass($this->user->{$this->emailField}, $this->user->{$this->passwordField});
         return $this->_userIdentity;
     }
 

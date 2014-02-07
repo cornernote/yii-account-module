@@ -20,46 +20,6 @@ class AccountUserController extends CController
     public $defaultAction = 'view';
 
     /**
-     * @var string
-     */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $firstNameField = 'first_name';
-
-    /**
-     * @var string
-     */
-    public $lastNameField = 'last_name';
-
-    /**
-     * @var string
-     */
-    public $emailField = 'email';
-
-    /**
-     * @var string
-     */
-    public $usernameField = 'username';
-
-    /**
-     * @var string
-     */
-    public $passwordField = 'password';
-
-    /**
-     * @var string
-     */
-    public $statusField = 'status';
-
-    /**
-     * @var string
-     */
-    public $userIdentityClass = 'UserIdentity';
-
-    /**
      * @return array action filters
      */
     public function filters()

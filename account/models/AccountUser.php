@@ -3,13 +3,7 @@
 /**
  * AccountUser
  *
- * @author Brett O'Donnell <cornernote@gmail.com>
- * @author Zain Ul abidin <zainengineer@gmail.com>
- * @copyright 2013 Mr PHP
- * @link https://github.com/cornernote/yii-account-module
- * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account-module/master/LICENSE
- *
- * @package yii-account-module
+ * @property string $name
  *
  * --- BEGIN ModelDoc ---
  *
@@ -33,6 +27,14 @@
  * @method User with() with()
  *
  * --- END ModelDoc ---
+ *
+ * @author Brett O'Donnell <cornernote@gmail.com>
+ * @author Zain Ul abidin <zainengineer@gmail.com>
+ * @copyright 2013 Mr PHP
+ * @link https://github.com/cornernote/yii-account-module
+ * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account-module/master/LICENSE
+ *
+ * @package yii-account-module
  */
 class AccountUser extends CActiveRecord
 {
@@ -80,7 +82,6 @@ class AccountUser extends CActiveRecord
     }
 
     /**
-     * @param array $options
      * @return CActiveDataProvider
      */
     public function search()
@@ -88,7 +89,7 @@ class AccountUser extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('t.id', $this->id);
-        $criteria->compare('t.username', $this->lastname, true);
+        $criteria->compare('t.username', $this->username, true);
         $criteria->compare('t.first_name', $this->first_name, true);
         $criteria->compare('t.last_name', $this->last_name, true);
         $criteria->compare('t.email', $this->email, true);

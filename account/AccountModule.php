@@ -20,6 +20,76 @@ class AccountModule extends CWebModule
     public $layout = 'account.views.layouts.column1';
 
     /**
+     * @var string
+     */
+    public $userClass = 'AccountUser';
+
+    /**
+     * @var string
+     */
+    public $firstNameField = 'first_name';
+
+    /**
+     * @var string
+     */
+    public $lastNameField = 'last_name';
+
+    /**
+     * @var string
+     */
+    public $emailField = 'email';
+
+    /**
+     * @var string
+     */
+    public $usernameField = 'username';
+
+    /**
+     * @var string
+     */
+    public $passwordField = 'password';
+
+    /**
+     * @var string
+     */
+    public $statusField = 'status';
+
+    /**
+     * @var string
+     */
+    public $userIdentityClass = 'UserIdentity';
+
+    /**
+     * @var bool
+     */
+    public $reCaptcha = true;
+
+    /**
+     * @var string
+     */
+    public $reCaptchaPublicKey = '6LeBItQSAAAAAG_umhiD0vyxXbDFbVMPA0kxZUF6';
+
+    /**
+     * @var string
+     */
+    public $reCaptchaPrivateKey = '6LeBItQSAAAAALA4_G05e_-fG5yH_-xqQIN8AfTD';
+
+    /**
+     * @var string
+     */
+    public $reCaptchaServer = 'http://www.google.com/recaptcha/api';
+
+    /**
+     * @var string
+     */
+    public $reCaptchaSecureServer = 'https://www.google.com/recaptcha/api';
+
+    /**
+     * @var string
+     */
+    public $reCaptchaVerifyServer = 'www.google.com';
+
+    /**
      * @var array mapping from controller ID to controller configurations.
      */
     public $controllerMap = array(
@@ -49,7 +119,7 @@ class AccountModule extends CWebModule
      */
     public function getVersion()
     {
-        return trim(file_get_contents(dirname(__FILE__) . '/version.txt'));;
+        return trim(file_get_contents(dirname(__FILE__) . '/version.txt'));
     }
 
     /**

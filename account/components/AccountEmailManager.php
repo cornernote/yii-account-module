@@ -20,6 +20,8 @@ class AccountEmailManager
      */
     public static function sendAccountLostPassword($user)
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         $emailManager = Yii::app()->emailManager;
 
         // get lost password link
@@ -38,7 +40,7 @@ class AccountEmailManager
         $swiftMessage->setBody($message['message'], 'text/html');
         //$swiftMessage->addPart($message['text'], 'text/plain');
         $swiftMessage->setFrom($emailManager->fromEmail, $emailManager->fromName);
-        $swiftMessage->setTo($user->email, $user->name);
+        $swiftMessage->setTo($user->{$account->emailField}, $user->name);
 
         // spool the email
         $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
@@ -56,6 +58,8 @@ class AccountEmailManager
      */
     public static function sendAccountActivate($user)
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         $emailManager = Yii::app()->emailManager;
 
         // get lost password link
@@ -74,7 +78,7 @@ class AccountEmailManager
         $swiftMessage->setBody($message['message'], 'text/html');
         //$swiftMessage->addPart($message['text'], 'text/plain');
         $swiftMessage->setFrom($emailManager->fromEmail, $emailManager->fromName);
-        $swiftMessage->setTo($user->email, $user->name);
+        $swiftMessage->setTo($user->{$account->emailField}, $user->name);
 
         // spool the email
         $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
@@ -92,6 +96,8 @@ class AccountEmailManager
      */
     public static function sendAccountWelcome($user)
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         $emailManager = Yii::app()->emailManager;
 
         // build the templates
@@ -105,7 +111,7 @@ class AccountEmailManager
         $swiftMessage->setBody($message['message'], 'text/html');
         //$swiftMessage->addPart($message['text'], 'text/plain');
         $swiftMessage->setFrom($emailManager->fromEmail, $emailManager->fromName);
-        $swiftMessage->setTo($user->email, $user->name);
+        $swiftMessage->setTo($user->{$account->emailField}, $user->name);
 
         // spool the email
         $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);

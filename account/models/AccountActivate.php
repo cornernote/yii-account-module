@@ -5,7 +5,6 @@
  * It is used by the 'activate' action of 'AccountUserController'.
  *
  * @property AccountUser $user
- * @property UserIdentity $userIdentity
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -34,24 +33,15 @@ class AccountActivate extends CComponent
     public $statusField = 'status';
 
     /**
-     * @var string
-     */
-    public $userIdentityClass = 'UserIdentity';
-
-    /**
      * @var AccountUser
      */
     public $_user;
 
     /**
-     * @var UserIdentity
-     */
-    public $_userIdentity;
-
-    /**
      * Activates the users account.
      * @param int $user_id
      * @param string $token
+     * @return bool
      */
     public function activate($user_id, $token)
     {
@@ -75,16 +65,6 @@ class AccountActivate extends CComponent
         if (!$this->_user)
             $this->_user = CActiveRecord::model($this->userClass)->findByPk($this->user_id);
         return $this->_user;
-    }
-
-    /**
-     * @return UserIdentity
-     */
-    public function getUserIdentity()
-    {
-        if (!$this->_userIdentity)
-            $this->_userIdentity = new $this->userIdentityClass($this->username ? $this->username : $this->email, $this->password);
-        return $this->_userIdentity;
     }
 
 } 

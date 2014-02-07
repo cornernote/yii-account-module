@@ -71,13 +71,14 @@ class AccountReCaptchaValidator extends CValidator
      */
     protected function checkAnswer($challenge, $response, $extra_params = array())
     {
-        $reCaptcha = Yii::app()->reCaptcha;
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         if (!$challenge || !$response)
             return false;
 
-        $response = $this->httpPost($reCaptcha->verifyServer, '/recaptcha/api/verify', array(
-                'privatekey' => $reCaptcha->privateKey,
-                'remoteip' => $_SERVER['REMOTE_ADDR'],
+        $response = $this->httpPost($account->reCaptchaVerifyServer, '/recaptcha/api/verify', array(
+                'privatekey' => $account->reCaptchaPrivateKey,
+                'remoteip' => Yii::app()->request->userHostAddress,
                 'challenge' => $challenge,
                 'response' => $response
             ) + $extra_params);

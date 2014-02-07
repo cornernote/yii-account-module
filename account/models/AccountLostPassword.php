@@ -67,22 +67,23 @@ class AccountLostPassword extends CFormModel
     }
 
     /**
+     * Checks if the user exists.
+     * This is the 'validateCurrentPassword' validator as declared in rules().
      * @param $attribute
-     * @param $params
      */
-    public function checkExists($attribute, $params)
+    public function checkExists($attribute)
     {
         $user = CActiveRecord::model($this->userClass)->findByAttributes(array(
-            strpos($this->email_or_username, '@') || !$this->usernameField ? $this->emailField : $this->usernameField => $this->email_or_username,
+            strpos($this->$attribute, '@') || !$this->usernameField ? $this->emailField : $this->usernameField => $this->email_or_username,
         ));
         if (!$user)
-            $this->addError($attribute, strpos($this->email_or_username, '@') ? Yii::t('account', 'Email is incorrect.') : Yii::t('account', 'Username is incorrect.'));
+            $this->addError($attribute, strpos($this->$attribute, '@') ? Yii::t('account', 'Email is incorrect.') : Yii::t('account', 'Username is incorrect.'));
     }
 
     public function validate($attributes = null, $clearErrors = true)
     {
         //// enable recaptcha after 3 attempts
-        //$attemptKey = "lostPassword.attempt.{$_SERVER['REMOTE_ADDR']}";
+        //$attemptKey = 'AccountLostPassword.attempt.' . Yii::app()->request->userHostAddress;
         //$attempts = $app->cache->get($attemptKey);
         //if (!$attempts)
         //    $attempts = 0;
@@ -102,7 +103,7 @@ class AccountLostPassword extends CFormModel
         //}
         //$app->cache->set($attemptKey, ++$attempts);
 
-        return $valid;
+        return false;
     }
 
 }

@@ -18,6 +18,11 @@ class AccountLogoutAction extends CAction
 {
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * Logout from an account.
      */
     public function run()

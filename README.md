@@ -16,6 +16,7 @@ Allows users to create and manage their account.
     - AccountUpdateAction - Update own account details.
     - AccountChangePasswordAction - Change own password details after verifying current password.
     - AccountViewAction - View own account details.
+- Does not impose a data structure, you can use your existing User table with your existing fields.
 - Module uses [YiiEmailModule](http://cornernote.github.io/yii-email-module/), allows emails with templates and email queueing.
 - Module uses [YiiStrap](http://getyiistrap.com/), the ultimate Twitter Bootstrap extension for Yii.
 

@@ -33,6 +33,11 @@ class AccountLoginAction extends CAction
     public $defaultRemember = 0;
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * Login to an account.
      */
     public function run()
@@ -41,9 +46,11 @@ class AccountLoginAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountLogin $accountLogin */
         $accountLogin = new $this->formClass();
-        $accountLogin->userIdentityClass = $this->controller->userIdentityClass;
+        $accountLogin->userIdentityClass = $account->userIdentityClass;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {

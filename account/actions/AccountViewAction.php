@@ -26,8 +26,10 @@ class AccountViewAction extends CAction
      */
     public function run()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountUser $user */
-        $user = CActiveRecord::model($this->controller->userClass)->findByPk(Yii::app()->user->id);
+        $user = CActiveRecord::model($account->userClass)->findByPk(Yii::app()->user->id);
         if (!$user)
             throw new CHttpException(404, Yii::t('account', 'The requested page does not exist.'));
 

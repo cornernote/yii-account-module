@@ -83,9 +83,8 @@ class AccountLogin extends CFormModel
      * Authenticates the password.
      * This is the 'authenticate' validator as declared in rules().
      * @param $attribute
-     * @param $params
      */
-    public function authenticate($attribute, $params)
+    public function authenticate($attribute)
     {
         if (!$this->userIdentity->authenticate())
             $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
@@ -99,7 +98,7 @@ class AccountLogin extends CFormModel
     {
         // TODO - enable recaptcha
         //// recaptcha after 3 attempts
-        //$attemptKey = "login.attempt.{$_SERVER['REMOTE_ADDR']}";
+        //$attemptKey = 'AccountLogin.attempt.' . Yii::app()->request->userHostAddress;
         //$attempts = Yii::app()->cache->get($attemptKey);
         //if (!$attempts)
         //    $attempts = 0;

@@ -28,22 +28,24 @@ class AccountUpdateAction extends CAction
     public $formClass = 'AccountUpdate';
 
     /**
-     * @var string
+     * @var string|array
      */
-    public $returnUrl = array('/account/index');
+    private $_returnUrl;
 
     /**
      * Update own account details.
      */
     public function run()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountUpdate $accountUpdate */
         $accountUpdate = new $this->formClass();
-        $accountUpdate->userClass = $this->controller->userClass;
-        $accountUpdate->firstNameField = $this->controller->firstNameField;
-        $accountUpdate->lastNameField = $this->controller->lastNameField;
-        $accountUpdate->emailField = $this->controller->emailField;
-        $accountUpdate->usernameField = $this->controller->usernameField;
+        $accountUpdate->userClass = $account->userClass;
+        $accountUpdate->firstNameField = $account->firstNameField;
+        $accountUpdate->lastNameField = $account->lastNameField;
+        $accountUpdate->emailField = $account->emailField;
+        $accountUpdate->usernameField = $account->usernameField;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {
@@ -55,7 +57,7 @@ class AccountUpdateAction extends CAction
         }
 
         // display the update account form
-        $this->render($this->view, array(
+        $this->controller->render($this->view, array(
             'accountUpdate' => $accountUpdate,
         ));
     }
@@ -66,7 +68,7 @@ class AccountUpdateAction extends CAction
     public function getReturnUrl()
     {
         if (!$this->_returnUrl)
-            $this->_returnUrl = Yii::app()->user->returnUrl;
+            $this->_returnUrl = array('/account/index');
         return $this->_returnUrl;
     }
 

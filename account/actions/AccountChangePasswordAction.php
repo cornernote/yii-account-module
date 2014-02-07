@@ -28,19 +28,21 @@ class AccountChangePasswordAction extends CAction
     public $formClass = 'AccountPassword';
 
     /**
-     * @var string
+     * @var string|array
      */
-    private $_returnUrl = array('/account/index');
+    private $_returnUrl;
 
     /**
      * Change own password details after verifying current password.
      */
     public function run()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountChangePassword $accountChangePassword */
         $accountChangePassword = new $this->formClass();
-        $accountChangePassword->userClass = $this->controller->userClass;
-        $accountChangePassword->passwordField = $this->controller->passwordField;
+        $accountChangePassword->userClass = $account->userClass;
+        $accountChangePassword->passwordField = $account->passwordField;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {
@@ -63,7 +65,7 @@ class AccountChangePasswordAction extends CAction
     public function getReturnUrl()
     {
         if (!$this->_returnUrl)
-            $this->_returnUrl = Yii::app()->user->returnUrl;
+            $this->_returnUrl = array('/account/index');
         return $this->_returnUrl;
     }
 
