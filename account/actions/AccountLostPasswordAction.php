@@ -9,8 +9,8 @@
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
- * @link https://github.com/cornernote/yii-account
- * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
+ * @link https://github.com/cornernote/yii-account-module
+ * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account-module/master/LICENSE
  *
  * @package yii-account-module
  */
@@ -33,7 +33,7 @@ class AccountLostPasswordAction extends CAction
     public $emailCallback = array('AccountEmailManager', 'sendAccountLostPassword');
 
     /**
-     * Allows the user to request an email containing password reset instructions.
+     * Request an email to be sent which will contain a secure link to allow a password reset.
      */
     public function run()
     {

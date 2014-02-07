@@ -9,8 +9,8 @@
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
- * @link https://github.com/cornernote/yii-account
- * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
+ * @link https://github.com/cornernote/yii-account-module
+ * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account-module/master/LICENSE
  *
  * @package yii-account-module
  */
@@ -33,7 +33,7 @@ class AccountUpdateAction extends CAction
     public $returnUrl = array('/account/index');
 
     /**
-     * Allows the user to update their account details.
+     * Update own account details.
      */
     public function run()
     {

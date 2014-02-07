@@ -6,8 +6,8 @@
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
- * @link https://github.com/cornernote/yii-account
- * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
+ * @link https://github.com/cornernote/yii-account-module
+ * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account-module/master/LICENSE
  *
  * @package yii-account-module
  */
@@ -24,7 +24,7 @@ class AccountEmailManager
 
         // get lost password link
         $token = Yii::app()->tokenManager->createToken(strtotime('+1day'), 'AccountLostPassword', $user->primaryKey, 1);
-        $url = Yii::app()->createAbsoluteUrl('/account/resetPassword', array('id' => $user->primaryKey, 'token' => $token));
+        $url = Yii::app()->createAbsoluteUrl('/account/resetPassword', array('user_id' => $user->primaryKey, 'token' => $token));
 
         // build the templates
         $template = 'account_lost_password';
@@ -60,7 +60,7 @@ class AccountEmailManager
 
         // get lost password link
         $token = Yii::app()->tokenManager->createToken(strtotime('+1day'), 'AccountActivate', $user->primaryKey, 1);
-        $url = Yii::app()->createAbsoluteUrl('/account/activate', array('id' => $user->primaryKey, 'token' => $token));
+        $url = Yii::app()->createAbsoluteUrl('/account/activate', array('user_id' => $user->primaryKey, 'token' => $token));
 
         // build the templates
         $template = 'account_activate';

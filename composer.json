@@ -1,5 +1,5 @@
 {
-    "name": "cornernote/yii-account",
+    "name": "cornernote/yii-account-module",
     "description": "Account management for Yii including login/logout, lost password, update account, change password.",
     "type": "library",
     "license": "BSD-3-Clause",
