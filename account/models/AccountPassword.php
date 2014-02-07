@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AccountPassword is the data structure for keeping account password form data.
  * It is used by the 'password' action of 'AccountController'.
@@ -9,9 +10,8 @@
  * @link https://github.com/cornernote/yii-account
  * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
  *
- * @package account.models
+ * @package yii-account-module
  */
-
 class AccountPassword extends CFormModel
 {
     /**

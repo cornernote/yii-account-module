@@ -43,7 +43,7 @@
  *
  * @author MetaYii
  *
- * @package account.componets
+ * @package yii-account-module
  */
 class AccountReCaptchaValidator extends CValidator
 {

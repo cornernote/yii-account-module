@@ -9,7 +9,7 @@
  * @link https://github.com/cornernote/yii-account
  * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
  *
- * @package account.controllers
+ * @package yii-account-module
  */
 class AccountController extends CController
 {

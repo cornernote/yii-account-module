@@ -10,7 +10,7 @@
  * @link https://github.com/cornernote/yii-account
  * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
  *
- * @package account.models
+ * @package yii-account-module
  */
 class AccountLostPassword extends CFormModel
 {

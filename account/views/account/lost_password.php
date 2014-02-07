@@ -9,6 +9,8 @@
  * @copyright 2013 Mr PHP
  * @link https://github.com/cornernote/yii-account
  * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account/master/LICENSE
+ *
+ * @package yii-account-module
  */
 
 $this->pageTitle = Yii::t('account', 'Lost Password');
