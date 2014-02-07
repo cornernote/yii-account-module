@@ -28,11 +28,6 @@ class AccountLostPasswordAction extends CAction
     public $formClass = 'AccountLostPassword';
 
     /**
-     * @var string
-     */
-    public $emailCallback = array('AccountEmailManager', 'sendAccountLostPassword');
-
-    /**
      * @var string|array
      */
     private $_returnUrl;
@@ -50,17 +45,14 @@ class AccountLostPasswordAction extends CAction
         $account = Yii::app()->getModule('account');
         /** @var AccountLostPassword $accountLostPassword */
         $accountLostPassword = new $this->formClass();
-        $accountLostPassword->userClass = $account->userClass;
-        $accountLostPassword->emailField = $account->emailField;
-        $accountLostPassword->usernameField = $account->usernameField;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {
             $accountLostPassword->attributes = $_POST[$this->formClass];
             if ($accountLostPassword->validate()) {
-                call_user_func_array($this->emailCallback, array($accountLostPassword->user)); // EEmailManager::sendAccountLostPassword($user);
+                call_user_func_array($account->emailCallbackLostPassword, array($accountLostPassword->user)); // EEmailManager::sendAccountLostPassword($user);
                 Yii::app()->user->addFlash(Yii::t('account', 'Password reset instructions have been sent to :email. Please check your email.', array(
-                    ':email' => $accountLostPassword->user->{$accountLostPassword->emailField}
+                    ':email' => $accountLostPassword->user->{$account->emailField}
                 )), 'success');
                 $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }

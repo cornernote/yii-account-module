@@ -7,7 +7,7 @@
  *
  * --- BEGIN ModelDoc ---
  *
- * Table user
+ * Table account_user
  * @property integer $id
  * @property string $username
  * @property string $password
@@ -36,7 +36,7 @@
  *
  * @package yii-account-module
  */
-class AccountUser extends CActiveRecord
+class AccountUser extends AccountActiveRecord
 {
 
     /**
@@ -47,56 +47,6 @@ class AccountUser extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
-    }
-
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return 'user';
-    }
-
-    /**
-     * @param array $rules
-     * @return array validation rules for model attributes.
-     */
-    public function rules($rules = array())
-    {
-        $rules = array();
-
-        // search fields
-        if ($this->scenario == 'search') {
-            $rules[] = array('id, username, first_name, last_name, email', 'safe');
-        }
-
-        // create/update
-        if (in_array($this->scenario, array('insert', 'create', 'update'))) {
-            $rules[] = array('email, username, first_name', 'required');
-            $rules[] = array('email, username', 'length', 'max' => 255);
-            $rules[] = array('first_name, last_name', 'length', 'max' => 32);
-            $rules[] = array('email', 'email');
-        }
-
-        return $rules;
-    }
-
-    /**
-     * @return CActiveDataProvider
-     */
-    public function search()
-    {
-        $criteria = new CDbCriteria;
-
-        $criteria->compare('t.id', $this->id);
-        $criteria->compare('t.username', $this->username, true);
-        $criteria->compare('t.first_name', $this->first_name, true);
-        $criteria->compare('t.last_name', $this->last_name, true);
-        $criteria->compare('t.email', $this->email, true);
-
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
     }
 
     /**

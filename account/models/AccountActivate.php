@@ -23,16 +23,6 @@ class AccountActivate extends CComponent
     public $user_id;
 
     /**
-     * @var string
-     */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $statusField = 'status';
-
-    /**
      * @var AccountUser
      */
     public $_user;
@@ -50,7 +40,9 @@ class AccountActivate extends CComponent
             return false;
         if (!Yii::app()->tokenManager->checkToken('AccountActivate', $user_id, $token))
             return false;
-        $this->user->{$this->statusField} = 1;
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        $this->user->{$account->statusField} = 1;
         if (!$this->user->save(false))
             return false;
         Yii::app()->tokenManager->useToken('AccountActivate', $user_id, $token);
@@ -62,8 +54,11 @@ class AccountActivate extends CComponent
      */
     public function getUser()
     {
-        if (!$this->_user)
-            $this->_user = CActiveRecord::model($this->userClass)->findByPk($this->user_id);
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByPk($this->user_id);
+        }
         return $this->_user;
     }
 

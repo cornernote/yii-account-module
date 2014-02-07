@@ -15,6 +15,18 @@ class AccountModule extends CWebModule
 {
 
     /**
+     * @var string The ID of the CDbConnection application component. If not set, a SQLite3
+     * database will be automatically created in <code>protected/runtime/account-AccountVersion.db</code>.
+     */
+    public $connectionID;
+
+    /**
+     * @var boolean Whether the DB tables should be created automatically if they do not exist. Defaults to true.
+     * If you already have the table created, it is recommended you set this property to be false to improve performance.
+     */
+    public $autoCreateTables = true;
+
+    /**
      * @var string The layout used for module controllers.
      */
     public $layout = 'account.views.layouts.column1';
@@ -57,7 +69,42 @@ class AccountModule extends CWebModule
     /**
      * @var string
      */
-    public $userIdentityClass = 'UserIdentity';
+    public $statusAfterSignUp = 1;
+
+    /**
+     * @var string
+     */
+    public $userIdentityClass = 'AccountUserIdentity';
+
+    /**
+     * @var int Default setting for Remember Me checkbox on login page
+     */
+    public $rememberDefault = 0;
+
+    /**
+     * @var int
+     */
+    public $rememberDuration = 2592000; // 30 days
+
+    /**
+     * @var bool If we should spool the emails, or send immediately.
+     */
+    public $emailSpool = true;
+
+    /**
+     * @var array
+     */
+    public $emailCallbackActivate = array('AccountEmailManager', 'sendAccountActivate');
+
+    /**
+     * @var array
+     */
+    public $emailCallbackWelcome = array('AccountEmailManager', 'sendAccountWelcome');
+
+    /**
+     * @var string
+     */
+    public $emailCallbackLostPassword = array('AccountEmailManager', 'sendAccountLostPassword');
 
     /**
      * @var bool
@@ -97,6 +144,11 @@ class AccountModule extends CWebModule
     );
 
     /**
+     * @var array Map of model info including relations and behaviors.
+     */
+    public $modelMap = array();
+
+    /**
      * @var string The path to YiiStrap.
      * Only required if you do not want YiiStrap in your app config, for example, if you are running YiiBooster.
      * Only required if you did not install using composer.
@@ -105,6 +157,16 @@ class AccountModule extends CWebModule
      * - When using this setting YiiStrap will only loaded in the menu interface (eg: index.php?r=menu).
      */
     public $yiiStrapPath;
+
+    /**
+     * @var CDbConnection the DB connection instance
+     */
+    private $_db;
+
+    /**
+     * @var string Url to the assets
+     */
+    private $_assetsUrl;
 
     /**
      * @return string
@@ -160,6 +222,55 @@ class AccountModule extends CWebModule
     public function getDefaultModelMap()
     {
         return array();
+    }
+
+    /**
+     * @return CDbConnection the DB connection instance
+     * @throws CException if {@link connectionID} does not point to a valid application component.
+     */
+    public function getDbConnection()
+    {
+        if ($this->_db !== null)
+            return $this->_db;
+        elseif (($id = $this->connectionID) !== null) {
+            if (($this->_db = Yii::app()->getComponent($id)) instanceof CDbConnection)
+                return $this->_db;
+            else
+                throw new CException(Yii::t('account', 'AccountModule.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+                    array('{id}' => $id)));
+        }
+        else {
+            $dbFile = Yii::app()->getRuntimePath() . DIRECTORY_SEPARATOR . 'account-' . $this->getVersion() . '.db';
+            return $this->_db = new CDbConnection('sqlite:' . $dbFile);
+        }
+    }
+
+    /**
+     * Sets the DB connection used by the cache component.
+     * @param CDbConnection $value the DB connection instance
+     * @since 1.1.5
+     */
+    public function setDbConnection($value)
+    {
+        $this->_db = $value;
+    }
+
+    /**
+     * @return string the base URL that contains all published asset files of email.
+     */
+    public function getAssetsUrl()
+    {
+        if ($this->_assetsUrl === null)
+            $this->_assetsUrl = Yii::app()->assetManager->publish(Yii::getPathOfAlias('email.assets'));
+        return $this->_assetsUrl;
+    }
+
+    /**
+     * @param string $value the base URL that contains all published asset files of email.
+     */
+    public function setAssetsUrl($value)
+    {
+        $this->_assetsUrl = $value;
     }
 
     /**

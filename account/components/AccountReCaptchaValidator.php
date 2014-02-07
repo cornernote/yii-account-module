@@ -1,6 +1,6 @@
 <?php
 /**
- * AccountReCaptchaValidator class file.
+ * AccountReCaptchaValidator
  *
  * @author MetaYii
  * @link http://www.yiiframework.com/

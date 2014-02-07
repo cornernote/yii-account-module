@@ -38,31 +38,6 @@ class AccountUpdate extends CFormModel
     public $username;
 
     /**
-     * @var string
-     */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $firstNameField = 'first_name';
-
-    /**
-     * @var string
-     */
-    public $lastNameField = 'last_name';
-
-    /**
-     * @var string
-     */
-    public $emailField = 'email';
-
-    /**
-     * @var string
-     */
-    public $usernameField = 'username';
-
-    /**
      * @var AccountUser
      */
     public $_user;
@@ -73,12 +48,14 @@ class AccountUpdate extends CFormModel
      */
     public function rules()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         return array(
             array('email, username, first_name', 'required'),
             array('email, username', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
-            array('email, username', 'unique', 'className' => $this->userClass),
+            array('email, username', 'unique', 'className' => $account->userClass),
         );
     }
 
@@ -90,13 +67,15 @@ class AccountUpdate extends CFormModel
         if (!$this->validate())
             return false;
 
-        $this->user->{$this->emailField} = $this->email;
-        if ($this->firstNameField)
-            $this->user->{$this->firstNameField} = $this->first_name;
-        if ($this->lastNameField)
-            $this->user->{$this->lastNameField} = $this->last_name;
-        if ($this->usernameField)
-            $this->user->{$this->usernameField} = $this->username;
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        $this->user->{$account->emailField} = $this->email;
+        if ($account->firstNameField)
+            $this->user->{$account->firstNameField} = $this->first_name;
+        if ($account->lastNameField)
+            $this->user->{$account->lastNameField} = $this->last_name;
+        if ($account->usernameField)
+            $this->user->{$account->usernameField} = $this->username;
         return $this->user->save(false);
     }
 
@@ -118,8 +97,11 @@ class AccountUpdate extends CFormModel
      */
     public function getUser()
     {
-        if (!$this->_user)
-            $this->_user = CActiveRecord::model($this->userClass)->findByPk(Yii::app()->user->id);
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByPk(Yii::app()->user->id);
+        }
         return $this->_user;
     }
 

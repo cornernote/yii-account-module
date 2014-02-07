@@ -49,51 +49,6 @@ class AccountSignUp extends CFormModel
     public $last_name;
 
     /**
-     * @var string
-     */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $firstNameField = 'first_name';
-
-    /**
-     * @var string
-     */
-    public $lastNameField = 'last_name';
-
-    /**
-     * @var string
-     */
-    public $emailField = 'email';
-
-    /**
-     * @var string
-     */
-    public $usernameField = 'username';
-
-    /**
-     * @var string
-     */
-    public $passwordField = 'password';
-
-    /**
-     * @var string
-     */
-    public $statusField = 'status';
-
-    /**
-     * @var int
-     */
-    public $defaultStatus = 1;
-
-    /**
-     * @var string
-     */
-    public $userIdentityClass = 'UserIdentity';
-
-    /**
      * @var AccountUser
      */
     private $_user;
@@ -109,12 +64,14 @@ class AccountSignUp extends CFormModel
      */
     public function rules()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         return array(
             array('email, username, first_name, password, confirm_password', 'required'),
             array('email, username', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
-            array('email, username', 'unique', 'className' => $this->userClass),
+            array('email, username', 'unique', 'className' => $account->userClass),
             array('confirm_password', 'compare', 'compareAttribute' => 'password'),
         );
     }
@@ -143,24 +100,26 @@ class AccountSignUp extends CFormModel
         if (!$this->validate())
             return false;
 
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+
         // create user
-        $this->user->{$this->emailField} = $this->email;
-        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->password);
-        $this->user->{$this->statusField} = $this->defaultStatus;
-        if ($this->firstNameField)
-            $this->user->{$this->firstNameField} = $this->first_name;
-        if ($this->lastNameField)
-            $this->user->{$this->lastNameField} = $this->last_name;
-        if ($this->usernameField)
-            $this->user->{$this->usernameField} = $this->username;
+        $this->user->{$account->emailField} = $this->email;
+        $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->password);
+        $this->user->{$account->statusField} = $account->statusAfterSignUp;
+        if ($account->firstNameField)
+            $this->user->{$account->firstNameField} = $this->first_name;
+        if ($account->lastNameField)
+            $this->user->{$account->lastNameField} = $this->last_name;
+        if ($account->usernameField)
+            $this->user->{$account->usernameField} = $this->username;
         if (!$this->user->save(false))
             return false;
+        if (!$account->statusAfterSignUp)
+            return true;
 
         // login
-        if ($this->defaultStatus && $this->userIdentity->authenticate())
-            return Yii::app()->user->login($this->userIdentity);
-        else
-            return true;
+        return $this->userIdentity->authenticate() && Yii::app()->user->login($this->userIdentity);
     }
 
     /**
@@ -168,8 +127,11 @@ class AccountSignUp extends CFormModel
      */
     public function getUser()
     {
-        if (!$this->_user)
-            $this->_user = new $this->userClass();
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = new $account->userClass();
+        }
         return $this->_user;
     }
 
@@ -178,8 +140,11 @@ class AccountSignUp extends CFormModel
      */
     public function getUserIdentity()
     {
-        if (!$this->_userIdentity)
-            $this->_userIdentity = new $this->userIdentityClass($this->username ? $this->username : $this->email, $this->password);
+        if (!$this->_userIdentity) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_userIdentity = new $account->userIdentityClass($this->email, $this->password);
+        }
         return $this->_userIdentity;
     }
 

@@ -23,11 +23,6 @@ class AccountActivateAction extends CAction
     public $formClass = 'AccountActivate';
 
     /**
-     * @var array
-     */
-    public $welcomeEmailCallback = array('AccountEmailManager', 'sendAccountWelcome');
-
-    /**
      * @var string|array
      */
     private $_returnUrl;
@@ -48,8 +43,6 @@ class AccountActivateAction extends CAction
         $account = Yii::app()->getModule('account');
         /** @var AccountActivate $accountActivate */
         $accountActivate = new $this->formClass();
-        $accountActivate->userClass = $account->userClass;
-        $accountActivate->statusField = $account->statusField;
 
         // redirect if the key is invalid
         if (!$accountActivate->activate($user_id, $token)) {
@@ -59,7 +52,7 @@ class AccountActivateAction extends CAction
 
         // account is active, redirect
         Yii::app()->user->addFlash(Yii::t('account', 'Your account has been activated and you have been logged in.'), 'success');
-        call_user_func_array($this->welcomeEmailCallback, array($accountActivate->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+        call_user_func_array($account->emailCallbackWelcome, array($accountActivate->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
         $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
     }
 

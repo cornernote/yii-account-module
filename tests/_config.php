@@ -22,6 +22,7 @@ return array(
     'aliases' => array(
         'account' => realpath(BASE_PATH . '/../account'),
         'vendor' => realpath(BASE_PATH . '/../vendor'),
+        'email' => realpath(BASE_PATH . '/../vendor/cornernote/yii-email-module/email'),
         'bootstrap' => realpath(BASE_PATH . '/../vendor/crisu83/yiistrap'),
     ),
     'controllerMap' => array(
@@ -37,17 +38,31 @@ return array(
         'db' => array(
             'connectionString' => 'sqlite:' . realpath(BASE_PATH . '/_runtime') . '/test.db',
         ),
+        'cache' => array(
+            'class' => 'CFileCache',
+        ),
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
         ),
+        'emailManager' => array(
+            'class' => 'email.components.EEmailManager',
+            'swiftMailerPath' => realpath(BASE_PATH . '/../vendor/swiftmailer/swiftmailer/lib'),
+        ),
+        'tokenManager' => array(
+            'class' => 'vendor.cornernote.yii-token-manager.token-manager.components.ETokenManager',
+            'connectionID' => 'db',
+        ),
+        'returnUrl' => array(
+            'class' => 'vendor.cornernote.yii-return-url.return-url.components.EReturnUrl',
+        ),
         'user' => array(
             'class' => 'system.web.auth.CWebUser',
-//            'behaviors' => array(
-//                'webUserFlash' => array(
-//                    'class' => 'dressing.behaviors.YdWebUserFlashBehavior',
-//                ),
-//            ),
+            'behaviors' => array(
+                'webUserFlash' => array(
+                    'class' => 'account.components.AccountWebUserFlashBehavior',
+                ),
+            ),
             'allowAutoLogin' => true,
             'loginUrl' => array('/account/user/login'),
         ),
@@ -55,6 +70,11 @@ return array(
     'modules' => array(
         'account' => array(
             'class' => 'account.AccountModule',
+        ),
+        'email' => array(
+            'class' => 'email.EmailModule',
+            'connectionID' => 'db',
+            'controllerFilters' => array(),
         ),
         'gii' => array(
             'class' => 'system.gii.GiiModule',

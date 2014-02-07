@@ -2,7 +2,6 @@
 /**
  * @var $this AccountUserController
  * @var $accountLogin AccountLogin
- * @var $recaptcha string
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -25,15 +24,15 @@ echo $form->textFieldControlGroup($accountLogin, 'username');
 echo $form->passwordFieldControlGroup($accountLogin, 'password');
 echo $form->checkBoxControlGroup($accountLogin, 'remember');
 
-//if ($accountLogin->scenario == 'recaptcha') {
-//    echo CHtml::activeLabel($accountLogin, 'recaptcha');
-//    $this->widget('account.components.AccountReCaptchaInput', array('model' => $accountLogin));
-//    echo CHtml::error($accountLogin, 'recaptcha');
-//}
+if ($accountLogin->scenario == 'captcha') {
+    echo CHtml::activeLabel($accountLogin, 'captcha');
+    $this->widget('account.components.AccountReCaptchaInput', array('model' => $accountLogin));
+    echo CHtml::error($accountLogin, 'captcha');
+}
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('app', 'Login'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('app', 'Sign Up'), array('/account/signUp'), array('class' => 'btn')),
-    TbHtml::link(Yii::t('app', 'Lost Password'), array('/account/lostPassword'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('app', 'Sign Up'), array('user/signUp'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('app', 'Lost Password'), array('user/lostPassword'), array('class' => 'btn')),
 )));
 $this->endWidget();

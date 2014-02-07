@@ -1,0 +1,3 @@
+INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('account_lost_password', 'Reset Your Password', 'Reset Your Password', '<a href="{{url}}">click here to reset your password</a>');
+INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('account_activate', 'Activate Your Account', 'Activate Your Account', '<a href="{{url}}">click here to activate your account</a>');
+INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('account_welcome', 'Welcome', 'Welcome', 'Welcome');

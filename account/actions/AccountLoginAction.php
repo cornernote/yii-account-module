@@ -28,11 +28,6 @@ class AccountLoginAction extends CAction
     public $formClass = 'AccountLogin';
 
     /**
-     * @var int Default setting for Remember Me checkbox on login page
-     */
-    public $defaultRemember = 0;
-
-    /**
      * @var string|array
      */
     private $_returnUrl;
@@ -50,7 +45,6 @@ class AccountLoginAction extends CAction
         $account = Yii::app()->getModule('account');
         /** @var AccountLogin $accountLogin */
         $accountLogin = new $this->formClass();
-        $accountLogin->userIdentityClass = $account->userIdentityClass;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {
@@ -62,7 +56,7 @@ class AccountLoginAction extends CAction
         }
         // assign default values
         else {
-            $accountLogin->remember = $this->defaultRemember;
+            $accountLogin->remember = $account->rememberDefault;
         }
 
         // display the login form

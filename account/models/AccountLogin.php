@@ -33,14 +33,9 @@ class AccountLogin extends CFormModel
     public $remember;
 
     /**
-     * @var int
+     * @var
      */
-    public $rememberDuration = 2592000; // 30 days
-
-    /**
-     * @var string
-     */
-    public $userIdentityClass = 'UserIdentity';
+    public $captcha;
 
     /**
      * @var UserIdentity
@@ -53,15 +48,16 @@ class AccountLogin extends CFormModel
      */
     public function rules()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         $rules = array(
             array('username, password', 'required'),
             array('username', 'authenticate', 'skipOnError' => true),
             array('remember', 'boolean'),
         );
-        //// recaptcha
-        //if (isset(Yii::app()->reCaptcha)) {
-        //    $rules[] = array('recaptcha', 'account.validators.AccountReCaptchaValidator', 'on' => 'recaptcha');
-        //}
+        if ($account->reCaptcha && $this->scenario == 'captcha') {
+            $rules[] = array('captcha', 'account.validators.AccountReCaptchaValidator');
+        }
         return $rules;
     }
 
@@ -75,7 +71,7 @@ class AccountLogin extends CFormModel
             'username' => Yii::t('account', 'Username'),
             'password' => Yii::t('account', 'Password'),
             'remember' => Yii::t('account', 'Remember me next time'),
-            //'recaptcha' => Yii::t('account', 'Enter both words separated by a space'),
+            'captcha' => Yii::t('account', 'Enter both words separated by a space'),
         );
     }
 
@@ -96,32 +92,31 @@ class AccountLogin extends CFormModel
      */
     public function login()
     {
-        // TODO - enable recaptcha
-        //// recaptcha after 3 attempts
-        //$attemptKey = 'AccountLogin.attempt.' . Yii::app()->request->userHostAddress;
-        //$attempts = Yii::app()->cache->get($attemptKey);
-        //if (!$attempts)
-        //    $attempts = 0;
-        //$scenario = ($attempts > 3 && isset(Yii::app()->reCaptcha)) ? 'recaptcha' : '';
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+
+        // captcha after 3 attempts
+        $attemptKey = 'AccountLogin.attempt.' . Yii::app()->request->userHostAddress;
+        $attempts = Yii::app()->cache->get($attemptKey) || 0;
+        $this->scenario = ($account->reCaptcha && $attempts > 3) ? 'captcha' : '';
 
         if (!$this->validate())
             return false;
         if (!$this->userIdentity->authenticate())
             return false;
 
-        if (Yii::app()->user->login($this->userIdentity, $this->remember ? $this->rememberDuration : 0)) {
-            //Yii::app()->cache->delete($attemptKey);
+        if (Yii::app()->user->login($this->userIdentity, $this->remember ? $account->rememberDuration : 0)) {
+            Yii::app()->cache->delete($attemptKey);
             return true;
         }
 
-        // remove all other errors on recaptcha error
-        //if (isset($accountLogin->errors['recaptcha'])) {
-        //    $errors = $accountLogin->errors['recaptcha'];
-        //    $accountLogin->clearErrors();
-        //    foreach ($errors as $error)
-        //        $accountLogin->addError('recaptcha', $error);
-        //}
-        //Yii::app()->cache->set($attemptKey, ++$attempts);
+        // remove all other errors on captcha error
+        if ($errors = $this->getErrors('captcha')) {
+            $this->clearErrors();
+            foreach ($errors as $error)
+                $this->addError('captcha', $error);
+        }
+        Yii::app()->cache->set($attemptKey, ++$attempts);
 
         return false;
     }
@@ -132,8 +127,11 @@ class AccountLogin extends CFormModel
      */
     public function getUserIdentity()
     {
-        if (!$this->_userIdentity)
-            $this->_userIdentity = new $this->userIdentityClass($this->username, $this->password);
+        if (!$this->_userIdentity) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_userIdentity = new $account->userIdentityClass($this->username, $this->password);
+        }
         return $this->_userIdentity;
     }
 

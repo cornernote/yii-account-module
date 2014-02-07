@@ -22,19 +22,9 @@ class AccountLostPassword extends CFormModel
     public $email_or_username;
 
     /**
-     * @var string
+     * @var
      */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $emailField = 'email';
-
-    /**
-     * @var string
-     */
-    public $usernameField = 'username';
+    public $captcha;
 
     /**
      * Declares the validation rules.
@@ -42,15 +32,15 @@ class AccountLostPassword extends CFormModel
      */
     public function rules()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         $rules = array(
-            // email_or_username
             array('email_or_username', 'required'),
             array('email_or_username', 'checkExists'),
         );
-        //// recaptcha
-        //if (isset(Yii::app()->reCaptcha)) {
-        //    $rules[] = array('recaptcha', 'account.validators.AccountReCaptchaValidator', 'on' => 'recaptcha');
-        //}
+        if ($account->reCaptcha) {
+            $rules[] = array('captcha', 'account.validators.AccountReCaptchaValidator');
+        }
         return $rules;
     }
 
@@ -62,7 +52,7 @@ class AccountLostPassword extends CFormModel
     {
         return array(
             'email_or_username' => Yii::t('account', 'Username or Email'),
-            //'recaptcha' => Yii::t('account', 'Enter both words separated by a space'),
+            'captcha' => Yii::t('account', 'Enter both words separated by a space'),
         );
     }
 
@@ -73,36 +63,30 @@ class AccountLostPassword extends CFormModel
      */
     public function checkExists($attribute)
     {
-        $user = CActiveRecord::model($this->userClass)->findByAttributes(array(
-            strpos($this->$attribute, '@') || !$this->usernameField ? $this->emailField : $this->usernameField => $this->email_or_username,
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        $user = CActiveRecord::model($account->userClass)->findByAttributes(array(
+            strpos($this->$attribute, '@') || !$account->usernameField ? $account->emailField : $account->usernameField => $this->email_or_username,
         ));
         if (!$user)
             $this->addError($attribute, strpos($this->$attribute, '@') ? Yii::t('account', 'Email is incorrect.') : Yii::t('account', 'Username is incorrect.'));
     }
 
+    /**
+     * @param null $attributes
+     * @param bool $clearErrors
+     * @return bool
+     */
     public function validate($attributes = null, $clearErrors = true)
     {
-        //// enable recaptcha after 3 attempts
-        //$attemptKey = 'AccountLostPassword.attempt.' . Yii::app()->request->userHostAddress;
-        //$attempts = $app->cache->get($attemptKey);
-        //if (!$attempts)
-        //    $attempts = 0;
-        //$scenario = ($attempts >= 3 && isset($app->reCaptcha)) ? 'recaptcha' : '';
-
-        if (parent::validate($attributes, $clearErrors)) {
-            //$app->cache->delete($attemptKey);
+        if (parent::validate($attributes, $clearErrors))
             return true;
+        // remove all other errors on captcha error
+        if ($errors = $this->getErrors('captcha')) {
+            $this->clearErrors();
+            foreach ($errors as $error)
+                $this->addError('captcha', $error);
         }
-
-        //// remove all other errors on recaptcha error
-        //if (isset($accountLostPassword->errors['recaptcha'])) {
-        //    $errors = $accountLostPassword->errors['recaptcha'];
-        //    $accountLostPassword->clearErrors();
-        //    foreach ($errors as $error)
-        //        $accountLostPassword->addError('recaptcha', $error);
-        //}
-        //$app->cache->set($attemptKey, ++$attempts);
-
         return false;
     }
 

@@ -33,16 +33,6 @@ class AccountChangePassword extends CFormModel
     public $current_password;
 
     /**
-     * @var string
-     */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $passwordField = 'password';
-
-    /**
      * @var AccountUser
      */
     public $_user;
@@ -80,7 +70,9 @@ class AccountChangePassword extends CFormModel
         if (!$this->validate())
             return false;
 
-        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->new_password);
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->new_password);
         return $this->user->save(false);
     }
 
@@ -101,8 +93,11 @@ class AccountChangePassword extends CFormModel
      */
     public function getUser()
     {
-        if (!$this->_user)
-            $this->_user = CActiveRecord::model($this->userClass)->findByPk(Yii::app()->user->id);
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByPk(Yii::app()->user->id);
+        }
         return $this->_user;
     }
 

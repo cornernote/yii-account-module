@@ -2,7 +2,6 @@
 /**
  * @var $this AccountUserController
  * @var $accountLostPassword AccountLostPassword
- * @var $recaptcha string
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -15,6 +14,8 @@
 
 $this->pageTitle = Yii::t('account', 'Lost Password');
 
+/** @var AccountModule $account */
+$account = Yii::app()->getModule('account');
 /** @var AccountActiveForm $form */
 $form = $this->beginWidget('account.components.AccountActiveForm', array(
     'id' => 'accountLostPassword-form',
@@ -22,11 +23,12 @@ $form = $this->beginWidget('account.components.AccountActiveForm', array(
 echo $form->errorSummary($accountLostPassword);
 
 echo $form->textFieldControlGroup($accountLostPassword, 'email_or_username');
-//if ($accountLostPassword->scenario == 'recaptcha') {
-//    echo CHtml::activeLabel($accountLostPassword, 'recaptcha');
-//    $this->widget('account.components.AccountReCaptchaInput', array('model' => $accountLostPassword));
-//    echo CHtml::error($accountLostPassword, 'recaptcha');
-//}
+
+if ($account->reCaptcha) {
+    echo CHtml::activeLabel($accountLostPassword, 'captcha');
+    $this->widget('account.components.AccountReCaptchaInput', array('model' => $accountLostPassword));
+    echo CHtml::error($accountLostPassword, 'captcha');
+}
 
 echo $form->getSubmitButtonRow(Yii::t('app', 'Recover Password'));
 $this->endWidget();

@@ -27,21 +27,6 @@ class AccountSignUpAction extends CAction
     public $formClass = 'AccountSignUp';
 
     /**
-     * @var int Default status for new users.
-     */
-    public $defaultStatus = 0;
-
-    /**
-     * @var array
-     */
-    public $activateEmailCallback = array('AccountEmailManager', 'sendAccountActivate');
-
-    /**
-     * @var array
-     */
-    public $welcomeEmailCallback = array('AccountEmailManager', 'sendAccountWelcome');
-
-    /**
      * @var string|array
      */
     private $_returnUrl;
@@ -59,27 +44,18 @@ class AccountSignUpAction extends CAction
         $account = Yii::app()->getModule('account');
         /** @var AccountSignUp $accountSignUp */
         $accountSignUp = new $this->formClass();
-        $accountSignUp->userClass = $account->userClass;
-        $accountSignUp->userIdentityClass = $account->userIdentityClass;
-        $accountSignUp->firstNameField = $account->firstNameField;
-        $accountSignUp->lastNameField = $account->lastNameField;
-        $accountSignUp->emailField = $account->emailField;
-        $accountSignUp->usernameField = $account->usernameField;
-        $accountSignUp->passwordField = $account->passwordField;
-        $accountSignUp->statusField = $account->statusField;
-        $accountSignUp->defaultStatus = $this->defaultStatus;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {
             $accountSignUp->attributes = $_POST[$this->formClass];
             if ($accountSignUp->save()) {
-                if ($this->defaultStatus) {
+                if ($account->statusAfterSignUp) {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created and you have been logged in.'), 'success');
-                    call_user_func_array($this->welcomeEmailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+                    call_user_func_array($account->emailCallbackWelcome, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
                 }
                 else {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created. Please check your email for activation instructions.'), 'success');
-                    call_user_func_array($this->activateEmailCallback, array($accountSignUp->user)); // AccountEmailManager::sendAccountActivate($accountSignUp->user);
+                    call_user_func_array($account->emailCallbackActivate, array($accountSignUp->user)); // AccountEmailManager::sendAccountActivate($accountSignUp->user);
                 }
                 $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
@@ -96,8 +72,11 @@ class AccountSignUpAction extends CAction
      */
     public function getReturnUrl()
     {
-        if (!$this->_returnUrl)
-            $this->_returnUrl = $this->defaultStatus ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
+        if (!$this->_returnUrl) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_returnUrl = $account->statusAfterSignUp ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
+        }
         return $this->_returnUrl;
     }
 

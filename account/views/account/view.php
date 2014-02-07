@@ -13,14 +13,16 @@
  */
 $this->pageTitle = Yii::t('account', 'My Account');
 
+/** @var AccountModule $account */
+$account = Yii::app()->getModule('account');
 $attributes = array();
-if ($this->firstNameField)
-    $attributes[] = $this->firstNameField;
-if ($this->lastNameField)
-    $attributes[] = $this->lastNameField;
-$attributes[] = $this->emailField;
-if ($this->usernameField)
-    $attributes[] = $this->usernameField;
+if ($account->firstNameField)
+    $attributes[] = $account->firstNameField;
+if ($account->lastNameField)
+    $attributes[] = $account->lastNameField;
+$attributes[] = $account->emailField;
+if ($account->usernameField)
+    $attributes[] = $account->usernameField;
 
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $user,

@@ -39,26 +39,6 @@ class AccountResetPassword extends CFormModel
     public $token;
 
     /**
-     * @var string
-     */
-    public $userClass = 'AccountUser';
-
-    /**
-     * @var string
-     */
-    public $emailField = 'email';
-
-    /**
-     * @var string
-     */
-    public $passwordField = 'password';
-
-    /**
-     * @var string
-     */
-    public $userIdentityClass = 'UserIdentity';
-
-    /**
      * @var AccountUser
      */
     public $_user;
@@ -103,7 +83,10 @@ class AccountResetPassword extends CFormModel
         if (!$this->validate())
             return false;
 
-        $this->user->{$this->passwordField} = CPasswordHelper::hashPassword($this->new_password);
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+
+        $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->new_password);
         if (!$this->user->save(false))
             return false;
 
@@ -130,8 +113,11 @@ class AccountResetPassword extends CFormModel
      */
     public function getUser()
     {
-        if (!$this->_user)
-            $this->_user = CActiveRecord::model($this->userClass)->findByPk($this->user_id);
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByPk($this->user_id);
+        }
         return $this->_user;
     }
 
@@ -140,8 +126,11 @@ class AccountResetPassword extends CFormModel
      */
     public function getUserIdentity()
     {
-        if (!$this->_userIdentity)
-            $this->_userIdentity = new $this->userIdentityClass($this->user->{$this->emailField}, $this->user->{$this->passwordField});
+        if (!$this->_userIdentity) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_userIdentity = new $account->userIdentityClass($this->user->{$account->emailField}, $this->new_password);
+        }
         return $this->_userIdentity;
     }
 

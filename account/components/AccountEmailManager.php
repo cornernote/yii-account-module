@@ -43,13 +43,14 @@ class AccountEmailManager
         $swiftMessage->setTo($user->{$account->emailField}, $user->name);
 
         // spool the email
-        $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
-        $emailSpool->priority = 1; // highest priority
-        $emailSpool->template = $template;
-        return $emailSpool->save(false);
-
+        if ($account->emailSpool) {
+            $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
+            $emailSpool->priority = 1; // highest priority
+            $emailSpool->template = $template;
+            return $emailSpool->save(false);
+        }
         // or send the email
-        //return Swift_Mailer::newInstance(Swift_MailTransport::newInstance())->send($swiftMessage);
+        return $emailManager->deliver($swiftMessage);
     }
 
     /**
@@ -81,13 +82,14 @@ class AccountEmailManager
         $swiftMessage->setTo($user->{$account->emailField}, $user->name);
 
         // spool the email
-        $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
-        $emailSpool->priority = 1; // highest priority
-        $emailSpool->template = $template;
-        return $emailSpool->save(false);
-
+        if ($account->emailSpool) {
+            $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
+            $emailSpool->priority = 1; // highest priority
+            $emailSpool->template = $template;
+            return $emailSpool->save(false);
+        }
         // or send the email
-        //return Swift_Mailer::newInstance(Swift_MailTransport::newInstance())->send($swiftMessage);
+        return $emailManager->deliver($swiftMessage);
     }
 
     /**
@@ -114,13 +116,15 @@ class AccountEmailManager
         $swiftMessage->setTo($user->{$account->emailField}, $user->name);
 
         // spool the email
-        $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
-        $emailSpool->priority = 1; // highest priority
-        $emailSpool->template = $template;
-        return $emailSpool->save(false);
-
+        if ($account->emailSpool) {
+            $emailSpool = $emailManager->getEmailSpool($swiftMessage, $user);
+            $emailSpool->priority = 1; // highest priority
+            $emailSpool->template = $template;
+            return $emailSpool->save(false);
+        }
+        
         // or send the email
-        //return Swift_Mailer::newInstance(Swift_MailTransport::newInstance())->send($swiftMessage);
+        return $emailManager->deliver($swiftMessage);
     }
 
 }

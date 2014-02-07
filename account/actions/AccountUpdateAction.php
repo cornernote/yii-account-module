@@ -37,15 +37,8 @@ class AccountUpdateAction extends CAction
      */
     public function run()
     {
-        /** @var AccountModule $account */
-        $account = Yii::app()->getModule('account');
         /** @var AccountUpdate $accountUpdate */
         $accountUpdate = new $this->formClass();
-        $accountUpdate->userClass = $account->userClass;
-        $accountUpdate->firstNameField = $account->firstNameField;
-        $accountUpdate->lastNameField = $account->lastNameField;
-        $accountUpdate->emailField = $account->emailField;
-        $accountUpdate->usernameField = $account->usernameField;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {

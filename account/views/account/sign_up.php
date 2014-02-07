@@ -26,5 +26,8 @@ echo $form->textFieldControlGroup($accountSignUp, 'username');
 echo $form->passwordFieldControlGroup($accountSignUp, 'password');
 echo $form->passwordFieldControlGroup($accountSignUp, 'confirm_password');
 
-echo $form->getSubmitButtonRow(Yii::t('account', 'Sign Up'));
+echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
+    TbHtml::submitButton(Yii::t('app', 'Sign Up'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
+    TbHtml::link(Yii::t('app', 'Login'), array('user/login'), array('class' => 'btn')),
+)));
 $this->endWidget();

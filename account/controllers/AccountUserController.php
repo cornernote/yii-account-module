@@ -54,8 +54,6 @@ class AccountUserController extends CController
      */
     public function actions()
     {
-        Yii::import('account.models.*');
-        Yii::import('account.components.*');
         return array(
             'signUp' => array(
                 'class' => 'account.actions.AccountSignUpAction',

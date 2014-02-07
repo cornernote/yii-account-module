@@ -6,7 +6,8 @@
  * NOTE: This file is not loaded.
  * It exists so storm links application components correctly.
  *
- * @property CWebUser $user
+ * @property WebUser $user
+ * @property CAssetManager $assetManager
  * @property EReturnUrl $returnUrl
  * @property ETokenManager $tokenManager
  * @property EEmailManager $emailManager
