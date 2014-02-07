@@ -12,7 +12,7 @@
  *
  * @package account.models
  */
-class AccountLogin extends AccountFormModel
+class AccountLogin extends CFormModel
 {
 
     /**

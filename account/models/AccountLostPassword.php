@@ -12,7 +12,7 @@
  *
  * @package account.models
  */
-class AccountLostPassword extends AccountFormModel
+class AccountLostPassword extends CFormModel
 {
     /**
      * @var
