@@ -29,15 +29,21 @@ $I->see('You have successfully logged in.');
 
 // update details
 $I->amOnPage('/account/user/update');
+$I->fillField('AccountUpdate_first_name', 'admin-first-name');
+$I->fillField('AccountUpdate_last_name', 'admin-last-name');
+$I->fillField('AccountUpdate_email', 'admin-email@mailinator.com');
+$I->fillField('AccountUpdate_username', 'admin-username');
+$I->click('Save');
 
-// check login
-$I->amOnPage('/');
-$I->see('Hello demo');
-
-// logout
-$I->amOnPage('/account/user/logout');
-$I->see('Your have been logged out.');
-
-// check guest
-$I->amOnPage('/');
-$I->see('Hello guest');
+//
+//// check login
+//$I->amOnPage('/');
+//$I->see('Hello demo');
+//
+//// logout
+//$I->amOnPage('/account/user/logout');
+//$I->see('Your have been logged out.');
+//
+//// check guest
+//$I->amOnPage('/');
+//$I->see('Hello guest');

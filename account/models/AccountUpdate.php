@@ -1,8 +1,8 @@
 <?php
 
 /**
- * AccountPassword is the data structure for keeping account password form data.
- * It is used by the 'password' action of 'AccountUserController'.
+ * AccountUpdate is the data structure for keeping account form data.
+ * It is used by the 'update' action of 'AccountUserController'.
  *
  * @property AccountUser $user
  *
@@ -55,7 +55,9 @@ class AccountUpdate extends CFormModel
             array('email, username', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
-            array('email, username', 'unique', 'className' => $account->userClass),
+            array('email, username', 'unique', 'className' => $account->userClass, 'criteria' => array(
+                'condition' => $this->user->tableSchema->primaryKey . '!=' . $this->user->primaryKey
+            )),
         );
     }
 

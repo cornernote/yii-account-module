@@ -48,6 +48,10 @@ class AccountUpdateAction extends CAction
                 $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
         }
+        // assign default values
+        else {
+            $accountUpdate->attributes = $accountUpdate->user->attributes;
+        }
 
         // display the update account form
         $this->controller->render($this->view, array(
@@ -61,7 +65,7 @@ class AccountUpdateAction extends CAction
     public function getReturnUrl()
     {
         if (!$this->_returnUrl)
-            $this->_returnUrl = array('/account/index');
+            $this->_returnUrl = array('/account/user/view');
         return $this->_returnUrl;
     }
 

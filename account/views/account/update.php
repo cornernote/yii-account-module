@@ -24,5 +24,8 @@ echo $form->textFieldControlGroup($accountUpdate, 'last_name');
 echo $form->textFieldControlGroup($accountUpdate, 'email');
 echo $form->textFieldControlGroup($accountUpdate, 'username');
 
-echo $form->getSubmitButtonRow(Yii::t('account', 'Update Account'));
+echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
+    TbHtml::submitButton(Yii::t('app', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
+    TbHtml::link(Yii::t('app', 'Back'), array('user/view'), array('class' => 'btn')),
+)));
 $this->endWidget();

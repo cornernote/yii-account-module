@@ -25,7 +25,7 @@ class AccountChangePasswordAction extends CAction
     /**
      * @var string
      */
-    public $formClass = 'AccountPassword';
+    public $formClass = 'AccountChangePassword';
 
     /**
      * @var string|array
@@ -61,7 +61,7 @@ class AccountChangePasswordAction extends CAction
     public function getReturnUrl()
     {
         if (!$this->_returnUrl)
-            $this->_returnUrl = array('/account/index');
+            $this->_returnUrl = array('/account/user/view');
         return $this->_returnUrl;
     }
 
