@@ -34,6 +34,11 @@ Allows users to create and manage their account.
 - Found a bug, or need help using this project?  Check the [open issues](https://github.com/cornernote/yii-account-module/issues) or [create an issue](https://github.com/cornernote/yii-account-module/issues/new).
 
 
+## License
+
+[BSD-3-Clause](https://raw.github.com/cornernote/yii-account-module/master/LICENSE), Copyright © 2013-2014 [Mr PHP](mailto:info@mrphp.com.au)
+
+
 [![Mr PHP](https://raw.github.com/cornernote/mrphp-assets/master/img/code-banner.png)](http://mrphp.com.au) [![Project Stats](https://www.ohloh.net/p/yii-account-module/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/yii-account-module)
 
 [![Latest Stable Version](https://poser.pugx.org/cornernote/yii-account-module/v/stable.png)](https://github.com/cornernote/yii-account-module/releases/latest) [![Total Downloads](https://poser.pugx.org/cornernote/yii-account-module/downloads.png)](https://packagist.org/packages/cornernote/yii-account-module) [![Monthly Downloads](https://poser.pugx.org/cornernote/yii-account-module/d/monthly.png)](https://packagist.org/packages/cornernote/yii-account-module) [![Latest Unstable Version](https://poser.pugx.org/cornernote/yii-account-module/v/unstable.png)](https://github.com/cornernote/yii-account-module) [![Build Status](https://travis-ci.org/cornernote/yii-account-module.png?branch=master)](https://travis-ci.org/cornernote/yii-account-module) [![License](https://poser.pugx.org/cornernote/yii-account-module/license.png)](https://raw.github.com/cornernote/yii-account-module/master/LICENSE)
