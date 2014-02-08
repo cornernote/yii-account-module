@@ -5,6 +5,7 @@
  * It is used by the 'login' action of 'AccountUserController'.
  *
  * @property AccountUserIdentity $userIdentity
+ * @property int $attemptCount
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -41,6 +42,11 @@ class AccountLogin extends CFormModel
      * @var AccountUserIdentity
      */
     private $_userIdentity;
+
+    /**
+     * @var int
+     */
+    private $_attemptCount;
 
     /**
      * Declares the validation rules.
@@ -88,7 +94,7 @@ class AccountLogin extends CFormModel
     {
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
-        if ($account->reCaptcha && $this->scenario == 'captcha') {
+        if ($account->reCaptcha && $this->isCaptchaRequired()) {
             Yii::import('account.components.AccountReCaptchaValidator');
             $validator = new AccountReCaptchaValidator;
             $validator->attributes = array('captcha');
@@ -108,25 +114,20 @@ class AccountLogin extends CFormModel
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
 
-        // captcha after 3 attempts
-        $attemptKey = 'AccountLogin.attempt.' . Yii::app()->request->userHostAddress;
-        $attempts = Yii::app()->cache->get($attemptKey) + 1;
-        $this->scenario = ($account->reCaptcha && $attempts >= 3) ? 'captcha' : '';
-
         // validate and login
         if ($this->validate() && Yii::app()->user->login($this->userIdentity, $this->remember ? $account->rememberDuration : 0)) {
-            Yii::app()->cache->delete($attemptKey);
+            $this->attemptCount = 0;
             return true;
         }
 
         // save the attempt count
-        Yii::app()->cache->set($attemptKey, $attempts);
+        $this->attemptCount++;
         return false;
     }
 
 
     /**
-     * @return UserIdentity
+     * @return AccountUserIdentity
      */
     public function getUserIdentity()
     {
@@ -136,6 +137,49 @@ class AccountLogin extends CFormModel
             $this->_userIdentity = new $account->userIdentityClass($this->username, $this->password);
         }
         return $this->_userIdentity;
+    }
+
+    /**
+     * @return string
+     */
+    private function attemptKey()
+    {
+        return 'AccountLogin.attempt.' . Yii::app()->request->userHostAddress;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAttemptCount()
+    {
+        if ($this->_attemptCount === null) {
+            $this->_attemptCount = Yii::app()->cache->get($this->attemptKey());
+            if (!$this->_attemptCount)
+                $this->_attemptCount = 0;
+        }
+        return $this->_attemptCount;
+    }
+
+    /**
+     * @param int $attemptCount
+     */
+    public function setAttemptCount($attemptCount)
+    {
+        if ($attemptCount > 0)
+            Yii::app()->cache->set($this->attemptKey(), $attemptCount);
+        else
+            Yii::app()->cache->delete($this->attemptKey());
+        $this->_attemptCount = $attemptCount > 0 ? (int)$attemptCount : 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCaptchaRequired()
+    {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        return ($account->reCaptcha && $this->attemptCount >= $account->reCaptchaLoginCount);
     }
 
 }

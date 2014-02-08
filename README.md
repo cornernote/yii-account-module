@@ -7,11 +7,11 @@ Allows users to create and manage their account.
 
 - Provides actions that can be used with current defaults, or easily extended to allow fully customisable account management.
 - Included action classes: 
-    - AccountLoginAction - Login to an account.
+    - AccountLoginAction - Login to an account, optional ReCaptcha after 3 login attempts.
     - AccountLogoutAction - Logout from an account.
     - AccountSignUpAction - Sign up for a new account, can optionally send an account activation email, or can allow direct activation.
     - AccountActivateAction - Activate a new account once the secure email link is clicked.
-    - AccountLostPassword - Request an email to be sent which will contain a secure link to allow a password reset.
+    - AccountLostPassword - Request an email to be sent which will contain a secure link to allow a password reset, with optional ReCaptcha.
     - AccountResetPasswordAction - Checks for valid link and allows resetting the account password.
     - AccountUpdateAction - Update own account details.
     - AccountChangePasswordAction - Change own password details after verifying current password.

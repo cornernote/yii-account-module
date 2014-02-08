@@ -14,7 +14,11 @@
  */
 
 $I = new WebGuy($scenario);
-$I->wantTo('ensure AccountUserController login works');
+$I->wantTo('ensure AccountUserController login/logout works');
+
+// check we are not logged in
+$I->amOnPage('/');
+$I->see('Hello guest');
 
 // check the form is there
 $I->amOnPage('/account/user/login');
@@ -45,9 +49,21 @@ $I->see('Please fix the following input errors:');
 $I->see('Username cannot be blank.');
 $I->dontSee('Password cannot be blank.');
 
-// login with incorrect username
+// login with correct username
 $I->amOnPage('/account/user/login');
 $I->fillField('AccountLogin_username', 'admin');
 $I->fillField('AccountLogin_password', 'admin');
 $I->click('Login');
-$I->dontSee('Please fix the following input errors:');
+$I->see('You have successfully logged in.');
+
+// check login name
+$I->amOnPage('/');
+$I->see('Hello admin');
+
+// logout
+$I->amOnPage('/account/user/logout');
+$I->see('Your have been logged out.');
+
+// check guest
+$I->amOnPage('/');
+$I->see('Hello guest');

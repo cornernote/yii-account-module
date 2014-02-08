@@ -112,6 +112,11 @@ class AccountModule extends CWebModule
     public $reCaptcha = true;
 
     /**
+     * @var int The number of login attempts before reCaptcha is used.
+     */
+    public $reCaptchaLoginCount = 3;
+
+    /**
      * @var string
      */
     public $reCaptchaPublicKey = '6LeBItQSAAAAAG_umhiD0vyxXbDFbVMPA0kxZUF6';

@@ -72,6 +72,7 @@ class AccountSignUp extends CFormModel
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
             array('email, username', 'unique', 'className' => $account->userClass),
+            array('password', 'length', 'min' => 5),
             array('confirm_password', 'compare', 'compareAttribute' => 'password'),
         );
     }

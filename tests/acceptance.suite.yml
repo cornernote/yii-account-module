@@ -13,7 +13,13 @@ modules:
     enabled:
         - PhpBrowser
         - WebHelper
+        - Db
     config:
         PhpBrowser:
             #url: 'http://localhost/'
             url: 'http://localhost/_github/yii-account-module/tests/_www/'
+        Db:
+            dsn: 'sqlite:tests/_runtime/test.db'
+            dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: false

@@ -24,7 +24,7 @@ echo $form->textFieldControlGroup($accountLogin, 'username');
 echo $form->passwordFieldControlGroup($accountLogin, 'password');
 echo $form->checkBoxControlGroup($accountLogin, 'remember');
 
-if ($accountLogin->scenario == 'captcha') {
+if ($accountLogin->isCaptchaRequired()) {
     echo CHtml::activeLabel($accountLogin, 'captcha');
     $this->widget('account.components.AccountReCaptchaInput', array('model' => $accountLogin));
     echo CHtml::error($accountLogin, 'captcha');

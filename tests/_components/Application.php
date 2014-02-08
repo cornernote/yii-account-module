@@ -7,6 +7,7 @@
  * It exists so storm links application components correctly.
  *
  * @property WebUser $user
+ * @property CHttpSession $session
  * @property CAssetManager $assetManager
  * @property CClientScript $clientScript
  * @property EReturnUrl $returnUrl

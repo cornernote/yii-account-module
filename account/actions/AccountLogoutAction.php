@@ -32,6 +32,7 @@ class AccountLogoutAction extends CAction
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
         Yii::app()->user->logout();
+        Yii::app()->session->open();
         Yii::app()->user->addFlash(Yii::t('account', 'Your have been logged out.'), 'success');
         $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
     }

@@ -75,6 +75,7 @@ return array(
     'modules' => array(
         'account' => array(
             'class' => 'account.AccountModule',
+            'connectionID' => 'db',
             'layout' => 'tests._views.layouts.column1',
             'reCaptcha' => false,
         ),
