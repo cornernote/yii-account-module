@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $this AccountUserController
- * @var $user User
+ * @var $accountUpdate AccountUpdate
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -17,12 +17,12 @@ $this->pageTitle = Yii::t('account', 'Update Account');
 $form = $this->beginWidget('account.components.AccountActiveForm', array(
     'id' => 'accountUpdate-form',
 ));
-echo $form->errorSummary($user);
+echo $form->errorSummary($accountUpdate);
 
-echo $form->textFieldControlGroup($user, 'first_name');
-echo $form->textFieldControlGroup($user, 'last_name');
-echo $form->textFieldControlGroup($user, 'email');
-echo $form->textFieldControlGroup($user, 'username');
+echo $form->textFieldControlGroup($accountUpdate, 'first_name');
+echo $form->textFieldControlGroup($accountUpdate, 'last_name');
+echo $form->textFieldControlGroup($accountUpdate, 'email');
+echo $form->textFieldControlGroup($accountUpdate, 'username');
 
 echo $form->getSubmitButtonRow(Yii::t('account', 'Update Account'));
 $this->endWidget();
