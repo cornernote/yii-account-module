@@ -6,50 +6,19 @@
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
  * @copyright 2013 Mr PHP
- * @link https://github.com/cornernote/yii-audit-module
- * @license BSD-3-Clause https://raw.github.com/cornernote/yii-email-module/master/LICENSE
+ * @link https://github.com/cornernote/yii-account-module
+ * @license BSD-3-Clause https://raw.github.com/cornernote/yii-account-module/master/LICENSE
  *
  * @package yii-email-module
  */
 class SiteController extends CController
 {
 
+    public $layout = 'tests._views.layouts.column1';
+
     public function actionIndex()
     {
-        echo 'Hello World';
-    }
-
-    public function actionSendEmail()
-    {
-        $emailManager = Yii::app()->emailManager;
-        $emailManager->email($emailManager->fromEmail, 'EmailManager subject', 'EmailManager message');
-    }
-
-    public function actionSendTemplateEmail()
-    {
-        /** @var EmailManager $emailManager */
-        $emailManager = Yii::app()->emailManager;
-
-        // build the templates
-        $template = 'test_email';
-        $viewParams = array(
-            'foo' => 'bar',
-        );
-        $message = $emailManager->buildTemplateMessage($template, $viewParams, 'layout_fancy');
-
-        // get the message
-        $swiftMessage = Swift_Message::newInstance($message['subject']);
-        $swiftMessage->setBody($message['message'], 'text/html');
-        //$swiftMessage->addPart($message['text'], 'text/plain');
-        $swiftMessage->setFrom($emailManager->fromEmail, $emailManager->fromName);
-        $swiftMessage->setTo($emailManager->fromEmail);
-
-        // spool the email
-        $emailSpool = $emailManager->getEmailSpool($swiftMessage);
-        $emailSpool->priority = 10;
-        $emailSpool->template = $template;
-        return $emailSpool->save(false);
-
+        $this->renderText('Hello ' . (Yii::app()->user->isGuest ? 'guest' : Yii::app()->user->user->username));
     }
 
 }

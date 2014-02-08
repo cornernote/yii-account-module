@@ -22,6 +22,7 @@ return array(
     'aliases' => array(
         'account' => realpath(BASE_PATH . '/../account'),
         'vendor' => realpath(BASE_PATH . '/../vendor'),
+        'tests' => realpath(BASE_PATH . '/../tests'),
         'email' => realpath(BASE_PATH . '/../vendor/cornernote/yii-email-module/email'),
         'bootstrap' => realpath(BASE_PATH . '/../vendor/crisu83/yiistrap'),
     ),
@@ -44,6 +45,10 @@ return array(
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
+            'rules' => array(
+                '<action:(login|logout|signUp|activate|lostPassword|resetPassword)>' => '/account/user/<action>',
+                'account/<action:(view|update|changePassword)>' => '/account/user/<action>',
+            ),
         ),
         'emailManager' => array(
             'class' => 'email.components.EEmailManager',
@@ -59,8 +64,8 @@ return array(
         'user' => array(
             'class' => 'system.web.auth.CWebUser',
             'behaviors' => array(
-                'webUserFlash' => array(
-                    'class' => 'account.components.AccountWebUserFlashBehavior',
+                'accountWebUser' => array(
+                    'class' => 'account.components.AccountWebUserBehavior',
                 ),
             ),
             'allowAutoLogin' => true,
@@ -70,6 +75,8 @@ return array(
     'modules' => array(
         'account' => array(
             'class' => 'account.AccountModule',
+            'layout' => 'tests._views.layouts.column1',
+            'reCaptcha' => false,
         ),
         'email' => array(
             'class' => 'email.EmailModule',

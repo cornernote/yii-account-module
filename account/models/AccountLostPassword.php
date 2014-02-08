@@ -27,6 +27,11 @@ class AccountLostPassword extends CFormModel
     public $captcha;
 
     /**
+     * @var AccountUser
+     */
+    private $_user;
+
+    /**
      * Declares the validation rules.
      * @return array
      */
@@ -57,12 +62,7 @@ class AccountLostPassword extends CFormModel
      */
     public function checkExists($attribute)
     {
-        /** @var AccountModule $account */
-        $account = Yii::app()->getModule('account');
-        $user = CActiveRecord::model($account->userClass)->findByAttributes(array(
-            strpos($this->$attribute, '@') || !$account->usernameField ? $account->emailField : $account->usernameField => $this->email_or_username,
-        ));
-        if (!$user)
+        if (!$this->user)
             $this->addError($attribute, strpos($this->$attribute, '@') ? Yii::t('account', 'Email is incorrect.') : Yii::t('account', 'Username is incorrect.'));
     }
 
@@ -82,6 +82,21 @@ class AccountLostPassword extends CFormModel
                 return false;
         }
         return parent::beforeValidate();
+    }
+
+    /**
+     * @return AccountUser
+     */
+    public function getUser()
+    {
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByAttributes(array(
+                strpos($this->email_or_username, '@') || !$account->usernameField ? $account->emailField : $account->usernameField => $this->email_or_username,
+            ));
+        }
+        return $this->_user;
     }
 
 }

@@ -4,7 +4,7 @@
  * AccountLogin is the data structure for keeping account login form data.
  * It is used by the 'login' action of 'AccountUserController'.
  *
- * @property UserIdentity $userIdentity
+ * @property AccountUserIdentity $userIdentity
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -38,7 +38,7 @@ class AccountLogin extends CFormModel
     public $captcha;
 
     /**
-     * @var UserIdentity
+     * @var AccountUserIdentity
      */
     private $_userIdentity;
 

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * AccountEmailManager
+ * AccountWebUserBehavior
  *
  * @property CWebUser $owner
+ * @property AccountUser $user
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -13,7 +14,7 @@
  *
  * @package yii-account-module
  */
-class AccountWebUserFlashBehavior extends CBehavior
+class AccountWebUserBehavior extends CBehavior
 {
 
     /**
@@ -25,6 +26,11 @@ class AccountWebUserFlashBehavior extends CBehavior
      * Maximum number of flash messages.
      */
     const STACK_LIMIT = 100;
+
+    /**
+     * @var AccountUser
+     */
+    protected $_user;
 
     /**
      * Add flash to the stack.
@@ -75,6 +81,20 @@ class AccountWebUserFlashBehavior extends CBehavior
             $output .= "<div class=\"alert alert-$class\">$msg</div>\n";
         }
         return $output;
+    }
+
+    /**
+     * Load user model
+     * @return AccountUser
+     */
+    public function getUser()
+    {
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByPk($this->owner->id);
+        }
+        return $this->_user;
     }
 
 }

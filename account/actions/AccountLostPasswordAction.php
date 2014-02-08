@@ -60,7 +60,7 @@ class AccountLostPasswordAction extends CAction
 
         // display the lost password form
         $this->controller->render($this->view, array(
-            'user' => $accountLostPassword,
+            'accountLostPassword' => $accountLostPassword,
         ));
     }
 

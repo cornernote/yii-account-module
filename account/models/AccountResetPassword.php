@@ -5,7 +5,7 @@
  * It is used by the 'resetPassword' action of 'AccountUserController'.
  *
  * @property AccountUser $user
- * @property UserIdentity $userIdentity
+ * @property AccountUserIdentity $userIdentity
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -44,7 +44,7 @@ class AccountResetPassword extends CFormModel
     public $_user;
 
     /**
-     * @var UserIdentity
+     * @var AccountUserIdentity
      */
     public $_userIdentity;
 

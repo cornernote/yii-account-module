@@ -12,6 +12,7 @@
  * @property EReturnUrl $returnUrl
  * @property ETokenManager $tokenManager
  * @property EEmailManager $emailManager
+ * @property TbApi $bootstrap
  */
 abstract class Application extends CApplication
 {

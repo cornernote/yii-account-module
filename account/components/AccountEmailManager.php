@@ -26,7 +26,7 @@ class AccountEmailManager
 
         // get lost password link
         $token = Yii::app()->tokenManager->createToken(strtotime('+1day'), 'AccountLostPassword', $user->primaryKey, 1);
-        $url = Yii::app()->createAbsoluteUrl('/account/resetPassword', array('user_id' => $user->primaryKey, 'token' => $token));
+        $url = Yii::app()->createAbsoluteUrl('/account/user/resetPassword', array('user_id' => $user->primaryKey, 'token' => $token));
 
         // build the templates
         $template = 'account_lost_password';
@@ -65,7 +65,7 @@ class AccountEmailManager
 
         // get lost password link
         $token = Yii::app()->tokenManager->createToken(strtotime('+1day'), 'AccountActivate', $user->primaryKey, 1);
-        $url = Yii::app()->createAbsoluteUrl('/account/activate', array('user_id' => $user->primaryKey, 'token' => $token));
+        $url = Yii::app()->createAbsoluteUrl('/account/user/activate', array('user_id' => $user->primaryKey, 'token' => $token));
 
         // build the templates
         $template = 'account_activate';
