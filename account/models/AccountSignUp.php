@@ -107,7 +107,8 @@ class AccountSignUp extends CFormModel
         // create user
         $this->user->{$account->emailField} = $this->email;
         $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->password);
-        $this->user->{$account->statusField} = $account->statusAfterSignUp;
+        if ($account->statusField)
+            $this->user->{$account->statusField} = $account->statusAfterSignUp;
         if ($account->firstNameField)
             $this->user->{$account->firstNameField} = $this->first_name;
         if ($account->lastNameField)
@@ -116,7 +117,7 @@ class AccountSignUp extends CFormModel
             $this->user->{$account->usernameField} = $this->username;
         if (!$this->user->save(false))
             return false;
-        if (!$account->statusAfterSignUp)
+        if (!$account->statusField || !$account->statusAfterSignUp)
             return true;
 
         // login
