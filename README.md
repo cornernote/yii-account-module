@@ -1,4 +1,4 @@
-# Yii Account
+# Yii Account Module
 
 Allows users to create and manage their account.
 
