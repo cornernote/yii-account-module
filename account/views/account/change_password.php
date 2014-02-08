@@ -23,5 +23,7 @@ echo $form->passwordFieldControlGroup($accountChangePassword, 'current_password'
 echo $form->passwordFieldControlGroup($accountChangePassword, 'new_password');
 echo $form->passwordFieldControlGroup($accountChangePassword, 'confirm_password');
 
-echo $form->getSubmitButtonRow(Yii::t('account', 'Change Password'));
-$this->endWidget();
+echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
+    TbHtml::submitButton(Yii::t('app', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
+    TbHtml::link(Yii::t('app', 'Back'), array('user/view'), array('class' => 'btn')),
+)));$this->endWidget();
