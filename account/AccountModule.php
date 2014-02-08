@@ -27,6 +27,12 @@ class AccountModule extends CWebModule
     public $autoCreateTables = true;
 
     /**
+     * @var bool If we should allow access to the module controllers.
+     * Set to false if you only want to use the actions in your own controllers, the controllers will then throw a 404 error.
+     */
+    public $useModuleControllers = true;
+
+    /**
      * @var string The layout used for module controllers.
      */
     public $layout = 'account.views.layouts.column1';
