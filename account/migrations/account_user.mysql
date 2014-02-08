@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS `account_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `account_user` (`id`, `email`, `username`, `password`, `first_name`, `last_name`) VALUES
-(1, 'admin@localhost', 'admin', '$2a$08$b.5MVtbgKv4Dvf/M3AFKKuga4pxptFOsmu7gkN.QOH5yvws6Ks03i', 'admin', 'admin');
+(1, 'admin@mailinator.com', 'admin', '$2a$08$b.5MVtbgKv4Dvf/M3AFKKuga4pxptFOsmu7gkN.QOH5yvws6Ks03i', 'admin', 'admin');

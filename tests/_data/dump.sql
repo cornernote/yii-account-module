@@ -12,7 +12,7 @@ CREATE INDEX "account_user_username" ON "account_user" ("username");
 CREATE INDEX "account_user_first_name" ON "account_user" ("first_name");
 CREATE INDEX "account_user_last_name" ON "account_user" ("last_name");
 
-INSERT INTO "account_user" ('email', 'username', 'password', 'first_name', 'last_name', 'status') VALUES ('admin@localhost', 'admin', '$2a$08$b.5MVtbgKv4Dvf/M3AFKKuga4pxptFOsmu7gkN.QOH5yvws6Ks03i', 'admin', 'admin', 1);
+INSERT INTO "account_user" ('email', 'username', 'password', 'first_name', 'last_name', 'status') VALUES ('admin@mailinator.com', 'admin', '$2a$08$b.5MVtbgKv4Dvf/M3AFKKuga4pxptFOsmu7gkN.QOH5yvws6Ks03i', 'admin', 'admin', 1);
 
 CREATE TABLE "email_spool" (
     "id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

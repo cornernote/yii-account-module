@@ -64,6 +64,21 @@ $I->see('Hello admin');
 $I->amOnPage('/account/user/logout');
 $I->see('Your have been logged out.');
 
+// login with correct email
+$I->amOnPage('/account/user/login');
+$I->fillField('AccountLogin_username', 'admin@mailinator.com');
+$I->fillField('AccountLogin_password', 'admin');
+$I->click('Login');
+$I->see('You have successfully logged in.');
+
+// check login name
+$I->amOnPage('/');
+$I->see('Hello admin');
+
+// logout
+$I->amOnPage('/account/user/logout');
+$I->see('Your have been logged out.');
+
 // check guest
 $I->amOnPage('/');
 $I->see('Hello guest');

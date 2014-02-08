@@ -77,6 +77,14 @@ $I->see('You have successfully logged in.');
 $I->amOnPage('/');
 $I->see('Hello admin');
 
+// change password back to admin
+$I->amOnPage('/account/user/changePassword');
+$I->fillField('AccountChangePassword_current_password', 'admin123');
+$I->fillField('AccountChangePassword_new_password', 'admin');
+$I->fillField('AccountChangePassword_confirm_password', 'admin');
+$I->click('Save');
+$I->see('Your password has been saved.');
+
 // logout
 $I->amOnPage('/account/user/logout');
 $I->see('Your have been logged out.');

@@ -78,6 +78,15 @@ $I->see('You have successfully logged in.');
 $I->amOnPage('/');
 $I->see('Hello admin-username');
 
+// update details back to defaults
+$I->amOnPage('/account/user/update');
+$I->fillField('AccountUpdate_first_name', 'admin');
+$I->fillField('AccountUpdate_last_name', 'admin');
+$I->fillField('AccountUpdate_email', 'admin@mailinator.com');
+$I->fillField('AccountUpdate_username', 'admin');
+$I->click('Save');
+$I->see('Your account has been updated.');
+
 // logout
 $I->amOnPage('/account/user/logout');
 $I->see('Your have been logged out.');
