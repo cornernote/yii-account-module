@@ -125,7 +125,6 @@ class AccountLogin extends CFormModel
         return false;
     }
 
-
     /**
      * @return AccountUserIdentity
      */

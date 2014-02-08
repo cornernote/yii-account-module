@@ -88,7 +88,3 @@ $I->see('Your password has been saved.');
 // logout
 $I->amOnPage('/account/user/logout');
 $I->see('Your have been logged out.');
-
-// check guest
-$I->amOnPage('/');
-$I->see('Hello guest');

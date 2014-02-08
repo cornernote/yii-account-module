@@ -50,3 +50,18 @@ INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('
 INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('account_lost_password', 'Reset Your Password', 'Reset Your Password', '<a href="{{url}}">click here to reset your password</a>');
 INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('account_activate', 'Activate Your Account', 'Activate Your Account', '<a href="{{url}}">click here to activate your account</a>');
 INSERT INTO "email_template" ('name', 'subject', 'heading', 'message') VALUES ('account_welcome', 'Welcome', 'Welcome', 'Welcome');
+
+CREATE TABLE "token" (
+"id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"token" TEXT,
+"model_name" TEXT,
+"model_id" TEXT,
+"uses_allowed" INTEGER,
+"uses_remaining" INTEGER,
+"expires" INTEGER,
+"created" INTEGER
+);
+CREATE INDEX "token_token" ON "token" ("token");
+CREATE INDEX "token_expires" ON "token" ("expires");
+CREATE INDEX "token_uses_allowed" ON "token" ("uses_allowed");
+CREATE INDEX "token_uses_remaining" ON "token" ("uses_remaining");

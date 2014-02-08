@@ -5,6 +5,7 @@
  *
  * @property AccountUserController $controller
  * @property AccountUser $user
+ * @property AccountUserIdentity $userIdentity
  * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
@@ -34,14 +35,19 @@ class AccountActivateAction extends CAction
     protected $token;
 
     /**
+     * @var string|array
+     */
+    private $_returnUrl;
+
+    /**
      * @var AccountUser
      */
     private $_user;
 
     /**
-     * @var string|array
+     * @var AccountUserIdentity
      */
-    private $_returnUrl;
+    private $_userIdentity;
 
     /**
      * Activate a new account once the secure email link is clicked.
@@ -62,7 +68,7 @@ class AccountActivateAction extends CAction
 
         // redirect if the key is invalid
         if (!$this->activate()) {
-            Yii::app()->user->addFlash(Yii::t('account', 'Invalid key.'), 'error');
+            Yii::app()->user->addFlash(Yii::t('account', 'Invalid token.'), 'error');
             $this->controller->redirect(Yii::app()->user->loginUrl);
         }
 
@@ -105,6 +111,8 @@ class AccountActivateAction extends CAction
         $this->user->{$account->statusField} = 1;
         if (!$this->user->save(false))
             return false;
+        if (!$this->userIdentity->authenticate(false) || !Yii::app()->user->login($this->userIdentity))
+            return false;
         Yii::app()->tokenManager->useToken('AccountActivate', $this->user_id, $this->token);
         return true;
     }
@@ -121,4 +129,18 @@ class AccountActivateAction extends CAction
         }
         return $this->_user;
     }
+
+    /**
+     * @return AccountUserIdentity
+     */
+    public function getUserIdentity()
+    {
+        if (!$this->_userIdentity) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_userIdentity = new $account->userIdentityClass($this->user->{$account->emailField}, '');
+        }
+        return $this->_userIdentity;
+    }
+
 }

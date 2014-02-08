@@ -46,7 +46,7 @@ return array(
             'urlFormat' => 'path',
             'showScriptName' => false,
             'rules' => array(
-                '<action:(login|logout|signUp|activate|lostPassword|resetPassword)>' => '/account/user/<action>',
+                '<action:(login|logout|signUp|activate|lostPassword)>' => '/account/user/<action>',
                 'account/<action:(view|update|changePassword)>' => '/account/user/<action>',
             ),
         ),

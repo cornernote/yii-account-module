@@ -62,17 +62,14 @@ class AccountResetPassword extends CFormModel
     }
 
     /**
-     * @param int $user_id
-     * @param string $token
+     * Checks that the token is valid
      * @return bool
      */
-    public function checkToken($user_id, $token)
+    public function checkToken()
     {
-        $this->user_id = $user_id;
-        $this->token = $token;
         if (!$this->user)
             return false;
-        return Yii::app()->tokenManager->checkToken('AccountLostPassword', $user_id, $token);
+        return Yii::app()->tokenManager->checkToken('AccountLostPassword', $this->user_id, $this->token);
     }
 
     /**

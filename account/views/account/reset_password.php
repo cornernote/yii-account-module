@@ -22,5 +22,5 @@ echo $form->errorSummary($accountResetPassword);
 echo $form->passwordFieldControlGroup($accountResetPassword, 'new_password');
 echo $form->passwordFieldControlGroup($accountResetPassword, 'confirm_password');
 
-echo $form->getSubmitButtonRow(Yii::t('account', 'Reset Password'));
+echo $form->getSubmitButtonRow(Yii::t('account', 'Save Password'));
 $this->endWidget();

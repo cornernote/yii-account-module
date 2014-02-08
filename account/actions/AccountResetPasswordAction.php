@@ -46,10 +46,12 @@ class AccountResetPasswordAction extends CAction
 
         /** @var AccountResetPassword $accountResetPassword */
         $accountResetPassword = new $this->formClass();
+        $accountResetPassword->user_id = $user_id;
+        $accountResetPassword->token = $token;
 
-        // redirect if the key is invalid
+        // redirect if the token is invalid
         if (!$accountResetPassword->checkToken($user_id, $token)) {
-            Yii::app()->user->addFlash(Yii::t('account', 'Invalid key.'), 'error');
+            Yii::app()->user->addFlash(Yii::t('account', 'Invalid token.'), 'error');
             $this->controller->redirect(Yii::app()->user->loginUrl);
         }
 
