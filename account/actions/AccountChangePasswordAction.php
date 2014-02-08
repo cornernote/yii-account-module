@@ -37,6 +37,7 @@ class AccountChangePasswordAction extends CAction
      */
     public function run()
     {
+        Yii::app()->getModule('account');
         /** @var AccountChangePassword $accountChangePassword */
         $accountChangePassword = new $this->formClass();
 

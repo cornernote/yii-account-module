@@ -44,6 +44,7 @@ class AccountResetPasswordAction extends CAction
         if (!Yii::app()->user->isGuest)
             $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
 
+        Yii::app()->getModule('account');
         /** @var AccountResetPassword $accountResetPassword */
         $accountResetPassword = new $this->formClass();
         $accountResetPassword->user_id = $user_id;

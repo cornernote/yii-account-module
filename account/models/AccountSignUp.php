@@ -117,7 +117,7 @@ class AccountSignUp extends CFormModel
             $this->user->{$account->usernameField} = $this->username;
         if (!$this->user->save(false))
             return false;
-        if (!$account->statusField || !$account->statusAfterSignUp)
+        if ($account->statusField && !$account->statusAfterSignUp)
             return true;
 
         // login

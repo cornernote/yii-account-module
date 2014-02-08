@@ -32,7 +32,7 @@ if ($accountLogin->isCaptchaRequired()) {
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('app', 'Login'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('app', 'Sign Up'), array('user/signUp'), array('class' => 'btn')),
-    TbHtml::link(Yii::t('app', 'Lost Password'), array('user/lostPassword'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('app', 'Sign up'), array('user/signUp'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('app', 'Lost password?'), array('user/lostPassword'), array('class' => 'btn')),
 )));
 $this->endWidget();

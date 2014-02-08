@@ -55,5 +55,4 @@ class AccountLogoutAction extends CAction
         $this->_returnUrl = $returnUrl;
     }
 
-
 }

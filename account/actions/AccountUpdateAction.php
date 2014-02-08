@@ -37,6 +37,8 @@ class AccountUpdateAction extends CAction
      */
     public function run()
     {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
         /** @var AccountUpdate $accountUpdate */
         $accountUpdate = new $this->formClass();
 
@@ -50,7 +52,13 @@ class AccountUpdateAction extends CAction
         }
         // assign default values
         else {
-            $accountUpdate->attributes = $accountUpdate->user->attributes;
+            $accountUpdate->email = $accountUpdate->user->{$account->emailField};
+            if ($accountUpdate->user->{$account->usernameField})
+                $accountUpdate->username = $accountUpdate->user->{$account->usernameField};
+            if ($accountUpdate->user->{$account->firstNameField})
+                $accountUpdate->first_name = $accountUpdate->user->{$account->firstNameField};
+            if ($accountUpdate->user->{$account->lastNameField})
+                $accountUpdate->last_name = $accountUpdate->user->{$account->lastNameField};
         }
 
         // display the update account form

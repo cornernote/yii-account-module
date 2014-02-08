@@ -24,9 +24,10 @@ $attributes[] = $account->emailField;
 if ($account->usernameField)
     $attributes[] = $account->usernameField;
 
-$this->widget('zii.widgets.CDetailView', array(
+$this->widget('bootstrap.widgets.TbDetailView', array(
     'data' => $user,
     'attributes' => $attributes,
+    'htmlOptions'=>array('class'=>'table table-condensed'),
 ));
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
