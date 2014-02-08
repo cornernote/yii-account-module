@@ -41,12 +41,12 @@ class AccountResetPassword extends CFormModel
     /**
      * @var AccountUser
      */
-    public $_user;
+    private $_user;
 
     /**
      * @var AccountUserIdentity
      */
-    public $_userIdentity;
+    private $_userIdentity;
 
     /**
      * Declares the validation rules.

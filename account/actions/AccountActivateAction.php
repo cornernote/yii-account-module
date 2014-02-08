@@ -4,6 +4,7 @@
  * AccountActivateAction
  *
  * @property AccountUserController $controller
+ * @property AccountUser $user
  * @property array|string $returnUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
@@ -21,6 +22,21 @@ class AccountActivateAction extends CAction
      * @var string
      */
     public $formClass = 'AccountActivate';
+
+    /**
+     * @var int
+     */
+    protected $user_id;
+
+    /**
+     * @var string
+     */
+    protected $token;
+
+    /**
+     * @var AccountUser
+     */
+    private $_user;
 
     /**
      * @var string|array
@@ -41,18 +57,18 @@ class AccountActivateAction extends CAction
 
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
-        /** @var AccountActivate $accountActivate */
-        $accountActivate = new $this->formClass();
+        $this->user_id = $user_id;
+        $this->token = $token;
 
         // redirect if the key is invalid
-        if (!$accountActivate->activate($user_id, $token)) {
+        if (!$this->activate()) {
             Yii::app()->user->addFlash(Yii::t('account', 'Invalid key.'), 'error');
             $this->controller->redirect(Yii::app()->user->loginUrl);
         }
 
         // account is active, redirect
         Yii::app()->user->addFlash(Yii::t('account', 'Your account has been activated and you have been logged in.'), 'success');
-        call_user_func_array($account->emailCallbackWelcome, array($accountActivate->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+        call_user_func_array($account->emailCallbackWelcome, array($this->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
         $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
     }
 
@@ -74,4 +90,35 @@ class AccountActivateAction extends CAction
         $this->_returnUrl = $returnUrl;
     }
 
+    /**
+     * Activates the users account.
+     * @return bool
+     */
+    public function activate()
+    {
+        if (!$this->user)
+            return false;
+        if (!Yii::app()->tokenManager->checkToken('AccountActivate', $this->user_id, $this->token))
+            return false;
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        $this->user->{$account->statusField} = 1;
+        if (!$this->user->save(false))
+            return false;
+        Yii::app()->tokenManager->useToken('AccountActivate', $this->user_id, $this->token);
+        return true;
+    }
+
+    /**
+     * @return AccountUser
+     */
+    public function getUser()
+    {
+        if (!$this->_user) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_user = CActiveRecord::model($account->userClass)->findByPk($this->user_id);
+        }
+        return $this->_user;
+    }
 }

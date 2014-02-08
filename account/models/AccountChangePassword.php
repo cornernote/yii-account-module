@@ -35,7 +35,7 @@ class AccountChangePassword extends CFormModel
     /**
      * @var AccountUser
      */
-    public $_user;
+    private $_user;
 
     /**
      * Declares the validation rules.
