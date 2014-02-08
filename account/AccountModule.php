@@ -30,7 +30,7 @@ class AccountModule extends CWebModule
      * @var bool If we should allow access to the module controllers.
      * Set to false if you only want to use the actions in your own controllers, the controllers will then throw a 404 error.
      */
-    public $useModuleControllers = true;
+    public $useAccountUserController = true;
 
     /**
      * @var string The layout used for module controllers.

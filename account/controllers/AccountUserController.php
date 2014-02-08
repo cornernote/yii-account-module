@@ -93,7 +93,7 @@ class AccountUserController extends CController
     {
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
-        if (!$account->useModuleControllers)
+        if (!$account->useAccountUserController)
             throw new CHttpException(404, Yii::t('account', 'Page not found.'));
         return true;
     }
