@@ -29,13 +29,13 @@ class AccountViewAction extends CAction
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
         /** @var AccountUser $user */
-        $user = CActiveRecord::model($account->userClass)->findByPk(Yii::app()->user->id);
-        if (!$user)
+        $accountUser = CActiveRecord::model($account->userClass)->findByPk(Yii::app()->user->id);
+        if (!$accountUser)
             throw new CHttpException(404, Yii::t('account', 'The requested page does not exist.'));
 
         // display the view account page
         $this->controller->render($this->view, array(
-            'user' => $user,
+            'accountUser' => $accountUser,
         ));
     }
 
