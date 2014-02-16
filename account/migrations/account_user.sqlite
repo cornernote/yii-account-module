@@ -5,11 +5,14 @@ CREATE TABLE "account_user" (
     "password"  TEXT,
     "first_name"  TEXT,
     "last_name"  TEXT,
-    "activated" INTEGER
+    "activated" INTEGER,
+    "disabled" INTEGER
 );
 CREATE INDEX "account_user_email" ON "account_user" ("email");
 CREATE INDEX "account_user_username" ON "account_user" ("username");
 CREATE INDEX "account_user_first_name" ON "account_user" ("first_name");
 CREATE INDEX "account_user_last_name" ON "account_user" ("last_name");
+CREATE INDEX "account_user_activated" ON "account_user" ("activated");
+CREATE INDEX "account_user_disabled" ON "account_user" ("disabled");
 
-INSERT INTO "account_user" ('email', 'username', 'password', 'first_name', 'last_name', 'activated') VALUES ('admin@localhost', 'admin', '$2a$08$b.5MVtbgKv4Dvf/M3AFKKuga4pxptFOsmu7gkN.QOH5yvws6Ks03i', 'admin', 'admin', 1);
+INSERT INTO "account_user" ('email', 'username', 'password', 'first_name', 'last_name', 'activated', 'disabled') VALUES ('admin@localhost', 'admin', '$2a$08$b.5MVtbgKv4Dvf/M3AFKKuga4pxptFOsmu7gkN.QOH5yvws6Ks03i', 'admin', 'admin', 1, 0);

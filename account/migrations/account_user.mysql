@@ -5,11 +5,15 @@ CREATE TABLE IF NOT EXISTS `account_user` (
     `password` varchar(255) NOT NULL,
     `first_name` varchar(255) NOT NULL,
     `last_name` varchar(255) NOT NULL,
+    `activated` int(11) NOT NULL,
+    `disabled` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `username` (`username`),
     KEY `email` (`email`),
     KEY `first_name` (`first_name`),
-    KEY `last_name` (`last_name`)
+    KEY `last_name` (`last_name`),
+    KEY `activated` (`activated`),
+    KEY `disabled` (`disabled`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `account_user` (`id`, `email`, `username`, `password`, `first_name`, `last_name`) VALUES

@@ -19,6 +19,11 @@ class AccountUserIdentity extends CUserIdentity
     const ERROR_NOT_ACTIVATED = 3;
 
     /**
+     * Error - Disabled
+     */
+    const ERROR_DISABLED = 4;
+
+    /**
      * @var int
      */
     private $_id;
@@ -44,6 +49,10 @@ class AccountUserIdentity extends CUserIdentity
         }
         if ($account->activatedField && !$user->{$account->activatedField}) {
             $this->errorCode = self::ERROR_NOT_ACTIVATED;
+            return false;
+        }
+        if ($account->disabledField && $user->{$account->disabledField}) {
+            $this->errorCode = self::ERROR_DISABLED;
             return false;
         }
         if ($checkPassword && !CPasswordHelper::verifyPassword($this->password, $user->{$account->passwordField})) {

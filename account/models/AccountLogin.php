@@ -92,6 +92,8 @@ class AccountLogin extends CFormModel
         if (!$this->userIdentity->authenticate()) {
             if ($this->userIdentity->errorCode == AccountUserIdentity::ERROR_NOT_ACTIVATED)
                 $this->addError($attribute, Yii::t('account', 'Your account has not been activated.  <a href=":url">Click here</a> to request a new activation email.', array(':url' => $this->getResendActivationUrl())));
+            if ($this->userIdentity->errorCode == AccountUserIdentity::ERROR_DISABLED)
+                $this->addError($attribute, Yii::t('account', 'Your account has been disabled.'));
             elseif (in_array($this->userIdentity->errorCode, array(AccountUserIdentity::ERROR_USERNAME_INVALID, AccountUserIdentity::ERROR_PASSWORD_INVALID)))
                 $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
             else
