@@ -83,8 +83,14 @@ class AccountLogin extends CFormModel
      */
     public function authenticate($attribute)
     {
-        if (!$this->userIdentity->authenticate())
-            $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
+        if (!$this->userIdentity->authenticate()) {
+            if ($this->userIdentity->errorCode == AccountUserIdentity::ERROR_STATUS_INACTIVE)
+                $this->addError($attribute, Yii::t('account', 'Your account has not been activated.'));
+            elseif (in_array($this->userIdentity->errorCode, array(AccountUserIdentity::ERROR_USERNAME_INVALID, AccountUserIdentity::ERROR_PASSWORD_INVALID)))
+                $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
+            else
+                $this->addError($attribute, Yii::t('account', 'Login failed.'));
+        }
     }
 
     /**
