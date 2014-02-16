@@ -18,7 +18,7 @@ $this->pageTitle = Yii::t('account', 'Resend Activation');
 $account = Yii::app()->getModule('account');
 /** @var AccountActiveForm $form */
 $form = $this->beginWidget('account.components.AccountActiveForm', array(
-    'id' => 'accountLostPassword-form',
+    'id' => 'accountResendActivation-form',
 ));
 echo $form->errorSummary($accountResendActivation);
 
