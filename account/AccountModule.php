@@ -70,12 +70,12 @@ class AccountModule extends CWebModule
     /**
      * @var string
      */
-    public $statusField = 'status';
+    public $activatedField = 'activated';
 
     /**
      * @var string
      */
-    public $statusAfterSignUp = 1;
+    public $activatedAfterSignUp = 1;
 
     /**
      * @var string

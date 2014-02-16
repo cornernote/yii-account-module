@@ -49,7 +49,7 @@ class AccountSignUpAction extends CAction
         if (isset($_POST[$this->formClass])) {
             $accountSignUp->attributes = $_POST[$this->formClass];
             if ($accountSignUp->save()) {
-                if (!isset($accountSignUp->user->{$account->statusField}) || $account->statusAfterSignUp) {
+                if (!isset($accountSignUp->user->{$account->activatedField}) || $account->activatedAfterSignUp) {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created and you have been logged in.'), 'success');
                     call_user_func_array($account->emailCallbackWelcome, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
                 }
@@ -75,7 +75,7 @@ class AccountSignUpAction extends CAction
         if (!$this->_returnUrl) {
             /** @var AccountModule $account */
             $account = Yii::app()->getModule('account');
-            $this->_returnUrl = $account->statusField && $account->statusAfterSignUp ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
+            $this->_returnUrl = $account->activatedField && $account->activatedAfterSignUp ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
         }
         return $this->_returnUrl;
     }

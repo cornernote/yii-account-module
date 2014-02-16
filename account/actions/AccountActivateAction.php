@@ -108,7 +108,7 @@ class AccountActivateAction extends CAction
             return false;
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
-        $this->user->{$account->statusField} = 1;
+        $this->user->{$account->activatedField} = 1;
         if (!$this->user->save(false))
             return false;
         if (!$this->userIdentity->authenticate(false) || !Yii::app()->user->login($this->userIdentity))

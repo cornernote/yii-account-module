@@ -27,7 +27,7 @@ $I->haveInDatabase('account_user', array(
     'first_name' => 'demo-activate',
     'last_name' => 'demo-activate',
     'email' => 'demo-activate@mailinator.com',
-    'status' => 0,
+    'activated' => 0,
 ));
 
 // add a token to the database

@@ -14,9 +14,9 @@
 class AccountUserIdentity extends CUserIdentity
 {
     /**
-     * Error - Status Inactive
+     * Error - Not Activated
      */
-    const ERROR_STATUS_INACTIVE = 3;
+    const ERROR_NOT_ACTIVATED = 3;
 
     /**
      * @var int
@@ -42,8 +42,8 @@ class AccountUserIdentity extends CUserIdentity
             $this->errorCode = self::ERROR_USERNAME_INVALID;
             return false;
         }
-        if ($account->statusField && !$user->{$account->statusField}) {
-            $this->errorCode = self::ERROR_STATUS_INACTIVE;
+        if ($account->activatedField && !$user->{$account->activatedField}) {
+            $this->errorCode = self::ERROR_NOT_ACTIVATED;
             return false;
         }
         if ($checkPassword && !CPasswordHelper::verifyPassword($this->password, $user->{$account->passwordField})) {

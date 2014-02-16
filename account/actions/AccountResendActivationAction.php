@@ -49,7 +49,7 @@ class AccountResendActivationAction extends CAction
         if (isset($_POST[$this->formClass])) {
             $accountResendActivation->attributes = $_POST[$this->formClass];
             if ($accountResendActivation->validate()) {
-                if (isset($accountResendActivation->user->{$account->statusField}) && !$accountResendActivation->user->{$account->statusField}) {
+                if (isset($accountResendActivation->user->{$account->activatedField}) && !$accountResendActivation->user->{$account->activatedField}) {
                     Yii::app()->user->addFlash(Yii::t('account', 'Account activation has been resent to :email. Please check your email for activation instructions.', array(':email' => $accountResendActivation->user->{$account->emailField})), 'success');
                     call_user_func_array($account->emailCallbackActivate, array($accountResendActivation->user)); // AccountEmailManager::sendAccountActivate($accountResendActivation->user);
                 }
@@ -74,7 +74,7 @@ class AccountResendActivationAction extends CAction
         if (!$this->_returnUrl) {
             /** @var AccountModule $account */
             $account = Yii::app()->getModule('account');
-            $this->_returnUrl = $account->statusField && $account->statusAfterSignUp ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
+            $this->_returnUrl = $account->activatedField && $account->activatedAfterSignUp ? Yii::app()->user->returnUrl : Yii::app()->homeUrl;
         }
         return $this->_returnUrl;
     }
