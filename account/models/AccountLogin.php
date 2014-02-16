@@ -200,8 +200,11 @@ class AccountLogin extends CFormModel
      */
     public function getResendActivationUrl()
     {
-        if (!$this->_resendActivationUrl)
-            $this->_resendActivationUrl = Yii::app()->createUrl('account/user/resendActivation');
+        if (!$this->_resendActivationUrl) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_resendActivationUrl = Yii::app()->createUrl($account->resendActivationUrl);
+        }
         return $this->_resendActivationUrl;
     }
 
@@ -212,6 +215,5 @@ class AccountLogin extends CFormModel
     {
         $this->_resendActivationUrl = Yii::app()->createUrl($resendActivationUrl);
     }
-
 
 }

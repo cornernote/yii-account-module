@@ -85,6 +85,11 @@ class AccountModule extends CWebModule
     /**
      * @var string
      */
+    public $resendActivationUrl = 'account/user/resendActivation';
+
+    /**
+     * @var string
+     */
     public $userIdentityClass = 'AccountUserIdentity';
 
     /**
