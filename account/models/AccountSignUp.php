@@ -108,7 +108,7 @@ class AccountSignUp extends CFormModel
         $this->user->{$account->emailField} = $this->email;
         $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->password);
         if ($account->activatedField)
-            $this->user->{$account->activatedField} = $account->activatedAfterSignUp;
+            $this->user->{$account->activatedField} = $account->activatedAfterSignUp ? 1 : 0;
         if ($account->firstNameField)
             $this->user->{$account->firstNameField} = $this->first_name;
         if ($account->lastNameField)

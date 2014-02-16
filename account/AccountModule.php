@@ -78,9 +78,9 @@ class AccountModule extends CWebModule
     public $disabledField = 'disabled';
 
     /**
-     * @var string
+     * @var bool
      */
-    public $activatedAfterSignUp = 1;
+    public $activatedAfterSignUp = true;
 
     /**
      * @var string
