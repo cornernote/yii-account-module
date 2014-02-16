@@ -86,10 +86,11 @@ class AccountUserController extends CController
     }
 
     /**
-     * @return bool
+     * @param CAction $action
      * @throws CHttpException
+     * @return bool
      */
-    public function beforeAction()
+    public function beforeAction($action)
     {
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
