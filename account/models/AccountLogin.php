@@ -6,6 +6,7 @@
  *
  * @property AccountUserIdentity $userIdentity
  * @property int $attemptCount
+ * @property string $resendActivationUrl
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -49,6 +50,11 @@ class AccountLogin extends CFormModel
     private $_attemptCount;
 
     /**
+     * @var string
+     */
+    private $_resendActivationUrl;
+
+    /**
      * Declares the validation rules.
      * @return array
      */
@@ -85,7 +91,7 @@ class AccountLogin extends CFormModel
     {
         if (!$this->userIdentity->authenticate()) {
             if ($this->userIdentity->errorCode == AccountUserIdentity::ERROR_STATUS_INACTIVE)
-                $this->addError($attribute, Yii::t('account', 'Your account has not been activated.'));
+                $this->addError($attribute, Yii::t('account', 'Your account has not been activated.  <a href=":url">Click here</a> to request a new activation email.', array(':url' => $this->getResendActivationUrl())));
             elseif (in_array($this->userIdentity->errorCode, array(AccountUserIdentity::ERROR_USERNAME_INVALID, AccountUserIdentity::ERROR_PASSWORD_INVALID)))
                 $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
             else
@@ -186,5 +192,27 @@ class AccountLogin extends CFormModel
         $account = Yii::app()->getModule('account');
         return ($account->reCaptcha && $this->attemptCount >= $account->reCaptchaLoginCount);
     }
+
+    /**
+     * @return string
+     */
+    public function getResendActivationUrl()
+    {
+        if (!$this->_resendActivationUrl) {
+            /** @var AccountModule $account */
+            $account = Yii::app()->getModule('account');
+            $this->_resendActivationUrl = Yii::app()->createUrl('account/user/resendActivation');
+        }
+        return $this->_resendActivationUrl;
+    }
+
+    /**
+     * @param string $resendActivationUrl
+     */
+    public function setResendActivationUrl($resendActivationUrl)
+    {
+        $this->_resendActivationUrl = Yii::app()->createUrl($resendActivationUrl);
+    }
+
 
 }

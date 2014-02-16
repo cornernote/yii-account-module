@@ -28,6 +28,11 @@ class AccountLoginAction extends CAction
     public $formClass = 'AccountLogin';
 
     /**
+     * @var string
+     */
+    public $resendActivationUrl;
+
+    /**
      * @var string|array
      */
     private $_returnUrl;
@@ -45,6 +50,7 @@ class AccountLoginAction extends CAction
         $account = Yii::app()->getModule('account');
         /** @var AccountLogin $accountLogin */
         $accountLogin = new $this->formClass();
+        $accountLogin->resendActivationUrl = $this->resendActivationUrl;
 
         // collect user input
         if (isset($_POST[$this->formClass])) {

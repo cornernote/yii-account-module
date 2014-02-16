@@ -38,7 +38,7 @@ class AccountUserController extends CController
     {
         return array(
             array('allow',
-                'actions' => array('login', 'logout', 'lostPassword', 'resetPassword', 'signUp', 'activate'),
+                'actions' => array('login', 'logout', 'lostPassword', 'resetPassword', 'signUp', 'activate', 'resendActivation'),
                 'users' => array('*'), // anyone
             ),
             array('allow',
@@ -60,6 +60,9 @@ class AccountUserController extends CController
             ),
             'activate' => array(
                 'class' => 'account.actions.AccountActivateAction',
+            ),
+            'resendActivation' => array(
+                'class' => 'account.actions.AccountResendActivationAction',
             ),
             'lostPassword' => array(
                 'class' => 'account.actions.AccountLostPasswordAction',
