@@ -18,6 +18,8 @@ return array(
         'account.components.*',
         'account.models.*',
         'bootstrap.helpers.TbHtml',
+        'bootstrap.helpers.TbArray',
+        'bootstrap.behaviors.TbWidget',
     ),
     'aliases' => array(
         'account' => realpath(BASE_PATH . '/../account'),
