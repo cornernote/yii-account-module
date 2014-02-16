@@ -49,7 +49,7 @@ class AccountSignUpAction extends CAction
         if (isset($_POST[$this->formClass])) {
             $accountSignUp->attributes = $_POST[$this->formClass];
             if ($accountSignUp->save()) {
-                if (!$account->statusAfterSignUp || $account->statusAfterSignUp) {
+                if (!$account->{$account->statusField} || $account->statusAfterSignUp) {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created and you have been logged in.'), 'success');
                     call_user_func_array($account->emailCallbackWelcome, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
                 }
