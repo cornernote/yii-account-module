@@ -11,6 +11,7 @@ Allows users to create and manage their account.
     - AccountLogoutAction - Logout from an account.
     - AccountSignUpAction - Sign up for a new account, can optionally send an account activation email, or can allow direct activation.
     - AccountActivateAction - Activate a new account once the secure email link is clicked.
+    - AccountResendActivationAction - Resends the activation email incase it did not arrive.
     - AccountLostPassword - Request an email to be sent which will contain a secure link to allow a password reset, with optional ReCaptcha.
     - AccountResetPasswordAction - Checks for valid link and allows resetting the account password.
     - AccountUpdateAction - Update own account details.
