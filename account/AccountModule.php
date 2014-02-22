@@ -221,7 +221,6 @@ class AccountModule extends CWebModule
         parent::init();
 
         // setup paths
-        Yii::setPathOfAlias('account', dirname(__FILE__));
         $this->setImport(array(
             'account.models.*',
             'account.components.*',
