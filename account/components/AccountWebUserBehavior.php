@@ -3,7 +3,7 @@
 /**
  * AccountWebUserBehavior
  *
- * @property CWebUser $owner
+ * @property AccountWebUser $owner
  * @property AccountUser $user
  *
  * @author Brett O'Donnell <cornernote@gmail.com>

@@ -61,7 +61,7 @@ return array(
             'class' => 'vendor.cornernote.yii-return-url.return-url.components.EReturnUrl',
         ),
         'user' => array(
-            'class' => 'system.web.auth.CWebUser',
+            'class' => 'account.components.AccountWebUser',
             'behaviors' => array(
                 'accountWebUser' => array(
                     'class' => 'account.components.AccountWebUserBehavior',
