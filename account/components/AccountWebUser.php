@@ -3,11 +3,7 @@
 /**
  * AccountWebUser
  *
- * @see AccountWebUserBehavior
- * @property User $user
- * @method User getUser()
- * @method void addFlash(string $msg, $class = 'info')
- * @method string multiFlash()
+ * @mixin AccountWebUserBehavior
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
