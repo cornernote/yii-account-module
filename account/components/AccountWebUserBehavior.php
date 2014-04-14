@@ -30,7 +30,7 @@ class AccountWebUserBehavior extends CBehavior
     /**
      * @var AccountUser
      */
-    protected $_user;
+    private $_user;
 
     /**
      * Add flash to the stack.
