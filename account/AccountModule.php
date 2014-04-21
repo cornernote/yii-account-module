@@ -68,12 +68,18 @@ class AccountModule extends CWebModule
     public $passwordField = 'password';
 
     /**
-     * @var string The field to store the user's activated status, or false to not support activation.
+     * @var string|bool The field to store the user's timezone, or false to not store the timezone.
+     * @var string
+     */
+    public $timezoneField = 'timezone';
+
+    /**
+     * @var string|bool The field to store the user's activated status, or false to not support activation.
      */
     public $activatedField = 'activated';
 
     /**
-     * @var string The field to store the user's activated status, or false to not support disabling.
+     * @var string|bool The field to store the user's activated status, or false to not support disabling.
      */
     public $disabledField = 'disabled';
 

@@ -5,8 +5,7 @@ Allows users to create and manage their account.
 
 ## Features
 
-- Provides actions that can be used with current defaults, or easily extended to allow fully customisable account management.
-- Included action classes: 
+- Provides actions that can be used with current defaults, or easily extended to allow fully customisable account management:
     - AccountLoginAction - Login to an account, optional ReCaptcha after 3 login attempts.
     - AccountLogoutAction - Logout from an account.
     - AccountSignUpAction - Sign up for a new account, can optionally send an account activation email, or can allow direct activation.
@@ -17,6 +16,7 @@ Allows users to create and manage their account.
     - AccountUpdateAction - Update own account details.
     - AccountChangePasswordAction - Change own password details after verifying current password.
     - AccountViewAction - View own account details.
+- Automatically detect the users timezone on signup.
 - Does not impose a data structure, you can use your existing User table with your existing fields.
 - Module uses [YiiEmailModule](http://cornernote.github.io/yii-email-module/), allows emails with templates and email queueing.
 - Module uses [YiiStrap](http://getyiistrap.com/), the ultimate Twitter Bootstrap extension for Yii.
