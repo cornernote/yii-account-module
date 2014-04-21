@@ -21,8 +21,8 @@ class AccountTimezoneHelper
     {
         $timezones = array('GMT' => 'GMT');
         foreach (DateTimeZone::listIdentifiers(DateTimeZone::ALL) as $timezone) {
-            if ($timezones == 'UTC') continue;
-            $data[$timezones] = $timezones;
+            if ($timezone == 'UTC') continue;
+            $timezones[$timezone] = $timezone;
         }
         return $timezones;
     }
