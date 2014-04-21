@@ -5,8 +5,7 @@ Allows users to create and manage their account.
 
 ## Features
 
-- Provides actions that can be used with current defaults, or easily extended to allow fully customisable account management.
-- Included action classes: 
+- Provides actions that can be used with current defaults, or easily extended to allow fully customisable account management:
     - AccountLoginAction - Login to an account, optional ReCaptcha after 3 login attempts.
     - AccountLogoutAction - Logout from an account.
     - AccountSignUpAction - Sign up for a new account, can optionally send an account activation email, or can allow direct activation.
