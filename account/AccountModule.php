@@ -38,92 +38,92 @@ class AccountModule extends CWebModule
     public $layout = 'account.views.layouts.column1';
 
     /**
-     * @var string
+     * @var string The user class to use for user storage.
      */
     public $userClass = 'AccountUser';
 
     /**
-     * @var string
+     * @var string|bool The field to store the user's first name, or false to not store the first name.
      */
     public $firstNameField = 'first_name';
 
     /**
-     * @var string
+     * @var string|bool The field to store the user's last name, or false to not store the last name.
      */
     public $lastNameField = 'last_name';
 
     /**
-     * @var string
+     * @var string The field to store the user's email address.
      */
     public $emailField = 'email';
 
     /**
-     * @var string
+     * @var string|bool The field to store the user's username, or false to not store the username.
      */
     public $usernameField = 'username';
 
     /**
-     * @var string
+     * @var string The field to store the user's password.
      */
     public $passwordField = 'password';
 
     /**
-     * @var string
+     * @var string The field to store the user's activated status, or false to not support activation.
      */
     public $activatedField = 'activated';
 
     /**
-     * @var string
+     * @var string The field to store the user's activated status, or false to not support disabling.
      */
     public $disabledField = 'disabled';
 
     /**
-     * @var bool
+     * @var bool Set to false to send the user an email to activate their account.
      */
     public $activatedAfterSignUp = true;
 
     /**
-     * @var string
+     * @var string The route to use in the email when a user requests a new activation email.
      */
     public $resendActivationUrl = 'account/user/resendActivation';
 
     /**
-     * @var string
+     * @var string The UserIdentity class you use in your application.
      */
     public $userIdentityClass = 'AccountUserIdentity';
 
     /**
-     * @var int Default setting for Remember Me checkbox on login page
+     * @var int Default setting for Remember Me checkbox on login page.
      */
     public $rememberDefault = 0;
 
     /**
-     * @var int
+     * @var int How long before the Remember Me cookie expires.
      */
     public $rememberDuration = 2592000; // 30 days
 
     /**
-     * @var bool If we should spool the emails, or send immediately.
+     * @var bool True if we should spool the emails, or false to send immediately.
      */
     public $emailSpool = true;
 
     /**
-     * @var array
+     * @var string|array The function that will send the activation email.
      */
     public $emailCallbackActivate = array('AccountEmailManager', 'sendAccountActivate');
 
     /**
-     * @var array
+     * @var string|array The function that will send the welcome email.
      */
     public $emailCallbackWelcome = array('AccountEmailManager', 'sendAccountWelcome');
 
     /**
-     * @var string
+     * @var string|array The function that will send the lost password email.
      */
     public $emailCallbackLostPassword = array('AccountEmailManager', 'sendAccountLostPassword');
 
     /**
-     * @var bool
+     * @var bool If we should use reCaptcha.
      */
     public $reCaptcha = true;
 
@@ -133,32 +133,32 @@ class AccountModule extends CWebModule
     public $reCaptchaLoginCount = 3;
 
     /**
-     * @var string
+     * @var string Your public key for recaptcha.
      */
     public $reCaptchaPublicKey = '6LeBItQSAAAAAG_umhiD0vyxXbDFbVMPA0kxZUF6';
 
     /**
-     * @var string
+     * @var string Your private key for recaptcha.
      */
     public $reCaptchaPrivateKey = '6LeBItQSAAAAALA4_G05e_-fG5yH_-xqQIN8AfTD';
 
     /**
-     * @var string
+     * @var string The server to use for recaptcha requests.
      */
     public $reCaptchaServer = 'http://www.google.com/recaptcha/api';
 
     /**
-     * @var string
+     * @var string The server to use for SSL recaptcha requests.
      */
     public $reCaptchaSecureServer = 'https://www.google.com/recaptcha/api';
 
     /**
-     * @var string
+     * @var string The server to use to verify recaptcha responses.
      */
     public $reCaptchaVerifyServer = 'www.google.com';
 
     /**
-     * @var array mapping from controller ID to controller configurations.
+     * @var array Mapping from controller ID to controller configurations.
      */
     public $controllerMap = array(
         'user' => 'account.controllers.AccountUserController',
