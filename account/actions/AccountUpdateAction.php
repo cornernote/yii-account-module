@@ -59,6 +59,8 @@ class AccountUpdateAction extends CAction
                 $accountUpdate->first_name = $accountUpdate->user->{$account->firstNameField};
             if ($accountUpdate->user->{$account->lastNameField})
                 $accountUpdate->last_name = $accountUpdate->user->{$account->lastNameField};
+            if ($accountUpdate->user->{$account->timezoneField})
+                $accountUpdate->timezone = $accountUpdate->user->{$account->timezoneField};
         }
 
         // display the update account form
