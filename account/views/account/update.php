@@ -23,6 +23,7 @@ echo $form->textFieldControlGroup($accountUpdate, 'first_name');
 echo $form->textFieldControlGroup($accountUpdate, 'last_name');
 echo $form->textFieldControlGroup($accountUpdate, 'email');
 echo $form->textFieldControlGroup($accountUpdate, 'username');
+echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezoneHelper::timezones());
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('app', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),

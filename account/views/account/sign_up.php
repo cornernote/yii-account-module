@@ -25,9 +25,19 @@ echo $form->textFieldControlGroup($accountSignUp, 'email');
 echo $form->textFieldControlGroup($accountSignUp, 'username');
 echo $form->passwordFieldControlGroup($accountSignUp, 'password');
 echo $form->passwordFieldControlGroup($accountSignUp, 'confirm_password');
+echo $form->dropDownListControlGroup($accountSignUp, 'timezone', AccountTimezoneHelper::timezones(), array('empty' => ''));
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('app', 'Sign Up'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
     TbHtml::link(Yii::t('app', 'Already have an account?'), array('user/login'), array('class' => 'btn')),
 )));
 $this->endWidget();
+
+// timezone detection
+if (!$accountSignUp->timezone) {
+    /** @var AccountModule $account */
+    $account = Yii::app()->getModule('account');
+    $clientScript = Yii::app()->clientScript;
+    $clientScript->registerScriptFile($account->getAssetsUrl() . '/jsTimezoneDetect/jstz.js');
+    $clientScript->registerScript('AccountSignUpTimezoneDetect', '$("#AccountSignUp_timezone").val(jstz.determine().name());');
+}

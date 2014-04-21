@@ -281,7 +281,7 @@ class AccountModule extends CWebModule
     public function getAssetsUrl()
     {
         if ($this->_assetsUrl === null)
-            $this->_assetsUrl = Yii::app()->assetManager->publish(Yii::getPathOfAlias('email.assets'));
+            $this->_assetsUrl = Yii::app()->assetManager->publish(Yii::getPathOfAlias('account.assets'));
         return $this->_assetsUrl;
     }
 

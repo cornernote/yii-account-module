@@ -38,6 +38,11 @@ class AccountUpdate extends CFormModel
     public $username;
 
     /**
+     * @var string
+     */
+    public $timezone;
+
+    /**
      * @var AccountUser
      */
     private $_user;
@@ -52,7 +57,7 @@ class AccountUpdate extends CFormModel
         $account = Yii::app()->getModule('account');
         return array(
             array('email, username, first_name', 'required'),
-            array('email, username', 'length', 'max' => 255),
+            array('email, username, timezone', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
             array('email, username', 'unique', 'className' => $account->userClass, 'criteria' => array(
@@ -78,6 +83,8 @@ class AccountUpdate extends CFormModel
             $this->user->{$account->lastNameField} = $this->last_name;
         if ($account->usernameField)
             $this->user->{$account->usernameField} = $this->username;
+        if ($account->timezoneField)
+            $this->user->{$account->timezoneField} = $this->timezone;
         return $this->user->save(false);
     }
 
@@ -91,6 +98,7 @@ class AccountUpdate extends CFormModel
             'first_name' => Yii::t('account', 'First Name'),
             'last_name' => Yii::t('account', 'Last Name'),
             'username' => Yii::t('account', 'Username'),
+            'timezone' => Yii::t('account', 'Timezone'),
         );
     }
 

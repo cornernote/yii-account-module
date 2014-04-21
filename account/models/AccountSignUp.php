@@ -49,6 +49,11 @@ class AccountSignUp extends CFormModel
     public $last_name;
 
     /**
+     * @var string
+     */
+    public $timezone;
+
+    /**
      * @var AccountUser
      */
     private $_user;
@@ -68,7 +73,7 @@ class AccountSignUp extends CFormModel
         $account = Yii::app()->getModule('account');
         return array(
             array('email, username, first_name, password, confirm_password', 'required'),
-            array('email, username', 'length', 'max' => 255),
+            array('email, username, timezone', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
             array('email, username', 'unique', 'className' => $account->userClass),
@@ -89,6 +94,7 @@ class AccountSignUp extends CFormModel
             'last_name' => Yii::t('account', 'Last Name'),
             'username' => Yii::t('account', 'Username'),
             'password' => Yii::t('account', 'Password'),
+            'timezone' => Yii::t('account', 'Timezone'),
         );
     }
 
@@ -115,6 +121,8 @@ class AccountSignUp extends CFormModel
             $this->user->{$account->lastNameField} = $this->last_name;
         if ($account->usernameField)
             $this->user->{$account->usernameField} = $this->username;
+        if ($account->timezoneField)
+            $this->user->{$account->timezoneField} = $this->timezone;
         if (!$this->user->save(false))
             return false;
         if ($account->activatedField && !$account->activatedAfterSignUp)
