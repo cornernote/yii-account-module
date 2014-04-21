@@ -78,6 +78,11 @@ class AccountModule extends CWebModule
     public $disabledField = 'disabled';
 
     /**
+     * @var string
+     */
+    public $timezoneField = 'timezone';
+
+    /**
      * @var bool
      */
     public $activatedAfterSignUp = true;

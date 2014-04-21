@@ -80,6 +80,7 @@ return array(
         ),
         'email' => array(
             'class' => 'email.EmailModule',
+            'autoCreateTables' => false,
             'connectionID' => 'db',
             'controllerFilters' => array(),
         ),

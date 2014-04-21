@@ -5,6 +5,7 @@ CREATE TABLE "account_user" (
     "password"  TEXT,
     "first_name"  TEXT,
     "last_name"  TEXT,
+    "timezone" INTEGER,    
     "activated" INTEGER,
     "disabled" INTEGER
 );
