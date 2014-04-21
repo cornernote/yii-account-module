@@ -25,7 +25,7 @@ echo $form->textFieldControlGroup($accountSignUp, 'email');
 echo $form->textFieldControlGroup($accountSignUp, 'username');
 echo $form->passwordFieldControlGroup($accountSignUp, 'password');
 echo $form->passwordFieldControlGroup($accountSignUp, 'confirm_password');
-echo $form->dropDownListControlGroup($accountSignUp, 'timezone', AccountTimezoneHelper::timezones(), array('empty' => ''));
+echo $form->dropDownListControlGroup($accountSignUp, 'timezone', AccountTimezoneHelper::timezones());
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('app', 'Sign Up'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
