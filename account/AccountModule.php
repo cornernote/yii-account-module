@@ -13,6 +13,10 @@
  */
 class AccountModule extends CWebModule
 {
+    /**
+     * @var string
+     */
+    public $defaultController = 'user';
 
     /**
      * @var string The ID of the CDbConnection application component. If not set, a SQLite3
