@@ -93,7 +93,7 @@ class AccountLogin extends CFormModel
             if (in_array($this->userIdentity->errorCode, array(AccountUserIdentity::ERROR_USERNAME_INVALID, AccountUserIdentity::ERROR_PASSWORD_INVALID)))
                 $this->addError($attribute, Yii::t('account', 'Incorrect username or password.'));
             elseif ($this->userIdentity->errorCode == AccountUserIdentity::ERROR_NOT_ACTIVATED)
-                $this->addError($attribute, Yii::t('account', 'Your account has not been activated.  <a href=":url">Click here</a> to request a new activation email.', array(':url' => $this->getResendActivationUrl())));
+                $this->addError($attribute, Yii::t('account', 'Your account has not been activated.  <a href=":url">Click here</a> to request a new activation email.', array(':url' => Yii::app()->createUrl($this->getResendActivationUrl(), array('username' => $this->username)))));
             elseif ($this->userIdentity->errorCode == AccountUserIdentity::ERROR_DISABLED)
                 $this->addError($attribute, Yii::t('account', 'Your account has been disabled.'));
             else
@@ -203,7 +203,7 @@ class AccountLogin extends CFormModel
         if (!$this->_resendActivationUrl) {
             /** @var AccountModule $account */
             $account = Yii::app()->getModule('account');
-            $this->_resendActivationUrl = Yii::app()->createUrl($account->resendActivationUrl);
+            $this->_resendActivationUrl = $account->resendActivationUrl;
         }
         return $this->_resendActivationUrl;
     }

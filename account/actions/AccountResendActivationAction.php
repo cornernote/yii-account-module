@@ -32,9 +32,9 @@ class AccountResendActivationAction extends CAction
     private $_returnUrl;
 
     /**
-     * Sign up for a new account.
+     * Request new activation email.
      */
-    public function run()
+    public function run($username = null)
     {
         // redirect if logged in
         if (!Yii::app()->user->isGuest)
@@ -58,6 +58,9 @@ class AccountResendActivationAction extends CAction
                 }
                 $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }
+        }
+        else {
+            $accountResendActivation->email_or_username = $username;
         }
 
         // display the sign up form
