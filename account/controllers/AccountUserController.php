@@ -102,4 +102,13 @@ class AccountUserController extends CController
         $this->layout = $account->layout;
         return true;
     }
+
+    public function behaviors()
+    {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        if (!empty($account->modelMap[get_class($this)]['behaviors']))
+            return $account->modelMap[get_class($this)]['behaviors'];
+        return parent::behaviors();
+    }
 }
