@@ -99,7 +99,16 @@ class AccountUserController extends CController
         $account = Yii::app()->getModule('account');
         if (!$account->useAccountUserController)
             throw new CHttpException(404, Yii::t('account', 'Page not found.'));
+        $this->layout = $account->layout;
         return true;
     }
 
+    public function behaviors()
+    {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        if (!empty($account->modelMap[get_class($this)]['behaviors']))
+            return $account->modelMap[get_class($this)]['behaviors'];
+        return parent::behaviors();
+    }
 }
