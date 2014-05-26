@@ -31,7 +31,7 @@ if ($account->reCaptcha) {
 }
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
-    TbHtml::submitButton(Yii::t('app', 'Recover Password'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('app', 'Back to login'), array('user/login'), array('class' => 'btn')),
+    TbHtml::submitButton(Yii::t('account', 'Recover Password'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
+    TbHtml::link(Yii::t('account', 'Back to login'), array('user/login'), array('class' => 'btn')),
 )));
 $this->endWidget();

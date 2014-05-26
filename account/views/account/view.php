@@ -31,7 +31,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 ));
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
-    TbHtml::link(Yii::t('app', 'Update Account'), array('user/update'), array('class' => 'btn btn-primary')),
-    TbHtml::link(Yii::t('app', 'Change Password'), array('user/changePassword'), array('class' => 'btn')),
-    TbHtml::link(Yii::t('app', 'Logout'), array('user/logout'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('account', 'Update Account'), array('user/update'), array('class' => 'btn btn-primary')),
+    TbHtml::link(Yii::t('account', 'Change Password'), array('user/changePassword'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('account', 'Logout'), array('user/logout'), array('class' => 'btn')),
 )));

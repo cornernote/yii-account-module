@@ -26,7 +26,7 @@ echo $form->textFieldControlGroup($accountUpdate, 'username');
 echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezoneHelper::timezones());
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
-    TbHtml::submitButton(Yii::t('app', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('app', 'Back'), array('user/view'), array('class' => 'btn')),
+    TbHtml::submitButton(Yii::t('account', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
+    TbHtml::link(Yii::t('account', 'Back'), array('user/view'), array('class' => 'btn')),
 )));
 $this->endWidget();
