@@ -348,26 +348,48 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
             'hybridAuthConfig' => array(
                 'base_url' => 'http://your.com/account/accountUser/hybridAuth', // url to the hybridAuth action
                 'providers' => array(
-                    'openid' => array(
-                        'enabled' => true,
-                    ),
-                    'yahoo' => array(
-                        'enabled' => true,
-                    ),
                     'google' => array(
                         'enabled' => true,
-                        'keys' => array('id' => '', 'secret' => ''),
+                        'name' => 'Google+',
+                        'keys' => array(
+                            'id' => '',
+                            'secret' => '',
+                        ),
                         'scope' => '',
                     ),
                     'facebook' => array(
                         'enabled' => true,
-                        'keys' => array('id' => '', 'secret' => ''),
+                        'name' => 'Facebook',
+                        'keys' => array(
+                            'id' => '',
+                            'secret' => '',
+                        ),
                         'scope' => 'email,publish_stream',
                         'display' => '',
                     ),
                     'twitter' => array(
                         'enabled' => true,
-                        'keys' => array('key' => '', 'secret' => ''),
+                        'name' => 'Twitter',
+                        'keys' => array(
+                            'key' => '',
+                            'secret' => '',
+                        ),
+                    ),
+                    'linkedin' => array(
+                        'enabled' => true,
+                        'name' => 'LinkedIn',
+                        'keys' => array(
+                            'key' => '',
+                            'secret' => '',
+                        ),
+                    ),
+                    'yahoo' => array(
+                        'enabled' => true,
+                        'name' => 'Yahoo!',
+                    ),
+                    'openid' => array(
+                        'enabled' => true,
+                        'name' => 'OpenID',
                     ),
                 ),
             ),
