@@ -327,7 +327,8 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
         'user' => array(
             'class' => 'CWebUser', // your WebUser class
             'allowAutoLogin' => true, // true to allow "Remember Me"
-            'loginUrl' => array('member/login'), // the route to the login action
+            // the route to the login action (should start with a / to ensure it does not route to a module)
+            'loginUrl' => array('/member/login'),
             'behaviors' => array(
                 'accountWebUser' => array(
                     'class' => 'account.components.AccountWebUserBehavior',
