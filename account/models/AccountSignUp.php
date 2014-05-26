@@ -105,32 +105,51 @@ class AccountSignUp extends CFormModel
      */
     public function save()
     {
-        if (!$this->validate())
+        if (!$this->validate()) {
             return false;
+        }
 
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
 
         // create user
-        $this->user->{$account->emailField} = $this->email;
-        $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->password);
-        if ($account->activatedField)
-            $this->user->{$account->activatedField} = $account->activatedAfterSignUp ? 1 : 0;
-        if ($account->firstNameField)
-            $this->user->{$account->firstNameField} = $this->first_name;
-        if ($account->lastNameField)
-            $this->user->{$account->lastNameField} = $this->last_name;
-        if ($account->usernameField)
-            $this->user->{$account->usernameField} = $this->username;
-        if ($account->timezoneField)
-            $this->user->{$account->timezoneField} = $this->timezone;
-        if (!$this->user->save(false))
+        if (!$this->createUser()) {
             return false;
-        if ($account->activatedField && !$account->activatedAfterSignUp)
+        }
+        // return now if activation is required
+        if ($account->activatedField && !$account->activatedAfterSignUp) {
             return true;
-
+        }
         // login
         return $this->userIdentity->authenticate() && Yii::app()->user->login($this->userIdentity);
+    }
+
+    /**
+     * @return bool
+     */
+    public function createUser()
+    {
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+
+        $this->user->{$account->emailField} = $this->email;
+        $this->user->{$account->passwordField} = CPasswordHelper::hashPassword($this->password);
+        if ($account->activatedField) {
+            $this->user->{$account->activatedField} = $account->activatedAfterSignUp ? 1 : 0;
+        }
+        if ($account->firstNameField) {
+            $this->user->{$account->firstNameField} = $this->first_name;
+        }
+        if ($account->lastNameField) {
+            $this->user->{$account->lastNameField} = $this->last_name;
+        }
+        if ($account->usernameField) {
+            $this->user->{$account->usernameField} = $this->username;
+        }
+        if ($account->timezoneField) {
+            $this->user->{$account->timezoneField} = $this->timezone;
+        }
+        return $this->user->save(false);
     }
 
     /**
