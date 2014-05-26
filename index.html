@@ -346,6 +346,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
 
             // Refer to Hybrid_Auth docs http://hybridauth.sourceforge.net/userguide.html
             'hybridAuthConfig' => array(
+                'base_url' => 'http://your.com/account/accountUser/hybridAuth', // url to the hybridAuth action
                 'providers' => array(
                     'openid' => array(
                         'enabled' => true,
