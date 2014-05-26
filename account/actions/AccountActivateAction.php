@@ -111,7 +111,8 @@ class AccountActivateAction extends CAction
         $this->user->{$account->activatedField} = 1;
         if (!$this->user->save(false))
             return false;
-        if (!$this->userIdentity->authenticate(false) || !Yii::app()->user->login($this->userIdentity))
+        $this->userIdentity->skipPassword = true;
+        if (!$this->userIdentity->authenticate() || !Yii::app()->user->login($this->userIdentity))
             return false;
         Yii::app()->tokenManager->useToken('AccountActivate', $this->user_id, $this->token);
         return true;
