@@ -133,18 +133,35 @@
         </li>
         <li>Automatically detect the users timezone on signup.</li>
         <li>Does not impose a data structure, you can use your existing User table with your existing fields.</li>
-        <li>Module uses
+        <li>
+            Module uses
             <a href="http://cornernote.github.io/yii-email-module/">yii-email-module</a>, allows emails with templates and email queueing.
         </li>
-        <li>Module uses
+        <li>
+            Module uses
             <a href="http://getyiistrap.com/">YiiStrap</a>, the ultimate Twitter Bootstrap extension for Yii.
+        </li>
+        <li>
+            Module uses
+            <a href="http://cornernote.github.io/yii-email-module/">yii-email-module</a>, sends and spools emails.
+        </li>
+        <li>
+            Module uses
+            <a href="https://github.com/cornernote/yii-return-url">yii-return-url</a>, maintains the state of the return url.
+        </li>
+        <li>
+            Module uses
+            <a href="http://hybridauth.sourceforge.net/">HybridAuth</a>, allows login and account linking to social providers.
+        </li>
+        <li>
+            Module uses
+            <a href="http://zocial.smcllns.com/">ZocialButtons</a>, for social provider buttons.
         </li>
     </ul>
 
     <!--
     <h3 id="features/screenshots">Screenshots</h3>
     -->
-
 
 </div>
 
@@ -256,6 +273,18 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
             // The field to store the user's activated status, or false to not support disabling.
             'disabledField' => 'disabled',
 
+            // The user class to use for hybrid auth user storage.
+            'userHybridAuthClass' => 'AccountUserHybridAuth',
+
+            // The field to store the user's id.
+            'userIdField' => 'user_id',
+
+            // The field to store the provider name.
+            'providerField' => 'provider',
+
+            // The field to store the user's provider identifier.
+            'identifierField' => 'identifier',
+
             // Set to false to send the user an email to activate their account.
             'activatedAfterSignUp' => true,
 
@@ -264,6 +293,9 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
 
             // The UserIdentity class you use in your application.
             'userIdentityClass' => 'AccountUserIdentity',
+
+            // The UserIdentity class you use in your application for hybrid auth logins.
+            'hybridAuthUserIdentityClass' => 'AccountHybridAuthUserIdentity',
 
             // Default setting for Remember Me checkbox on login page.
             'rememberDefault' => 0,
@@ -312,6 +344,33 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
             // Map of model info including relations and behaviors.
             'modelMap' => array(),
 
+            // Refer to Hybrid_Auth docs http://hybridauth.sourceforge.net/userguide.html
+            'hybridAuthConfig' => array(
+                'providers' => array(
+                    'openid' => array(
+                        'enabled' => true,
+                    ),
+                    'yahoo' => array(
+                        'enabled' => true,
+                    ),
+                    'google' => array(
+                        'enabled' => true,
+                        'keys' => array('id' => '', 'secret' => ''),
+                        'scope' => '',
+                    ),
+                    'facebook' => array(
+                        'enabled' => true,
+                        'keys' => array('id' => '', 'secret' => ''),
+                        'scope' => 'email,publish_stream',
+                        'display' => '',
+                    ),
+                    'twitter' => array(
+                        'enabled' => true,
+                        'keys' => array('key' => '', 'secret' => ''),
+                    ),
+                ),
+            ),
+
             // The path to YiiStrap.
             // Only required if you do not want YiiStrap in your app config, for example, if you are running YiiBooster.
             // Only required if you did not install using composer.
@@ -347,7 +406,8 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
 );</pre>
 
     <h3 id="configuration/multi-flash">Multiple Flash Messages</h3>
-    <p>Add the following to your layout files (eg: <code>views/layouts/column1.php</code>), 
+
+    <p>Add the following to your layout files (eg: <code>views/layouts/column1.php</code>),
         just before <code>echo $content;</code>:</p>
     <pre class="prettyprint linenums lang-php">echo Yii::app()->user->multiFlash();</pre>
 
@@ -486,11 +546,14 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
                     </li>
                 </ul>
                 <h4>License</h4>
+
                 <p>
                     <a href="license.html" class="fancybox" data-fancybox-type="ajax">BSD-3-Clause</a>, Copyright &copy; 2013-2014
                     <a href="mailto:info@mrphp.com.au">Mr PHP</a></p>
                 <h4>More from MrPHP</h4>
-                <p><a href="http://cornernote.github.io">cornernote.github.io</a> | <a href="http://mrphp.com.au">MrPHP.com.au</a></p>
+
+                <p><a href="http://cornernote.github.io">cornernote.github.io</a> |
+                    <a href="http://mrphp.com.au">MrPHP.com.au</a></p>
             </div>
             <div class="col-lg-4">
                 <h4>Yii Account Module</h4>
@@ -505,6 +568,9 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
                     <li><a href="http://getyiistrap.com/">YiiStrap</a></li>
                     <li><a href="http://cornernote.github.io/yii-email-module/">yii-email-module</a></li>
                     <li><a href="https://github.com/cornernote/yii-return-url">yii-return-url</a></li>
+                    <li><a href="http://hybridauth.sourceforge.net/">HybridAuth</a></li>
+                    <li><a href="http://zocial.smcllns.com/">css-social-buttons</a></li>
+                    <li></li>
                 </ul>
             </div>
         </div>
@@ -519,7 +585,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
                 <a href="http://mrphp.com.au"><img src="https://raw.github.com/cornernote/mrphp-assets/master/img/code-banner.png" alt="Mr PHP"></a>
                 <a href="https://www.ohloh.net/p/yii-account-module"><img src="https://www.ohloh.net/p/yii-account-module/widgets/project_thin_badge.gif" alt="Project Stats"></a>
             </p>
-    
+
             <p>
                 <a href="https://github.com/cornernote/yii-account-module/releases/latest"><img src="https://poser.pugx.org/cornernote/yii-account-module/v/stable.png" alt="Latest Stable Version"></a>
                 <a href="https://packagist.org/packages/cornernote/yii-account-module"><img src="https://poser.pugx.org/cornernote/yii-account-module/downloads.png" alt="Total Downloads"></a>
