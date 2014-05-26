@@ -219,7 +219,7 @@ class AccountModule extends CWebModule
      * @var array Hybrid_Auth config
      */
     public $hybridAuthConfig = array(
-        'base_url' => '',
+        'base_url' => '', // url to the hybridAuth action
         'providers' => array(),
     );
 
