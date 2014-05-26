@@ -8,23 +8,31 @@
  * --- BEGIN ModelDoc ---
  *
  * Table account_user
- * @property integer $id
+ * @property string $id
+ * @property string $email
  * @property string $username
  * @property string $password
  * @property string $first_name
  * @property string $last_name
- * @property string $email
+ * @property string $timezone
+ * @property integer $activated
+ * @property integer $disabled
  *
- * @see CActiveRecord
- * @method User find() find($condition = '', array $params = array())
- * @method User findByPk() findByPk($pk, $condition = '', array $params = array())
- * @method User findByAttributes() findByAttributes(array $attributes, $condition = '', array $params = array())
- * @method User findBySql() findBySql($sql, array $params = array())
- * @method User[] findAll() findAll($condition = '', array $params = array())
- * @method User[] findAllByPk() findAllByPk($pk, $condition = '', array $params = array())
- * @method User[] findAllByAttributes() findAllByAttributes(array $attributes, $condition = '', array $params = array())
- * @method User[] findAllBySql() findAllBySql($sql, array $params = array())
- * @method User with() with()
+ * @see \CActiveRecord
+ * @method \AccountUser find($condition = '', array $params = array())
+ * @method \AccountUser findByPk($pk, $condition = '', array $params = array())
+ * @method \AccountUser findByAttributes(array $attributes, $condition = '', array $params = array())
+ * @method \AccountUser findBySql($sql, array $params = array())
+ * @method \AccountUser[] findAll($condition = '', array $params = array())
+ * @method \AccountUser[] findAllByPk($pk, $condition = '', array $params = array())
+ * @method \AccountUser[] findAllByAttributes(array $attributes, $condition = '', array $params = array())
+ * @method \AccountUser[] findAllBySql($sql, array $params = array())
+ * @method \AccountUser with()
+ * @method \AccountUser together()
+ * @method \AccountUser cache($duration, $dependency = null, $queryCount = 1)
+ * @method \AccountUser resetScope($resetDefault = true)
+ * @method \AccountUser populateRecord($attributes, $callAfterFind = true)
+ * @method \AccountUser[] populateRecords($data, $callAfterFind = true, $index = null)
  *
  * --- END ModelDoc ---
  *
