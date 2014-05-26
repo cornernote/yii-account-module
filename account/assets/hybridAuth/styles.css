@@ -18,3 +18,8 @@
     list-style-type: none;
     margin: 0;
 }
+
+#hybridauth-account-list li {
+    list-style-type: none;
+    margin: 0 0 10px 0;
+}
