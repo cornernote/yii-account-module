@@ -24,17 +24,20 @@ class AccountUserIdentity extends CUserIdentity
     const ERROR_DISABLED = 4;
 
     /**
+     * @var bool
+     */
+    public $skipPassword = false;
+
+    /**
      * @var int
      */
     private $_id;
 
     /**
      * Authentication
-     *
-     * @param bool $checkPassword
      * @return bool
      */
-    public function authenticate($checkPassword = true)
+    public function authenticate()
     {
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
@@ -55,7 +58,7 @@ class AccountUserIdentity extends CUserIdentity
             $this->errorCode = self::ERROR_DISABLED;
             return false;
         }
-        if ($checkPassword && !CPasswordHelper::verifyPassword($this->password, $user->{$account->passwordField})) {
+        if (!$this->skipPassword && !CPasswordHelper::verifyPassword($this->password, $user->{$account->passwordField})) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
             return false;
         }
