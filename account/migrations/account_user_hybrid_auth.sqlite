@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS "account_user_hybrid_auth" (
+    "id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    "user_id" INTEGER,
+    "provider" TEXT,
+    "identifier" TEXT,
+    "email" TEXT
+);
+CREATE UNIQUE INDEX "account_user_hybrid_auth_provider_identifier" ON "account_user_hybrid_auth" ("provider", "identifier");
+CREATE INDEX "account_user_hybrid_auth_provider" ON "account_user_hybrid_auth" ("provider");
+CREATE INDEX "account_user_hybrid_auth_identifier" ON "account_user_hybrid_auth" ("identifier");
+CREATE INDEX "account_user_hybrid_auth_user_id" ON "account_user_hybrid_auth" ("user_id");
+CREATE INDEX "account_user_hybrid_auth_email" ON "account_user_hybrid_auth" ("email");
