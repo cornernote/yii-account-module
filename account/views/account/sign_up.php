@@ -39,5 +39,5 @@ if (!$accountSignUp->timezone) {
     $account = Yii::app()->getModule('account');
     $clientScript = Yii::app()->clientScript;
     $clientScript->registerScriptFile($account->getAssetsUrl() . '/jsTimezoneDetect/jstz.js');
-    $clientScript->registerScript('AccountSignUpTimezoneDetect', '$("#AccountSignUp_timezone").val(jstz.determine().name());');
+    $clientScript->registerScript(get_class($accountSignUp) . 'TimezoneDetect', '$("#' . get_class($accountSignUp) . '_timezone").val(jstz.determine().name());');
 }
