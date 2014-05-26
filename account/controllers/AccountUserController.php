@@ -38,7 +38,7 @@ class AccountUserController extends CController
     {
         return array(
             array('allow',
-                'actions' => array('login', 'logout', 'lostPassword', 'resetPassword', 'signUp', 'activate', 'resendActivation'),
+                'actions' => array('login', 'logout', 'lostPassword', 'resetPassword', 'signUp', 'activate', 'resendActivation', 'hybridAuth'),
                 'users' => array('*'), // anyone
             ),
             array('allow',
@@ -84,6 +84,9 @@ class AccountUserController extends CController
             ),
             'changePassword' => array(
                 'class' => 'account.actions.AccountChangePasswordAction',
+            ),
+            'hybridAuth' => array(
+                'class' => 'account.actions.AccountHybridAuthAction',
             ),
         );
     }

@@ -88,6 +88,26 @@ class AccountModule extends CWebModule
     public $disabledField = 'disabled';
 
     /**
+     * @var string The user class to use for hybrid auth user storage.
+     */
+    public $userHybridAuthClass = 'AccountUserHybridAuth';
+
+    /**
+     * @var string The field to store the user's id.
+     */
+    public $userIdField = 'user_id';
+
+    /**
+     * @var string The field to store the provider name.
+     */
+    public $providerField = 'provider';
+
+    /**
+     * @var string The field to store the user's provider identifier.
+     */
+    public $identifierField = 'identifier';
+
+    /**
      * @var bool Set to false to send the user an email to activate their account.
      */
     public $activatedAfterSignUp = true;
@@ -98,9 +118,14 @@ class AccountModule extends CWebModule
     public $resendActivationUrl = 'account/user/resendActivation';
 
     /**
-     * @var string The UserIdentity class you use in your application.
+     * @var string The UserIdentity class you use in your application for logins.
      */
     public $userIdentityClass = 'AccountUserIdentity';
+
+    /**
+     * @var string The UserIdentity class you use in your application for hybrid auth logins.
+     */
+    public $hybridAuthUserIdentityClass = 'AccountHybridAuthUserIdentity';
 
     /**
      * @var int Default setting for Remember Me checkbox on login page.
@@ -188,6 +213,15 @@ class AccountModule extends CWebModule
      * - When using this setting YiiStrap will only loaded in the menu interface (eg: index.php?r=menu).
      */
     public $yiiStrapPath;
+
+    /**
+     * Refer to Hybrid_Auth docs http://hybridauth.sourceforge.net/userguide.html
+     * @var array Hybrid_Auth config
+     */
+    public $hybridAuthConfig = array(
+        'baseUrl' => null,
+        'providers' => array(),
+    );
 
     /**
      * @var CDbConnection the DB connection instance

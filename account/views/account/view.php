@@ -12,26 +12,44 @@
  * @package yii-account-module
  */
 $this->pageTitle = Yii::t('account', 'My Account');
+?>
 
-/** @var AccountModule $account */
-$account = Yii::app()->getModule('account');
-$attributes = array();
-if ($account->firstNameField)
-    $attributes[] = $account->firstNameField;
-if ($account->lastNameField)
-    $attributes[] = $account->lastNameField;
-$attributes[] = $account->emailField;
-if ($account->usernameField)
-    $attributes[] = $account->usernameField;
+<div class="row-fluid">
+    <div class="span6">
+        <?php
+        /** @var AccountModule $account */
+        $account = Yii::app()->getModule('account');
+        $attributes = array();
+        if ($account->firstNameField)
+            $attributes[] = $account->firstNameField;
+        if ($account->lastNameField)
+            $attributes[] = $account->lastNameField;
+        $attributes[] = $account->emailField;
+        if ($account->usernameField)
+            $attributes[] = $account->usernameField;
 
-$this->widget('bootstrap.widgets.TbDetailView', array(
-    'data' => $accountUser,
-    'attributes' => $attributes,
-    'htmlOptions' => array('class' => 'table table-condensed'),
-));
+        $this->widget('bootstrap.widgets.TbDetailView', array(
+            'data' => $accountUser,
+            'attributes' => $attributes,
+            'htmlOptions' => array('class' => 'table table-condensed'),
+        ));
 
-echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
-    TbHtml::link(Yii::t('account', 'Update Account'), array('user/update'), array('class' => 'btn btn-primary')),
-    TbHtml::link(Yii::t('account', 'Change Password'), array('user/changePassword'), array('class' => 'btn')),
-    TbHtml::link(Yii::t('account', 'Logout'), array('user/logout'), array('class' => 'btn')),
-)));
+        echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
+            TbHtml::link(Yii::t('account', 'Update Account'), array('user/update'), array('class' => 'btn btn-primary')),
+            TbHtml::link(Yii::t('account', 'Change Password'), array('user/changePassword'), array('class' => 'btn')),
+            TbHtml::link(Yii::t('account', 'Logout'), array('user/logout'), array('class' => 'btn')),
+        )));
+        ?>
+    </div>
+    <div class="span6">
+        <h3><?php echo Yii::t('account', 'Link your account to any of the following services:'); ?></h3>
+
+        <div class="well">
+            <?php
+            $this->widget('account.widgets.HybridAuthWidget', array(
+                'baseUrl' => '/account/accountUser/hybridAuth',
+            ));
+            ?>
+        </div>
+    </div>
+</div>

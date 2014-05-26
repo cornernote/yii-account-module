@@ -1,0 +1,20 @@
+#hybridauth-openid-form {
+    margin: 0;
+}
+
+#hybridauth-provider-list {
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+}
+
+#hybridauth-provider-list li {
+    display: inline-block;
+    margin: 5px;
+    text-decoration: none;
+}
+
+#hybridauth-account-list {
+    list-style-type: none;
+    margin: 0;
+}
