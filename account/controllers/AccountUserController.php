@@ -103,6 +103,9 @@ class AccountUserController extends CController
         return true;
     }
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         /** @var AccountModule $account */
