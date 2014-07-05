@@ -51,7 +51,9 @@ class AccountSignUpAction extends CAction
             if ($accountSignUp->save()) {
                 if (!isset($accountSignUp->user->{$account->activatedField}) || $account->activatedAfterSignUp) {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created and you have been logged in.'), 'success');
-                    call_user_func_array($account->emailCallbackWelcome, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+                    if ($account->emailCallbackWelcome) {
+                        call_user_func_array($account->emailCallbackWelcome, array($accountSignUp->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+                    }
                 }
                 else {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created. Please check your email for activation instructions.'), 'success');
