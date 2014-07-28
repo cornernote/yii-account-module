@@ -463,13 +463,20 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
     <h3 id="usage/extending">Extending</h3>
 
     <p>To fully customise the actions, you can add them into any controller in your site, for this example we will use
-        <code>SiteController</code>. You may also use something like <code>MemberController</code> or
-        <code>UserController</code>, however you can only use
+        <code>AccountController</code>. You may also use something like <code>MemberController</code> or
+        <code>SiteController</code>.  Please note that you can only use
         <code>AccountController</code> if you defined it in the <code>controllerMap</code> in your <code>config/main.php</code> because the route will go to the Account Module.</p>
 
-    <pre class="prettyprint linenums lang-php">class SiteController extends CController
+    <pre class="prettyprint linenums lang-php">class AccountController extends CController
 {
 
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+    
     public function accessRules()
     {
         return array(
