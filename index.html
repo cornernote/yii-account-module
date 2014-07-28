@@ -245,7 +245,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
 
             // If we should allow access to the module controllers.
             // Set to false if you only want to use the actions in your own controllers, the controllers will then throw a 404 error.
-            'useAccountUserController' => true,
+            'useAccountAccountController' => true,
 
             // The layout used for module controllers.
             'layout' => 'account.views.layouts.column1',
@@ -293,7 +293,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
             'activatedAfterSignUp' => true,
 
             // The route to use in the email when a user requests a new activation email.
-            'resendActivationUrl' => 'account/user/resendActivation',
+            'resendActivationUrl' => 'account/resendActivation',
 
             // The UserIdentity class you use in your application.
             'userIdentityClass' => 'AccountUserIdentity',
@@ -342,7 +342,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
 
             // Mapping from controller ID to controller configurations.
             'controllerMap' => array(
-                'user' => 'account.controllers.AccountUserController',
+                'account' => 'account.controllers.AccountAccountController',
             ),
 
             // Map of model info including relations and behaviors.
@@ -537,13 +537,13 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
                 'class' => 'account.actions.AccountUpdateAction',
                 'view' => 'account.views.account.update',
                 'formClass' => 'AccountUpdate',
-                'returnUrl' => array('/account/user/account'),
+                'returnUrl' => array('/account/index'),
             ),
             'changePassword' => array(
                 'class' => 'account.actions.AccountChangePasswordAction',
                 'view' => 'account.views.account.change_password',
                 'formClass' => 'AccountChangePassword',
-                'returnUrl' => array('/account/user/account'),
+                'returnUrl' => array('/account/index'),
             ),
         );
     }
