@@ -226,6 +226,10 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
     <p>Full configuration:</p>
 
     <pre class="prettyprint linenums lang-php">return array(
+    'controllerMap' => array(
+        // allows you to use AccountController
+        'account' => 'application.controllers.AccountController',
+    ),
     'modules' => array(
         'account' => array(
             // path to the AccountModule class
@@ -460,8 +464,8 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
 
     <p>To fully customise the actions, you can add them into any controller in your site, for this example we will use
         <code>SiteController</code>. You may also use something like <code>MemberController</code> or
-        <code>UserController</code>, however you cannot use
-        <code>AccountController</code> because the route will go to the Account Module.</p>
+        <code>UserController</code>, however you can only use
+        <code>AccountController</code> if you defined it in the <code>controllerMap</code> in your <code>config/main.php</code> because the route will go to the Account Module.</p>
 
     <pre class="prettyprint linenums lang-php">class SiteController extends CController
 {
