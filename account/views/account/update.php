@@ -22,14 +22,24 @@ $form = $this->beginWidget('account.components.AccountActiveForm', array(
 ));
 echo $form->errorSummary($accountUpdate);
 
-echo $form->textFieldControlGroup($accountUpdate, 'email');
-echo $form->textFieldControlGroup($accountUpdate, 'username');
+echo $form->textFieldControlGroup($accountUpdate, 'email', array(
+    'label' => CActiveRecord::model($account->userClass)->getAttributeLabel($account->emailField),
+));
+echo $form->textFieldControlGroup($accountUpdate, 'username', array(
+    'label' => CActiveRecord::model($account->userClass)->getAttributeLabel($account->usernameField),
+));
 if ($account->firstNameField)
-    echo $form->textFieldControlGroup($accountUpdate, 'first_name');
+    echo $form->textFieldControlGroup($accountUpdate, 'first_name', array(
+        'label' => CActiveRecord::model($account->userClass)->getAttributeLabel($account->firstNameField),
+    ));
 if ($account->lastNameField)
-    echo $form->textFieldControlGroup($accountUpdate, 'last_name');
+    echo $form->textFieldControlGroup($accountUpdate, 'last_name', array(
+        'label' => CActiveRecord::model($account->userClass)->getAttributeLabel($account->lastNameField),
+    ));
 if ($account->timezoneField)
-    echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezoneHelper::timezones());
+    echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezoneHelper::timezones(), array(
+        'label' => CActiveRecord::model($account->userClass)->getAttributeLabel($account->timezoneField),
+    ));
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('account', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
