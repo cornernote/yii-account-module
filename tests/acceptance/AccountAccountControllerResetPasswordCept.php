@@ -77,7 +77,7 @@ $I->amOnPage('/');
 $I->see('Hello admin');
 
 // change password back to admin
-$I->amOnPage('/account/account/changePassword');
+$I->amOnPage('/account/account/password');
 $I->fillField('AccountChangePassword_current_password', 'admin123');
 $I->fillField('AccountChangePassword_new_password', 'admin');
 $I->fillField('AccountChangePassword_confirm_password', 'admin');
