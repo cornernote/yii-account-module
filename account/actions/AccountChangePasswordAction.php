@@ -62,7 +62,7 @@ class AccountChangePasswordAction extends CAction
     public function getReturnUrl()
     {
         if (!$this->_returnUrl)
-            $this->_returnUrl = array('/account/user/view');
+            $this->_returnUrl = array('account/index');
         return $this->_returnUrl;
     }
 

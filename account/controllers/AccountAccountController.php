@@ -42,7 +42,7 @@ class AccountAccountController extends CController
                 'users' => array('*'), // anyone
             ),
             array('allow',
-                'actions' => array('view', 'update', 'changePassword'),
+                'actions' => array('index', 'update', 'changePassword'),
                 'users' => array('@'), // authenticated
             ),
             array('deny', 'users' => array('*')),
@@ -76,7 +76,7 @@ class AccountAccountController extends CController
             'logout' => array(
                 'class' => 'account.actions.AccountLogoutAction',
             ),
-            'view' => array(
+            'index' => array(
                 'class' => 'account.actions.AccountViewAction',
             ),
             'update' => array(
