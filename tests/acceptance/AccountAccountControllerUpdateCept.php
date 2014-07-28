@@ -59,7 +59,7 @@ $I->click('Save');
 $I->see('Your account has been updated.');
 
 // check details
-$I->amOnPage('/account/account/view');
+$I->amOnPage('/account/account/index');
 $I->see('admin-first-name');
 $I->see('admin-last-name');
 $I->see('admin-email@mailinator.com');
