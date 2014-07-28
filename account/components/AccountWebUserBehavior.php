@@ -98,13 +98,14 @@ class AccountWebUserBehavior extends CBehavior
     }
 
     /**
-     * @param string $roles
+     * @param string|array $roles Array or comma separated list of roles
      * @return bool
      */
     public function hasRole($roles)
     {
         $userRoles = Yii::app()->authManager->getRoles($this->id);
-        foreach (explode(',', $roles) as $role) {
+        $roles = is_array($roles) ? $roles : explode(',', $roles);
+        foreach ($roles as $role) {
             if (isset($userRoles[trim($role)])) {
                 return true;
             }
