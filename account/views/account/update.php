@@ -13,17 +13,23 @@
  */
 $this->pageTitle = Yii::t('account', 'Update Account');
 
+/** @var AccountModule $account */
+$account = Yii::app()->getModule('account');
+
 /** @var AccountActiveForm $form */
 $form = $this->beginWidget('account.components.AccountActiveForm', array(
     'id' => 'accountUpdate-form',
 ));
 echo $form->errorSummary($accountUpdate);
 
-echo $form->textFieldControlGroup($accountUpdate, 'first_name');
-echo $form->textFieldControlGroup($accountUpdate, 'last_name');
 echo $form->textFieldControlGroup($accountUpdate, 'email');
 echo $form->textFieldControlGroup($accountUpdate, 'username');
-echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezoneHelper::timezones());
+if ($account->firstNameField)
+    echo $form->textFieldControlGroup($accountUpdate, 'first_name');
+if ($account->lastNameField)
+    echo $form->textFieldControlGroup($accountUpdate, 'last_name');
+if ($account->timezoneField)
+    echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezoneHelper::timezones());
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('account', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
