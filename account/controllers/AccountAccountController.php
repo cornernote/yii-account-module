@@ -42,7 +42,7 @@ class AccountAccountController extends CController
                 'users' => array('*'), // anyone
             ),
             array('allow',
-                'actions' => array('index', 'update', 'changePassword'),
+                'actions' => array('index', 'update', 'password'),
                 'users' => array('@'), // authenticated
             ),
             array('deny', 'users' => array('*')),
@@ -82,7 +82,7 @@ class AccountAccountController extends CController
             'update' => array(
                 'class' => 'account.actions.AccountUpdateAction',
             ),
-            'changePassword' => array(
+            'password' => array(
                 'class' => 'account.actions.AccountChangePasswordAction',
             ),
             'hybridAuth' => array(
@@ -100,7 +100,7 @@ class AccountAccountController extends CController
     {
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
-        if (!$account->useAccountUserController)
+        if (!$account->useAccountAccountController)
             throw new CHttpException(404, Yii::t('account', 'Page not found.'));
         $this->layout = $account->layout;
         return true;
