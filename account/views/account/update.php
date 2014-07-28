@@ -27,6 +27,6 @@ echo $form->dropDownListControlGroup($accountUpdate, 'timezone', AccountTimezone
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('account', 'Save'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('account', 'Back'), array('user/view'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('account', 'Back'), array('account/view'), array('class' => 'btn')),
 )));
 $this->endWidget();

@@ -33,8 +33,8 @@ $this->pageTitle = Yii::t('account', 'Login');
         }
         echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
             TbHtml::submitButton(Yii::t('account', 'Login'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-            TbHtml::link(Yii::t('account', 'Sign up'), array('user/signUp'), array('class' => 'btn')),
-            TbHtml::link(Yii::t('account', 'Lost password?'), array('user/lostPassword'), array('class' => 'btn')),
+            TbHtml::link(Yii::t('account', 'Sign up'), array('account/signUp'), array('class' => 'btn')),
+            TbHtml::link(Yii::t('account', 'Lost password?'), array('account/lostPassword'), array('class' => 'btn')),
         )));
         $this->endWidget();
         ?>

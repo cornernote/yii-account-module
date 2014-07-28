@@ -29,7 +29,7 @@ echo $form->dropDownListControlGroup($accountSignUp, 'timezone', AccountTimezone
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('account', 'Sign Up'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('account', 'Already have an account?'), array('user/login'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('account', 'Already have an account?'), array('account/login'), array('class' => 'btn')),
 )));
 $this->endWidget();
 

@@ -16,7 +16,7 @@ class AccountModule extends CWebModule
     /**
      * @var string
      */
-    public $defaultController = 'user';
+    public $defaultController = 'account';
 
     /**
      * @var string The ID of the CDbConnection application component. If not set, a SQLite3
@@ -34,7 +34,7 @@ class AccountModule extends CWebModule
      * @var bool If we should allow access to the module controllers.
      * Set to false if you only want to use the actions in your own controllers, the controllers will then throw a 404 error.
      */
-    public $useAccountUserController = true;
+    public $useAccountAccountController = true;
 
     /**
      * @var string The layout used for module controllers.
@@ -196,7 +196,7 @@ class AccountModule extends CWebModule
      * @var array Mapping from controller ID to controller configurations.
      */
     public $controllerMap = array(
-        'user' => 'account.controllers.AccountUserController',
+        'account' => 'account.controllers.AccountAccountController',
     );
 
     /**

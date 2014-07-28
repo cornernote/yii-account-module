@@ -26,6 +26,6 @@ echo $form->textFieldControlGroup($accountResendActivation, 'email_or_username')
 
 echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
     TbHtml::submitButton(Yii::t('account', 'Resend Activation'), array('color' => TbHtml::BUTTON_COLOR_PRIMARY)),
-    TbHtml::link(Yii::t('account', 'Back to login'), array('user/login'), array('class' => 'btn')),
+    TbHtml::link(Yii::t('account', 'Back to login'), array('account/login'), array('class' => 'btn')),
 )));
 $this->endWidget();

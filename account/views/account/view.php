@@ -35,9 +35,9 @@ $this->pageTitle = Yii::t('account', 'My Account');
         ));
 
         echo CHtml::tag('div', array('class' => 'form-actions'), implode(' ', array(
-            TbHtml::link(Yii::t('account', 'Update Account'), array('user/update'), array('class' => 'btn btn-primary')),
-            TbHtml::link(Yii::t('account', 'Change Password'), array('user/changePassword'), array('class' => 'btn')),
-            TbHtml::link(Yii::t('account', 'Logout'), array('user/logout'), array('class' => 'btn')),
+            TbHtml::link(Yii::t('account', 'Update Account'), array('account/update'), array('class' => 'btn btn-primary')),
+            TbHtml::link(Yii::t('account', 'Change Password'), array('account/changePassword'), array('class' => 'btn')),
+            TbHtml::link(Yii::t('account', 'Logout'), array('account/logout'), array('class' => 'btn')),
         )));
         ?>
     </div>
