@@ -1,6 +1,6 @@
 <?php
 /**
- * AccountUserControllerSignUp Test
+ * AccountAccountControllerSignUp Test
  *
  * @var $scenario \Codeception\Scenario
  *
@@ -14,14 +14,14 @@
  */
 
 $I = new WebGuy($scenario);
-$I->wantTo('ensure AccountUserController sign up works');
+$I->wantTo('ensure AccountAccountController sign up works');
 
 // check we are not logged in
 $I->amOnPage('/');
 $I->see('Hello guest');
 
 // check the form is there
-$I->amOnPage('/account/user/signUp');
+$I->amOnPage('/account/account/signUp');
 $I->see('First Name');
 $I->see('Last Name');
 $I->see('Email');
@@ -30,7 +30,7 @@ $I->see('Password');
 $I->see('Confirm Password');
 
 // signup with empty details
-$I->amOnPage('/account/user/signUp');
+$I->amOnPage('/account/account/signUp');
 $I->click('Sign Up');
 $I->see('Please fix the following input errors:');
 $I->see('Email cannot be blank.');
@@ -40,7 +40,7 @@ $I->see('Password cannot be blank.');
 $I->see('Confirm Password cannot be blank.');
 
 // signup with invalid email
-$I->amOnPage('/account/user/signUp');
+$I->amOnPage('/account/account/signUp');
 $I->fillField('AccountSignUp_first_name', 'demo_first_name');
 $I->fillField('AccountSignUp_last_name', 'demo_last_name');
 $I->fillField('AccountSignUp_email', 'demo!mailinator.com');
@@ -58,7 +58,7 @@ $I->dontSee('Password cannot be blank.');
 $I->see('Email is not a valid email address.');
 
 // signup with mismatching password
-$I->amOnPage('/account/user/signUp');
+$I->amOnPage('/account/account/signUp');
 $I->fillField('AccountSignUp_first_name', 'demo_first_name');
 $I->fillField('AccountSignUp_last_name', 'demo_last_name');
 $I->fillField('AccountSignUp_email', 'demo@mailinator.com');
@@ -76,7 +76,7 @@ $I->dontSee('Password cannot be blank.');
 $I->see('Confirm Password must be repeated exactly.');
 
 // signup with valid details
-$I->amOnPage('/account/user/signUp');
+$I->amOnPage('/account/account/signUp');
 $I->fillField('AccountSignUp_first_name', 'demo_first_name');
 $I->fillField('AccountSignUp_last_name', 'demo_last_name');
 $I->fillField('AccountSignUp_email', 'demo@mailinator.com');
@@ -89,13 +89,13 @@ $I->amOnPage('/');
 $I->see('Hello demo');
 
 // logout
-$I->amOnPage('/account/user/logout');
+$I->amOnPage('/account/account/logout');
 $I->see('Your have been logged out.');
 $I->amOnPage('/');
 $I->see('Hello guest');
 
 // login
-$I->amOnPage('/account/user/login');
+$I->amOnPage('/account/account/login');
 $I->fillField('AccountLogin_username', 'demo');
 $I->fillField('AccountLogin_password', 'demo123');
 $I->click('Login');
@@ -106,7 +106,7 @@ $I->amOnPage('/');
 $I->see('Hello demo');
 
 // logout
-$I->amOnPage('/account/user/logout');
+$I->amOnPage('/account/account/logout');
 $I->see('Your have been logged out.');
 
 // check guest

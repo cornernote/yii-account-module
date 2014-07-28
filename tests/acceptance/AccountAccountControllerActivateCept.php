@@ -1,6 +1,6 @@
 <?php
 /**
- * AccountUserControllerActivate Test
+ * AccountAccountControllerActivate Test
  *
  * @var $scenario \Codeception\Scenario
  *
@@ -14,7 +14,7 @@
  */
 
 $I = new WebGuy($scenario);
-$I->wantTo('ensure AccountUserController activate works');
+$I->wantTo('ensure AccountAccountController activate works');
 
 // check we are not logged in
 $I->amOnPage('/');
@@ -42,11 +42,11 @@ $I->haveInDatabase('token', array(
 ));
 
 // check with invalid token
-$I->amOnPage('/account/user/activate/user_id/2/token/test-invalid-token');
+$I->amOnPage('/account/account/activate/user_id/2/token/test-invalid-token');
 $I->see('Invalid token.');
 
 // reset password with empty details
-$I->amOnPage('/account/user/activate/user_id/2/token/test-token');
+$I->amOnPage('/account/account/activate/user_id/2/token/test-token');
 $I->see('Your account has been activated and you have been logged in.');
 
 // check login
@@ -54,15 +54,15 @@ $I->amOnPage('/');
 $I->see('Hello demo-activate');
 
 // logout
-$I->amOnPage('/account/user/logout');
+$I->amOnPage('/account/account/logout');
 $I->see('Your have been logged out.');
 
 // ensure token is expired
-$I->amOnPage('/account/user/activate/user_id/2/token/test-token');
+$I->amOnPage('/account/account/activate/user_id/2/token/test-token');
 $I->see('Invalid token.');
 
 // check login
-$I->amOnPage('/account/user/login');
+$I->amOnPage('/account/account/login');
 $I->fillField('AccountLogin_username', 'demo-activate');
 $I->fillField('AccountLogin_password', 'demo-activate');
 $I->click('Login');
@@ -71,5 +71,5 @@ $I->amOnPage('/');
 $I->see('Hello demo-activate');
 
 // logout
-$I->amOnPage('/account/user/logout');
+$I->amOnPage('/account/account/logout');
 $I->see('Your have been logged out.');

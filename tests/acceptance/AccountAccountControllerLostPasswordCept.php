@@ -14,28 +14,28 @@
  */
 
 $I = new WebGuy($scenario);
-$I->wantTo('ensure AccountUserController lost password works');
+$I->wantTo('ensure AccountAccountController lost password works');
 
 // check we are not logged in
 $I->amOnPage('/');
 $I->see('Hello guest');
 
 // lost password with invalid username
-$I->amOnPage('/account/user/lostPassword');
+$I->amOnPage('/account/account/lostPassword');
 $I->fillField('AccountLostPassword_email_or_username', 'admin123');
 $I->click('Recover Password');
 $I->see('Please fix the following input errors:');
 $I->see('Username is incorrect.');
 
 // lost password with invalid email
-$I->amOnPage('/account/user/lostPassword');
+$I->amOnPage('/account/account/lostPassword');
 $I->fillField('AccountLostPassword_email_or_username', 'admin123@mailinator.com');
 $I->click('Recover Password');
 $I->see('Please fix the following input errors:');
 $I->see('Email is incorrect.');
 
 // lost password with correct username
-$I->amOnPage('/account/user/lostPassword');
+$I->amOnPage('/account/account/lostPassword');
 $I->fillField('AccountLostPassword_email_or_username', 'admin');
 $I->click('Recover Password');
 $I->see('Password reset instructions have been sent to admin@mailinator.com. Please check your email.');
@@ -55,7 +55,7 @@ $I->seeInDatabase('token', array(
 ));
 
 // lost password with correct email
-$I->amOnPage('/account/user/lostPassword');
+$I->amOnPage('/account/account/lostPassword');
 $I->fillField('AccountLostPassword_email_or_username', 'admin@mailinator.com');
 $I->click('Recover Password');
 $I->see('Password reset instructions have been sent to admin@mailinator.com. Please check your email.');
