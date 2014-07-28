@@ -67,7 +67,7 @@ return array(
                 ),
             ),
             'allowAutoLogin' => true,
-            'loginUrl' => array('/account/user/login'),
+            'loginUrl' => array('/account/account/login'),
         ),
     ),
     'modules' => array(
