@@ -55,11 +55,11 @@ class AccountUpdateAction extends CAction
             $accountUpdate->email = $accountUpdate->user->{$account->emailField};
             if ($accountUpdate->user->{$account->usernameField})
                 $accountUpdate->username = $accountUpdate->user->{$account->usernameField};
-            if ($accountUpdate->user->{$account->firstNameField})
+            if ($account->firstNameField && $accountUpdate->user->{$account->firstNameField})
                 $accountUpdate->first_name = $accountUpdate->user->{$account->firstNameField};
-            if ($accountUpdate->user->{$account->lastNameField})
+            if ($account->lastNameField && $accountUpdate->user->{$account->lastNameField})
                 $accountUpdate->last_name = $accountUpdate->user->{$account->lastNameField};
-            if ($accountUpdate->user->{$account->timezoneField})
+            if ($account->timezoneField && $accountUpdate->user->{$account->timezoneField})
                 $accountUpdate->timezone = $accountUpdate->user->{$account->timezoneField};
         }
 
