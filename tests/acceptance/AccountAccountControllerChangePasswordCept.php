@@ -28,7 +28,7 @@ $I->click('Login');
 $I->see('You have successfully logged in.');
 
 // change password with empty fields
-$I->amOnPage('/account/account/changePassword');
+$I->amOnPage('/account/account/password');
 $I->fillField('AccountChangePassword_current_password', '');
 $I->fillField('AccountChangePassword_new_password', '');
 $I->fillField('AccountChangePassword_confirm_password', '');
@@ -39,7 +39,7 @@ $I->see('New Password cannot be blank.');
 $I->see('Confirm Password cannot be blank.');
 
 // change password with incorrect current password
-$I->amOnPage('/account/account/changePassword');
+$I->amOnPage('/account/account/password');
 $I->fillField('AccountChangePassword_current_password', 'admin321');
 $I->fillField('AccountChangePassword_new_password', 'admin123');
 $I->fillField('AccountChangePassword_confirm_password', 'admin123');
@@ -48,7 +48,7 @@ $I->see('Please fix the following input errors:');
 $I->see('Incorrect password.');
 
 // change password with new password mismatch
-$I->amOnPage('/account/account/changePassword');
+$I->amOnPage('/account/account/password');
 $I->fillField('AccountChangePassword_current_password', 'admin');
 $I->fillField('AccountChangePassword_new_password', 'admin321');
 $I->fillField('AccountChangePassword_confirm_password', 'admin123');
@@ -57,7 +57,7 @@ $I->see('Please fix the following input errors:');
 $I->see('Confirm Password must be repeated exactly.');
 
 // change password with valid data
-$I->amOnPage('/account/account/changePassword');
+$I->amOnPage('/account/account/password');
 $I->fillField('AccountChangePassword_current_password', 'admin');
 $I->fillField('AccountChangePassword_new_password', 'admin123');
 $I->fillField('AccountChangePassword_confirm_password', 'admin123');
@@ -78,7 +78,7 @@ $I->amOnPage('/');
 $I->see('Hello admin');
 
 // change password back to admin
-$I->amOnPage('/account/account/changePassword');
+$I->amOnPage('/account/account/password');
 $I->fillField('AccountChangePassword_current_password', 'admin123');
 $I->fillField('AccountChangePassword_new_password', 'admin');
 $I->fillField('AccountChangePassword_confirm_password', 'admin');
