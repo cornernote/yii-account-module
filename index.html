@@ -474,7 +474,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
     {
         return array(
             array('allow',
-                'actions' => array('account', 'updateAccount', 'changePassword', 'logout'),
+                'actions' => array('index', 'updateAccount', 'changePassword', 'logout'),
                 'users' => array('@'),
             ),
             array('allow',
@@ -522,7 +522,7 @@ php composer.phar require cornernote/yii-account-module:dev-master    // develop
             'logout' => array(
                 'class' => 'account.actions.AccountLogoutAction',
             ),
-            'account' => array(
+            'index' => array(
                 'class' => 'account.actions.AccountViewAction',
                 'view' => 'account.views.account.index',
             ),
