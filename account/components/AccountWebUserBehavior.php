@@ -97,4 +97,19 @@ class AccountWebUserBehavior extends CBehavior
         return $this->_user;
     }
 
+    /**
+     * @param string $roles
+     * @return bool
+     */
+    public function hasRole($roles)
+    {
+        $userRoles = Yii::app()->authManager->getRoles($this->id);
+        foreach (explode(',', $roles) as $role) {
+            if (isset($userRoles[trim($role)])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
