@@ -103,7 +103,7 @@ class AccountWebUserBehavior extends CBehavior
      */
     public function hasRole($roles)
     {
-        $userRoles = Yii::app()->authManager->getRoles($this->id);
+        $userRoles = Yii::app()->authManager->getRoles($this->owner->id);
         $roles = is_array($roles) ? $roles : explode(',', $roles);
         foreach ($roles as $role) {
             if (isset($userRoles[trim($role)])) {
