@@ -1,6 +1,6 @@
 <?php
 /**
- * AccountUserControllerSignUp Test
+ * AccountAccountControllerSignUp Test
  *
  * @var $scenario \Codeception\Scenario
  *
