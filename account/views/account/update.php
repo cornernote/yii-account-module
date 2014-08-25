@@ -22,6 +22,8 @@ $form = $this->beginWidget('account.components.AccountActiveForm', array(
 ));
 echo $form->errorSummary($accountUpdate);
 
+echo $form->passwordFieldControlGroup($accountUpdate, 'current_password');
+
 echo $form->textFieldControlGroup($accountUpdate, 'email', array(
     'label' => CActiveRecord::model($account->userClass)->getAttributeLabel($account->emailField),
 ));
