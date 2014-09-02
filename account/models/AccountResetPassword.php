@@ -74,6 +74,7 @@ class AccountResetPassword extends CFormModel
 
     /**
      * Updates the users password.
+     * @param bool $runValidation
      */
     public function save($runValidation = true)
     {

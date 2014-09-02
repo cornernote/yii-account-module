@@ -101,6 +101,7 @@ class AccountSignUp extends CFormModel
 
     /**
      * Creates the user.
+     * @param bool $runValidation
      * @return bool
      */
     public function save($runValidation = true)

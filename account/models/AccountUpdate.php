@@ -85,6 +85,7 @@ class AccountUpdate extends CFormModel
 
     /**
      * Updates the users account.
+     * @param bool $runValidation
      */
     public function save($runValidation = true)
     {
