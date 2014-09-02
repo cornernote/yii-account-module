@@ -43,6 +43,11 @@ class AccountUpdate extends CFormModel
     public $timezone;
 
     /**
+     * @var string
+     */
+    public $current_password;
+
+    /**
      * @var AccountUser
      */
     private $_user;
@@ -56,7 +61,8 @@ class AccountUpdate extends CFormModel
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
         return array(
-            array('email, username, first_name', 'required'),
+            array('current_password, email, username, first_name', 'required'),
+            array('current_password', 'validateCurrentPassword'),
             array('email, username, timezone', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
@@ -64,6 +70,17 @@ class AccountUpdate extends CFormModel
                 'condition' => $this->user->tableSchema->primaryKey . '!=' . $this->user->primaryKey
             )),
         );
+    }
+
+    /**
+     * Validates the users current password.
+     * This is the 'validateCurrentPassword' validator as declared in rules().
+     * @param $attribute
+     */
+    public function validateCurrentPassword($attribute)
+    {
+        if (!$this->user || !CPasswordHelper::verifyPassword($this->current_password, $this->user->password))
+            $this->addError($attribute, Yii::t('account', 'Incorrect password.'));
     }
 
     /**
@@ -95,6 +112,7 @@ class AccountUpdate extends CFormModel
     public function attributeLabels()
     {
         return array(
+            'current_password' => Yii::t('account', 'Current Password'),
             'email' => Yii::t('account', 'Email'),
             'first_name' => Yii::t('account', 'First Name'),
             'last_name' => Yii::t('account', 'Last Name'),

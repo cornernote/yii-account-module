@@ -51,6 +51,7 @@ $I->see('Email is not a valid email address.');
 
 // update details with valid data
 $I->amOnPage('/account/account/update');
+$I->fillField('AccountUpdate_current_password', 'admin');
 $I->fillField('AccountUpdate_first_name', 'admin-first-name');
 $I->fillField('AccountUpdate_last_name', 'admin-last-name');
 $I->fillField('AccountUpdate_email', 'admin-email@mailinator.com');
@@ -80,6 +81,7 @@ $I->see('Hello admin-username');
 
 // update details back to defaults
 $I->amOnPage('/account/account/update');
+$I->fillField('AccountUpdate_current_password', 'admin');
 $I->fillField('AccountUpdate_first_name', 'admin');
 $I->fillField('AccountUpdate_last_name', 'admin');
 $I->fillField('AccountUpdate_email', 'admin@mailinator.com');
