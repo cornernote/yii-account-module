@@ -69,10 +69,11 @@ class AccountUpdate extends CFormModel
     /**
      * Updates the users account.
      */
-    public function save()
+    public function save($runValidation = true)
     {
-        if (!$this->validate())
+        if ($runValidation && !$this->validate()) {
             return false;
+        }
 
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');

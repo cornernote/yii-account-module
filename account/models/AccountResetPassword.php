@@ -75,10 +75,11 @@ class AccountResetPassword extends CFormModel
     /**
      * Updates the users password.
      */
-    public function save()
+    public function save($runValidation = true)
     {
-        if (!$this->validate())
+        if ($runValidation && !$this->validate()) {
             return false;
+        }
 
         /** @var AccountModule $account */
         $account = Yii::app()->getModule('account');
