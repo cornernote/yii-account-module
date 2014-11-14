@@ -77,7 +77,7 @@ class AccountSignUp extends CFormModel
             array('first_name, last_name', 'length', 'max' => 32),
             array('email', 'email'),
             array('email, username', 'unique', 'className' => $account->userClass),
-            array('username', 'match', 'pattern' => '/^[0-9a-z\-_]+$/u', 'message' => Yii::t('account', 'Username can only contain numbers, letters and dash (-) characters')),
+            array('username', 'match', 'pattern' => '/^[0-9a-z\-_]+$/u', 'message' => Yii::t('account', 'Username can only contain lowercase letters, numbers and dash (-) characters')),
             array('password', 'length', 'min' => 5),
             array('confirm_password', 'compare', 'compareAttribute' => 'password'),
         );
