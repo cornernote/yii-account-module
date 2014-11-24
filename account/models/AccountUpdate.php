@@ -65,6 +65,7 @@ class AccountUpdate extends CFormModel
             array('current_password', 'validateCurrentPassword'),
             array('email, username, timezone', 'length', 'max' => 255),
             array('first_name, last_name', 'length', 'max' => 32),
+            array('username', 'match', 'pattern' => '/^[0-9a-z\-_]+$/u', 'message' => Yii::t('account', 'Username can only contain lowercase letters, numbers and dash (-) characters')),
             array('email', 'email'),
             array('email, username', 'unique', 'className' => $account->userClass, 'criteria' => array(
                 'condition' => $this->user->tableSchema->primaryKey . '!=' . $this->user->primaryKey
