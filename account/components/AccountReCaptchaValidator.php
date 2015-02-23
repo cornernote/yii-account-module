@@ -56,7 +56,7 @@ class AccountReCaptchaValidator extends CValidator
      */
     protected function validateAttribute($object, $attribute)
     {
-        if (!$this->checkAnswer($_POST['recaptcha_challenge_field'], $_POST['recaptcha_response_field'])) {
+        if (!isset($_POST['recaptcha_challenge_field']) || !isset($_POST['recaptcha_response_field']) || !$this->checkAnswer($_POST['recaptcha_challenge_field'], $_POST['recaptcha_response_field'])) {
             $message = $this->message !== null ? $this->message : Yii::t('account', 'The verification code is incorrect.');
             $this->addError($object, $attribute, $message);
         }
