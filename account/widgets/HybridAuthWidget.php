@@ -54,7 +54,7 @@ class HybridAuthWidget extends CWidget
         foreach ($providers as $provider => $settings) {
             if ($settings['enabled'] == true) {
                 echo '<li>';
-                echo CHtml::link(Yii::t('account', isset($settings['name']) ? $settings['name'] : $provider), array($this->baseUrl, 'provider' => $provider, 'returnUrl' => Yii::app()->returnUrl->getLinkValue(true)), array('id' => 'hybridauth-provider-' . $provider, 'class' => 'zocial ' . $provider));
+                echo CHtml::link(Yii::t('account', isset($settings['name']) ? $settings['name'] : $provider), array($this->baseUrl, 'provider' => $provider, 'returnUrl' => Yii::app()->returnUrl->getLinkValue(true)), array('id' => 'hybridauth-provider-' . strtolower($provider), 'class' => 'zocial ' . strtolower($provider)));
                 echo '</li>';
             }
         }
