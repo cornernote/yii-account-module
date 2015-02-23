@@ -69,7 +69,7 @@ class HybridAuthWidget extends CWidget
                 foreach ($userHybridAuths as $userHybridAuth) {
                     $provider = $userHybridAuth->{$account->providerField};
                     echo '<li>';
-                    echo CHtml::link($userHybridAuth->{$account->emailField}, 'javascript:void(0);', array('id' => 'hybridauth-account-' . $provider, 'class' => 'zocial ' . $provider));
+                    echo CHtml::link($userHybridAuth->{$account->emailField}, 'javascript:void(0);', array('id' => 'hybridauth-account-' . strtolower($provider), 'class' => 'zocial ' . strtolower($provider)));
                     echo '</li>';
                 }
                 echo '</ul>';
