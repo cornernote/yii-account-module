@@ -25,14 +25,14 @@ $I->amOnPage('/account/account/lostPassword');
 $I->fillField('AccountLostPassword_email_or_username', 'admin123');
 $I->click('Recover Password');
 $I->see('Please fix the following input errors:');
-$I->see('Username is incorrect.');
+$I->see('Username does not exist.');
 
 // lost password with invalid email
 $I->amOnPage('/account/account/lostPassword');
 $I->fillField('AccountLostPassword_email_or_username', 'admin123@mailinator.com');
 $I->click('Recover Password');
 $I->see('Please fix the following input errors:');
-$I->see('Email is incorrect.');
+$I->see('Email does not exist.');
 
 // lost password with correct username
 $I->amOnPage('/account/account/lostPassword');
