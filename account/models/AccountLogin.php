@@ -72,7 +72,7 @@ class AccountLogin extends CFormModel
             'username' => Yii::t('account', 'Username'),
             'password' => Yii::t('account', 'Password'),
             'remember' => Yii::t('account', 'Remember me next time'),
-            'captcha' => Yii::t('account', 'Enter both words separated by a space'),
+            'captcha' => Yii::t('account', 'Type the text in the image below'),
         );
     }
 

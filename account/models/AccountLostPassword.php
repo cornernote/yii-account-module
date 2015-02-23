@@ -51,7 +51,7 @@ class AccountLostPassword extends CFormModel
     {
         return array(
             'email_or_username' => Yii::t('account', 'Username or Email'),
-            'captcha' => Yii::t('account', 'Enter both words separated by a space'),
+            'captcha' => Yii::t('account', 'Type the text in the image below'),
         );
     }
 
