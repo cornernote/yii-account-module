@@ -74,7 +74,9 @@ class AccountActivateAction extends CAction
 
         // account is active, redirect
         Yii::app()->user->addFlash(Yii::t('account', 'Your account has been activated and you have been logged in.'), 'success');
-        call_user_func_array($account->emailCallbackWelcome, array($this->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+        if ($account->emailCallbackWelcome) {
+            call_user_func_array($account->emailCallbackWelcome, array($this->user)); // AccountEmailManager::sendAccountWelcome($accountSignUp->user);
+        }
         $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
     }
 

@@ -51,7 +51,9 @@ class AccountResendActivationAction extends CAction
             if ($accountResendActivation->validate()) {
                 if (isset($accountResendActivation->user->{$account->activatedField}) && !$accountResendActivation->user->{$account->activatedField}) {
                     Yii::app()->user->addFlash(Yii::t('account', 'Account activation has been resent to :email. Please check your email for activation instructions.', array(':email' => $accountResendActivation->user->{$account->emailField})), 'success');
-                    call_user_func_array($account->emailCallbackActivate, array($accountResendActivation->user)); // AccountEmailManager::sendAccountActivate($accountResendActivation->user);
+                    if ($account->emailCallbackActivate) {
+                        call_user_func_array($account->emailCallbackActivate, array($accountResendActivation->user)); // AccountEmailManager::sendAccountActivate($accountResendActivation->user);
+                    }
                 }
                 else {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account is already active.'), 'error');

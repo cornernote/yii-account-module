@@ -57,7 +57,9 @@ class AccountSignUpAction extends CAction
                 }
                 else {
                     Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created. Please check your email for activation instructions.'), 'success');
-                    call_user_func_array($account->emailCallbackActivate, array($accountSignUp->user)); // AccountEmailManager::sendAccountActivate($accountSignUp->user);
+                    if ($account->emailCallbackActivate) {
+                        call_user_func_array($account->emailCallbackActivate, array($accountSignUp->user)); // AccountEmailManager::sendAccountActivate($accountSignUp->user);
+                    }
                 }
                 $this->controller->redirect(Yii::app()->returnUrl->getUrl($this->returnUrl));
             }

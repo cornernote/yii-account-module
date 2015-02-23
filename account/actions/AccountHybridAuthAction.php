@@ -121,11 +121,15 @@ class AccountHybridAuthAction extends CAction
                     if ($accountHybridAuth->save()) {
                         if (!isset($accountHybridAuth->user->{$account->activatedField}) || $account->activatedAfterSignUp) {
                             Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created and you have been logged in.'), 'success');
-                            call_user_func_array($account->emailCallbackWelcome, array($accountHybridAuth->user)); // AccountEmailManager::sendAccountWelcome($accountHybridAuth->user);
+                            if ($account->emailCallbackWelcome) {
+                                call_user_func_array($account->emailCallbackWelcome, array($accountHybridAuth->user)); // AccountEmailManager::sendAccountWelcome($accountHybridAuth->user);
+                            }
                         }
                         else {
                             Yii::app()->user->addFlash(Yii::t('account', 'Your account has been created. Please check your email for activation instructions.'), 'success');
-                            call_user_func_array($account->emailCallbackActivate, array($accountHybridAuth->user)); // AccountEmailManager::sendAccountActivate($accountHybridAuth->user);
+                            if ($account->emailCallbackActivate) {
+                                call_user_func_array($account->emailCallbackActivate, array($accountHybridAuth->user)); // AccountEmailManager::sendAccountActivate($accountHybridAuth->user);
+                            }
                         }
                         $this->controller->redirect($this->returnUrl);
                     }

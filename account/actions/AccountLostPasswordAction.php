@@ -50,7 +50,9 @@ class AccountLostPasswordAction extends CAction
         if (isset($_POST[$this->formClass])) {
             $accountLostPassword->attributes = $_POST[$this->formClass];
             if ($accountLostPassword->validate()) {
-                call_user_func_array($account->emailCallbackLostPassword, array($accountLostPassword->user)); // EEmailManager::sendAccountLostPassword($user);
+                if ($account->emailCallbackLostPassword) {
+                    call_user_func_array($account->emailCallbackLostPassword, array($accountLostPassword->user)); // EEmailManager::sendAccountLostPassword($user);
+                }
                 Yii::app()->user->addFlash(Yii::t('account', 'Password reset instructions have been sent to :email. Please check your email.', array(
                     ':email' => $accountLostPassword->user->{$account->emailField}
                 )), 'success');
