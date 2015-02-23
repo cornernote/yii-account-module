@@ -94,12 +94,24 @@ class AccountHybridAuthAction extends CAction
         else if ($identity->errorCode == $identity::ERROR_USERNAME_INVALID) {
             /** @var AccountHybridAuth $accountHybridAuth */
             $accountHybridAuth = new $this->formClass();
+
             // already logged in, link account
             if (!Yii::app()->user->isGuest) {
                 $identity->id = Yii::app()->user->id;
                 $accountHybridAuth->linkUser($identity);
                 $this->controller->redirect($this->returnUrl);
             }
+
+            // not logged in, but has existing account, link account and redirect
+            $user = CActiveRecord::model($account->userClass)->findByAttributes(array($account->emailField => $identity->hybridProviderAdapter->getUserProfile()->email));
+            if ($user) {
+                $accountHybridAuth->hybridAuthUserIdentity = $identity;
+                $identity->id = $user->id;
+                Yii::app()->user->login($identity);
+                $accountHybridAuth->linkUser($identity);
+                $this->controller->redirect($this->returnUrl);
+            }
+
             // no user account, create account to link
             else {
                 // user posted data
