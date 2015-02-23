@@ -65,7 +65,7 @@ class AccountLostPassword extends CFormModel
         if (!$this->$attribute)
             return;
         if (!$this->user)
-            $this->addError($attribute, strpos($this->$attribute, '@') ? Yii::t('account', 'Email is incorrect.') : Yii::t('account', 'Username is incorrect.'));
+            $this->addError($attribute, strpos($this->$attribute, '@') ? Yii::t('account', 'Email does not exist.') : Yii::t('account', 'Username does not exist.'));
     }
 
     /**
