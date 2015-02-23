@@ -107,7 +107,12 @@ class AccountHybridAuthUserIdentity extends AccountUserIdentity
         if (!$this->_hybridAuth) {
             /** @var AccountModule $account */
             $account = Yii::app()->getModule('account');
-            $account->hybridAuthConfig['base_url'] = $account->hybridAuthConfig['base_url'] . '?action=callback';
+            if (Yii::app()->urlManager->urlFormat == 'path') {
+                $account->hybridAuthConfig['base_url'] = $account->hybridAuthConfig['base_url'] . '/action/callback';
+            }
+            else {
+                $account->hybridAuthConfig['base_url'] = $account->hybridAuthConfig['base_url'] . '?action=callback';
+            }
             $this->_hybridAuth = new Hybrid_Auth($account->hybridAuthConfig);
         }
         return $this->_hybridAuth;
