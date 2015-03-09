@@ -28,6 +28,11 @@ class AccountHybridAuthAction extends CAction
     public $formClass = 'AccountHybridAuth';
 
     /**
+     * @var bool
+     */
+    public $remember;
+
+    /**
      * @var string|array
      */
     private $_returnUrl;
@@ -72,7 +77,7 @@ class AccountHybridAuthAction extends CAction
         if ($identity->authenticate()) {
             // hybrid authenticated, and user account exists
             if (Yii::app()->user->isGuest) {
-                Yii::app()->user->login($identity, 0);
+                Yii::app()->user->login($identity, $this->remember ? $account->rememberDuration : 0);
             }
             $this->controller->redirect($this->returnUrl);
         }
