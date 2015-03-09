@@ -1,7 +1,7 @@
 <?php
 
 /**
- * HybridAuthWidget
+ * AccountHybridAuthWidget
  *
  * @author Brett O'Donnell <cornernote@gmail.com>
  * @author Zain Ul abidin <zainengineer@gmail.com>
@@ -11,7 +11,7 @@
  *
  * @package yii-account-module
  */
-class HybridAuthWidget extends CWidget
+class AccountHybridAuthWidget extends CWidget
 {
     /**
      * @var string

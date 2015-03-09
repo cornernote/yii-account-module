@@ -46,7 +46,7 @@ $this->pageTitle = Yii::t('account', 'My Account');
 
         <div class="well">
             <?php
-            $this->widget('account.widgets.HybridAuthWidget', array(
+            $this->widget('account.widgets.AccountHybridAuthWidget', array(
                 'baseUrl' => '/account/accountUser/hybridAuth',
             ));
             ?>
