@@ -19,6 +19,11 @@ class AccountHybridAuthWidget extends CWidget
     public $baseUrl = '/account/accountUser/hybridAuth';
 
     /**
+     * @var string
+     */
+    public $linkClass = 'zocial';
+
+    /**
      *
      */
     public function run()
@@ -54,7 +59,7 @@ class AccountHybridAuthWidget extends CWidget
         foreach ($providers as $provider => $settings) {
             if ($settings['enabled'] == true) {
                 echo '<li>';
-                echo CHtml::link(Yii::t('account', isset($settings['name']) ? $settings['name'] : $provider), array($this->baseUrl, 'provider' => $provider, 'returnUrl' => Yii::app()->returnUrl->getLinkValue(true)), array('id' => 'hybridauth-provider-' . strtolower($provider), 'class' => 'zocial ' . strtolower($provider)));
+                echo CHtml::link(Yii::t('account', isset($settings['name']) ? $settings['name'] : $provider), array($this->baseUrl, 'provider' => $provider, 'returnUrl' => Yii::app()->returnUrl->getLinkValue(true)), array('id' => 'hybridauth-provider-' . strtolower($provider), 'class' => $this->linkClass . ' ' . strtolower($provider)));
                 echo '</li>';
             }
         }
@@ -69,7 +74,7 @@ class AccountHybridAuthWidget extends CWidget
                 foreach ($userHybridAuths as $userHybridAuth) {
                     $provider = $userHybridAuth->{$account->providerField};
                     echo '<li>';
-                    echo CHtml::link($userHybridAuth->{$account->emailField}, 'javascript:void(0);', array('id' => 'hybridauth-account-' . strtolower($provider), 'class' => 'zocial ' . strtolower($provider)));
+                    echo CHtml::link($userHybridAuth->{$account->emailField}, 'javascript:void(0);', array('id' => 'hybridauth-account-' . strtolower($provider), 'class' => $this->linkClass . ' ' . strtolower($provider)));
                     echo '</li>';
                 }
                 echo '</ul>';
