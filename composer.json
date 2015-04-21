@@ -19,7 +19,7 @@
         "cornernote/yii-email-module": ">=1.0.0",
         "cornernote/yii-token-manager": ">=1.0.0",
         "cornernote/yii-return-url": ">=1.0.0",
-        "crisu83/yiistrap": ">=1.0.0",
+        "crisu83/yiistrap": "~1.3",
         "hybridauth/hybridauth": ">=2.2.0"
     },
     "require-dev": {
