@@ -16,10 +16,10 @@
         }
     ],
     "require": {
-        "cornernote/yii-email-module": ">=1.0.0",
-        "cornernote/yii-token-manager": ">=1.0.0",
-        "cornernote/yii-return-url": ">=1.0.0",
-        "crisu83/yiistrap": "~1.3",
+        "cornernote/yii-email-module": "dev-master",
+        "cornernote/yii-token-manager": "dev-master",
+        "cornernote/yii-return-url": "dev-master",
+        "crisu83/yiistrap": "dev-master",
         "hybridauth/hybridauth": ">=2.2.0"
     },
     "require-dev": {
